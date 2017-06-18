@@ -1,7 +1,7 @@
 namespace SerenityBDD.Core.steps
 {
-    internal abstract class DependencyInjector : IDependencyInjector
+    interface DependencyInjector 
     {
-        public abstract void injectDependenciesInto(object newStepClass);
+        void injectDependenciesInto(object newStepClass);
     }
 }

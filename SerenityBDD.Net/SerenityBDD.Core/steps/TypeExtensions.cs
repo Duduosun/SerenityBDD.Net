@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -9,8 +10,15 @@ namespace SerenityBDD.Core.steps
         public static FieldInfo getPagesField(this Type src)
         {
             return
+                src.getPagesFields().FirstOrDefault();
+                    
+        }
+
+        public static IEnumerable<FieldInfo> getPagesFields(this Type src)
+        {
+            return
                 src.GetFields(BindingFlags.Instance)
-                    .FirstOrDefault(x => x.FieldType.IsAssignableFrom(typeof(Pages)));
+                    .Where(x => x.FieldType.IsAssignableFrom(typeof(Pages)));
         }
         public static bool hasAPagesField(this Type src)
         {
