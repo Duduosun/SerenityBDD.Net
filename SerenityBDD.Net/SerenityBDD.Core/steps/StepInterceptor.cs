@@ -55,7 +55,11 @@ namespace SerenityBDD.Core.steps
         }
     }
 
-    internal class EnvironmentVariables
+    public class EnvironmentVariables
     {
+        public string getProperty(string withSerenityPrefix)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -135,11 +135,21 @@ internal class InvocationTargetException : Exception
         {
             return new Optional(null );
         }
+
+    public static Optional<T2> fromNullable<T2>(T2 src)
+        where T2 : class
+    {
+        if (src != null) return new Optional<T2>(src);
+
+        return (Optional<T2>)Optional.absent();
     }
 
-    public class Optional<T> : Optional
+}
+
+public class Optional<T> : Optional
         where T : class
     {
+    
         public static implicit operator T(Optional<T> myinstance)
         {
             return myinstance.get();

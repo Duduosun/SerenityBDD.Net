@@ -7,7 +7,8 @@ using System.Text;
 using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using SerenityBDD.Core.steps.SerenityBDD.Core.time;
+using SerenityBDD.Core.steps;
+
 using SerenityBDD.Core.time;
 
 namespace SerenityBDD.Core.steps
@@ -81,16 +82,18 @@ namespace SerenityBDD.Core.steps
             CHECK_URL_PATTERNS,
             IGNORE_URL_PATTERNS
         }
-/*
+
         protected PageObject()
         {
             this.webdriverClock = new SystemClock();
-            this.clock = Injectors.getInjector().getInstance(net.serenitybdd.core.time.SystemClock.class);
-            this.environmentVariables = Injectors.getInjector().getProvider(EnvironmentVariables.class).get();
+            this.clock = Injectors.getInjector().getInstance<SystemClock>();
+            //this.environmentVariables = Injectors.getInjector().getProvider(EnvironmentVariables.class).get();
+            this.environmentVariables = Injectors.getInjector().getInstance<EnvironmentVariables>();
+
             this.sleeper = Sleeper.SYSTEM_SLEEPER;
             setupPageUrls();
         }
-
+/*
         protected PageObject(readonly IWebDriver driver, Predicate<PageObject> callback):this()
         {
             this.driver = driver;
@@ -181,16 +184,16 @@ namespace SerenityBDD.Core.steps
             return pages.getPage(pageObjectClass);
         }
 
-        public FileToUpload upload(readonly String filename)
+        public FileToUpload upload(readonly string filename)
         {
             return new FileToUpload(driver, filename).useRemoteDriver(isDefinedRemoteUrl());
         }
 
-        public FileToUpload uploadData(String data) throws IOException
+        public FileToUpload uploadData(string data) throws IOException
         {
             Path datafile = Files.createTempFile("upload", "data");
         Files.write(datafile, data.getBytes(StandardCharsets.UTF_8));
-        return new FileToUpload(driver, datafile.toAbsolutePath().toString()).useRemoteDriver(isDefinedRemoteUrl());
+        return new FileToUpload(driver, datafile.toAbsolutePath().tostring()).useRemoteDriver(isDefinedRemoteUrl());
     }
 
     
@@ -205,7 +208,7 @@ namespace SerenityBDD.Core.steps
 {
     Path datafile = Files.createTempFile("upload", "data");
     Files.write(datafile, data);
-        return new FileToUpload(driver, datafile.toAbsolutePath().toString()).useRemoteDriver(isDefinedRemoteUrl());
+        return new FileToUpload(driver, datafile.toAbsolutePath().tostring()).useRemoteDriver(isDefinedRemoteUrl());
     }
 
     private bool isDefinedRemoteUrl()
@@ -271,7 +274,7 @@ private void setupPageUrls()
             return driver;
         }
 
-        public String getTitle()
+        public string getTitle()
         {
             return driver.getTitle();
         }
@@ -287,14 +290,14 @@ private void setupPageUrls()
  * with and without trailing slashes
  */
         public readonly bool compatibleWithUrl(
-        readonly String currentUrl
+        readonly string currentUrl
         )
         {
             return thereAreNoPatternsDefined() || matchUrlAgainstEachPattern(currentUrl);
         }
 
         private bool matchUrlAgainstEachPattern(
-        readonly String currentUrl
+        readonly string currentUrl
         )
         {
             return getMatchingPageExpressions().matchUrlAgainstEachPattern(currentUrl);
@@ -323,7 +326,7 @@ private void setupPageUrls()
             return new RenderedPageObjectView(driver, this, timeout, false);
         }
 
-        public PageObject waitFor(String xpathOrCssSelector)
+        public PageObject waitFor(string xpathOrCssSelector)
         {
             return waitForRenderedElements(xpathOrCssSelector(xpathOrCssSelector));
         }
@@ -343,7 +346,7 @@ private void setupPageUrls()
             return this;
         }
 
-        public PageObject waitForPresenceOf(String xpathOrCssSelector)
+        public PageObject waitForPresenceOf(string xpathOrCssSelector)
         {
             return waitForRenderedElementsToBePresent(xpathOrCssSelector(xpathOrCssSelector));
         }
@@ -357,7 +360,7 @@ private void setupPageUrls()
             return this;
         }
 
-        public PageObject waitForAbsenceOf(String xpathOrCssSelector)
+        public PageObject waitForAbsenceOf(string xpathOrCssSelector)
         {
             return waitForRenderedElementsToDisappear(xpathOrCssSelector(xpathOrCssSelector));
         }
@@ -366,7 +369,7 @@ private void setupPageUrls()
  * Waits for a given text to appear anywhere on the page.
  */
         public PageObject waitForTextToAppear(
-        readonly String expectedText
+        readonly string expectedText
         )
         {
             getRenderedView().waitForText(expectedText);
@@ -374,7 +377,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForTitleToAppear(
-        readonly String expectedTitle
+        readonly string expectedTitle
         )
         {
             waitOnPage().until(ExpectedConditions.titleIs(expectedTitle));
@@ -389,7 +392,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForTitleToDisappear(
-        readonly String expectedTitle
+        readonly string expectedTitle
         )
         {
             getRenderedView().waitForTitleToDisappear(expectedTitle);
@@ -401,7 +404,7 @@ private void setupPageUrls()
  */
         public PageObject waitForTextToAppear(
         readonly WebElement element, 
-        readonly String expectedText
+        readonly string expectedText
         )
         {
             getRenderedView().waitForText(element, expectedText);
@@ -418,7 +421,7 @@ private void setupPageUrls()
  */
         public PageObject waitForTextToDisappear(
         readonly WebElement element, 
-        readonly String expectedText
+        readonly string expectedText
         )
         {
             if (!driverIsDisabled())
@@ -431,7 +434,7 @@ private void setupPageUrls()
 
         private ExpectedCondition<bool> elementDoesNotContain(
         readonly WebElement element, 
-        readonly String expectedText
+        readonly string expectedText
         )
         {
             return new ExpectedCondition<bool>()
@@ -445,7 +448,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForTextToDisappear(
-        readonly String expectedText
+        readonly string expectedText
         )
         {
             return waitForTextToDisappear(expectedText, getWaitForTimeout().in(MILLISECONDS))
@@ -456,7 +459,7 @@ private void setupPageUrls()
  * Waits for a given text to not be anywhere on the page.
  */
         public PageObject waitForTextToDisappear(
-        readonly String expectedText, 
+        readonly string expectedText, 
         readonly long timeoutInMilliseconds
         )
         {
@@ -469,7 +472,7 @@ private void setupPageUrls()
  * Waits for a given text to appear anywhere on the page.
  */
         public PageObject waitForTextToAppear(
-        readonly String expectedText, 
+        readonly string expectedText, 
         readonly long timeout
         )
         {
@@ -484,7 +487,7 @@ private void setupPageUrls()
  */
         public PageObject waitForAnyTextToAppear(
         readonly
-        String.
+        string.
         ..
         expectedText
         )
@@ -496,7 +499,7 @@ private void setupPageUrls()
         public PageObject waitForAnyTextToAppear(
         readonly WebElement element, 
         readonly
-        String.
+        string.
         ..
         expectedText
         )
@@ -510,7 +513,7 @@ private void setupPageUrls()
  */
         public PageObject waitForAllTextToAppear(
         readonly
-        String.
+        string.
         ..
         expectedTexts
         )
@@ -567,12 +570,12 @@ private void setupPageUrls()
  * Check that the specified text appears somewhere in the page.
  */
         public void shouldContainText(
-        readonly String textValue
+        readonly string textValue
         )
         {
             if (!containsText(textValue))
             {
-                String errorMessage = String.format(
+                string errorMessage = string.format(
                     "The text '%s' was not found in the page", textValue);
                 throw new NoSuchElementException(errorMessage);
             }
@@ -583,14 +586,14 @@ private void setupPageUrls()
  */
         public void shouldContainAllText(
         readonly
-        String.
+        string.
         ..
         textValues
         )
         {
             if (!containsAllText(textValues))
             {
-                String errorMessage = String.format(
+                string errorMessage = string.format(
                     "One of the text elements in '%s' was not found in the page", (Object[]) textValues);
                 throw new NoSuchElementException(errorMessage);
             }
@@ -604,7 +607,7 @@ private void setupPageUrls()
         [Obsolete]
         public bool containsTextInElement(
         readonly WebElement webElement, 
-        readonly String textValue
+        readonly string textValue
         )
         {
             return element(webElement).containsText(textValue);
@@ -617,7 +620,7 @@ private void setupPageUrls()
         [Obsolete]
         public void shouldContainTextInElement(
         readonly WebElement webElement, 
-        readonly String textValue
+        readonly string textValue
         )
         {
             element(webElement).shouldContainText(textValue);
@@ -630,7 +633,7 @@ private void setupPageUrls()
         [Obsolete]
         public void shouldNotContainTextInElement(
         readonly WebElement webElement, 
-        readonly String textValue
+        readonly string textValue
         )
         {
             element(webElement).shouldNotContainText(textValue);
@@ -641,7 +644,7 @@ private void setupPageUrls()
  */
         public void typeInto(
         readonly WebElement field, 
-        readonly String value
+        readonly string value
         )
         {
             element(field).type(value);
@@ -652,7 +655,7 @@ private void setupPageUrls()
  * This is a more fluent alternative to using the typeInto method.
  */
         public FieldEntry enter(
-        readonly String value
+        readonly string value
         )
         {
             return new FieldEntry(value);
@@ -660,7 +663,7 @@ private void setupPageUrls()
 
         public void selectFromDropdown(
         readonly WebElement dropdown, 
-        readonly String visibleLabel
+        readonly string visibleLabel
         )
         {
 
@@ -671,7 +674,7 @@ private void setupPageUrls()
         public void selectMultipleItemsFromDropdown(
         readonly WebElement dropdown, 
         readonly
-        String.
+        string.
         ..
         selectedLabels
         )
@@ -681,28 +684,28 @@ private void setupPageUrls()
         }
 
 
-        public Set<String> getSelectedOptionLabelsFrom(
+        public Set<string> getSelectedOptionLabelsFrom(
         readonly WebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedOptionLabels();
         }
 
-        public Set<String> getSelectedOptionValuesFrom(
+        public Set<string> getSelectedOptionValuesFrom(
         readonly WebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedOptionValues();
         }
 
-        public String getSelectedValueFrom(
+        public string getSelectedValueFrom(
         readonly WebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedValue();
         }
 
-        public String getSelectedLabelFrom(
+        public string getSelectedLabelFrom(
         readonly WebElement dropdown
         )
         {
@@ -720,7 +723,7 @@ private void setupPageUrls()
         }
 
         public bool containsText(
-        readonly String textValue
+        readonly string textValue
         )
         {
             return getRenderedView().containsText(textValue);
@@ -731,12 +734,12 @@ private void setupPageUrls()
  */
         public bool containsAllText(
         readonly
-        String.
+        string.
         ..
         textValues
         )
         {
-            for (String textValue :
+            for (string textValue :
             textValues)
             {
                 if (!getRenderedView().containsText(textValue))
@@ -811,12 +814,12 @@ private void setupPageUrls()
             (MILLISECONDS);
         }
 
-        public String updateUrlWithBaseUrlIfDefined(
-        readonly String startingUrl
+        public string updateUrlWithBaseUrlIfDefined(
+        readonly string startingUrl
         )
         {
 
-            String baseUrl = pageUrls.getSystemBaseUrl();
+            string baseUrl = pageUrls.getSystemBaseUrl();
             if ((baseUrl != null) && (!StringUtils.isEmpty(baseUrl)))
             {
                 return replaceHost(startingUrl, baseUrl);
@@ -827,22 +830,22 @@ private void setupPageUrls()
             }
         }
 
-        private String replaceHost(
-        readonly String starting, 
-        readonly String
+        private string replaceHost(
+        readonly string starting, 
+        readonly string
         base)
         {
 
-            String updatedUrl = starting;
+            string updatedUrl = starting;
             try
             {
                 URL startingUrl = new URL(starting);
                 URL baseUrl = new URL(base);
 
-                String startingHostComponent = hostComponentFrom(startingUrl.getProtocol(),
+                string startingHostComponent = hostComponentFrom(startingUrl.getProtocol(),
                     startingUrl.getHost(),
                     startingUrl.getPort());
-                String baseHostComponent = hostComponentFrom(baseUrl.getProtocol(),
+                string baseHostComponent = hostComponentFrom(baseUrl.getProtocol(),
                     baseUrl.getHost(),
                     baseUrl.getPort());
                 updatedUrl = starting.replaceFirst(startingHostComponent, baseHostComponent);
@@ -856,13 +859,13 @@ private void setupPageUrls()
             return updatedUrl;
         }
 
-        private String hostComponentFrom(
-        readonly String protocol, 
-        readonly String host, 
+        private string hostComponentFrom(
+        readonly string protocol, 
+        readonly string host, 
         readonly int port
         )
         {
-            StringBuilder hostComponent = new StringBuilder(protocol);
+            stringBuilder hostComponent = new stringBuilder(protocol);
             hostComponent.append("://");
             hostComponent.append(host);
             if (port > 0)
@@ -870,7 +873,7 @@ private void setupPageUrls()
                 hostComponent.append(":");
                 hostComponent.append(port);
             }
-            return hostComponent.toString();
+            return hostComponent.tostring();
         }
 
 /**
@@ -878,18 +881,18 @@ private void setupPageUrls()
  * represented in the URL using {0}, {1}, etc.
  */
         public readonly void open(
-        readonly String[] parameterValues
+        readonly string[] parameterValues
         )
         {
             open(OpenMode.CHECK_URL_PATTERNS, parameterValues);
         }
 
 /**
- * Opens page without checking URL patterns. Same as open(String...)) otherwise.
+ * Opens page without checking URL patterns. Same as open(string...)) otherwise.
  */
         public readonly void openUnchecked(
         readonly
-        String.
+        string.
         ..
         parameterValues
         )
@@ -900,12 +903,12 @@ private void setupPageUrls()
         private void open(
         readonly OpenMode openMode, 
         readonly
-        String.
+        string.
         ..
         parameterValues
         )
         {
-            String startingUrl = pageUrls.getStartingUrl(parameterValues);
+            string startingUrl = pageUrls.getStartingUrl(parameterValues);
             LOGGER.debug("Opening page at url {}", startingUrl);
             openPageAtUrl(startingUrl);
             checkUrlPatterns(openMode);
@@ -914,19 +917,19 @@ private void setupPageUrls()
         }
 
         public readonly void open(
-        readonly String urlTemplateName, 
-        readonly String[] parameterValues
+        readonly string urlTemplateName, 
+        readonly string[] parameterValues
         )
         {
             open(OpenMode.CHECK_URL_PATTERNS, urlTemplateName, parameterValues);
         }
 
 /**
- * Opens page without checking URL patterns. Same as {@link #open(String, String[])} otherwise.
+ * Opens page without checking URL patterns. Same as {@link #open(string, string[])} otherwise.
  */
         public readonly void openUnchecked(
-        readonly String urlTemplateName, 
-        readonly String[] parameterValues
+        readonly string urlTemplateName, 
+        readonly string[] parameterValues
         )
         {
             open(OpenMode.IGNORE_URL_PATTERNS, urlTemplateName, parameterValues);
@@ -934,11 +937,11 @@ private void setupPageUrls()
 
         private void open(
         readonly OpenMode openMode, 
-        readonly String urlTemplateName, 
-        readonly String[] parameterValues
+        readonly string urlTemplateName, 
+        readonly string[] parameterValues
         )
         {
-            String startingUrl = pageUrls.getNamedUrl(urlTemplateName,
+            string startingUrl = pageUrls.getNamedUrl(urlTemplateName,
                 parameterValues);
             LOGGER.debug("Opening page at url {}", startingUrl);
             openPageAtUrl(startingUrl);
@@ -987,7 +990,7 @@ private void setupPageUrls()
         readonly OpenMode openMode
         )
         {
-            String startingUrl = updateUrlWithBaseUrlIfDefined(pageUrls.getStartingUrl());
+            string startingUrl = updateUrlWithBaseUrlIfDefined(pageUrls.getStartingUrl());
             openPageAtUrl(startingUrl);
             checkUrlPatterns(openMode);
             initializePage();
@@ -1013,7 +1016,7 @@ private void setupPageUrls()
         {
             if (!matchesAnyUrl())
             {
-                String currentUrl = getDriver().getCurrentUrl();
+                string currentUrl = getDriver().getCurrentUrl();
                 if (!compatibleWithUrl(currentUrl))
                 {
                     thisIsNotThePageYourLookingFor();
@@ -1034,14 +1037,14 @@ private void setupPageUrls()
         private void thisIsNotThePageYourLookingFor()
         {
 
-            String errorDetails = "This is not the page you're looking for: "
+            string errorDetails = "This is not the page you're looking for: "
                                   + "I was looking for a page compatible with " + this.getClass() + " but "
                                   + "I was at the URL " + getDriver().getCurrentUrl();
 
             throw new WrongPageError(errorDetails);
         }
 
-        readonly public void openAt(String startingUrl)
+        readonly public void openAt(string startingUrl)
         {
             openPageAtUrl(updateUrlWithBaseUrlIfDefined(startingUrl));
             callWhenPageOpensMethods();
@@ -1109,9 +1112,9 @@ private void setupPageUrls()
             return annotatedMethods;
         }
 
-        public static String[] withParameters(
+        public static string[] withParameters(
         readonly
-        String.
+        string.
         ..
         parameterValues
         )
@@ -1120,7 +1123,7 @@ private void setupPageUrls()
         }
 
         private void openPageAtUrl(
-        readonly String startingUrl
+        readonly string startingUrl
         )
         {
             getDriver().get(startingUrl);
@@ -1148,7 +1151,7 @@ private void setupPageUrls()
         }
 
         public void setDefaultBaseUrl(
-        readonly String defaultBaseUrl
+        readonly string defaultBaseUrl
         )
         {
             pageUrls.overrideDefaultBaseUrl(defaultBaseUrl);
@@ -1198,11 +1201,11 @@ private void setupPageUrls()
             ;
         }
 
-        private String nameOf(WebElement webElement)
+        private string nameOf(WebElement webElement)
         {
             try
             {
-                return webElement.toString();
+                return webElement.tostring();
             }
             catch (Exception e)
             {
@@ -1230,7 +1233,7 @@ private void setupPageUrls()
         T
         $
 
-        (String xpathOrCssSelector)
+        (string xpathOrCssSelector)
         {
             return element(xpathOrCssSelector);
         }
@@ -1250,7 +1253,7 @@ private void setupPageUrls()
                 getImplicitWaitTimeout().in(MILLISECONDS),
             getWaitForTimeout().in
             (MILLISECONDS),
-            bySelector.toString())
+            bySelector.tostring())
             ;
         }
 
@@ -1313,7 +1316,7 @@ private void setupPageUrls()
         net.serenitybdd.core.pages.WebElementFacade
         >
 
-        T element(String xpathOrCssSelector)
+        T element(string xpathOrCssSelector)
         {
             return element(xpathOrCssSelector(xpathOrCssSelector));
         }
@@ -1323,12 +1326,12 @@ private void setupPageUrls()
         net.serenitybdd.core.pages.WebElementFacade
         >
 
-        T findBy(String xpathOrCssSelector)
+        T findBy(string xpathOrCssSelector)
         {
             return element(xpathOrCssSelector);
         }
 
-        public List<net.serenitybdd.core.pages.WebElementFacade> findAll(String xpathOrCssSelector)
+        public List<net.serenitybdd.core.pages.WebElementFacade> findAll(string xpathOrCssSelector)
         {
             return findAll(xpathOrCssSelector(xpathOrCssSelector));
         }
@@ -1338,14 +1341,14 @@ private void setupPageUrls()
             return !findAll(bySelector).isEmpty();
         }
 
-        public bool containsElements(String xpathOrCssSelector)
+        public bool containsElements(string xpathOrCssSelector)
         {
             return !findAll(xpathOrCssSelector).isEmpty();
         }
 
 
         public Object evaluateJavascript(
-        readonly String script
+        readonly string script
         )
         {
             addJQuerySupport();
@@ -1354,7 +1357,7 @@ private void setupPageUrls()
         }
 
         public Object evaluateJavascript(
-        readonly String script, 
+        readonly string script, 
         readonly
         Object.
         .. params)
@@ -1397,7 +1400,7 @@ private void setupPageUrls()
             return THUCYDIDES_JQUERY_INTEGRATION.booleanFrom(environmentVariables, true);
         }
 
-        public RadioButtonGroup inRadioButtonGroup(String name)
+        public RadioButtonGroup inRadioButtonGroup(string name)
         {
             return new RadioButtonGroup(getDriver().findElements(By.name(name)));
         }
@@ -1474,10 +1477,10 @@ private void setupPageUrls()
         public class FieldEntry
         {
 
-            private readonly String value;
+            private readonly string value;
 
             public FieldEntry(
-            readonly String value
+            readonly string value
             )
             {
                 this.value = value;
@@ -1516,7 +1519,7 @@ private void setupPageUrls()
             return new ThucydidesFluentAdapter(getDriver());
         }
 
-        public T moveTo<T>(String xpathOrCssSelector)
+        public T moveTo<T>(string xpathOrCssSelector)
             where T : WebElementFacade
         {
             if (!driverIsDisabled())
@@ -1555,10 +1558,10 @@ private void setupPageUrls()
         Inflector inflection = Inflector.getInstance();
 
 
-        public override String toString()
+        public override string tostring()
         {
             return inflection.of(getClass().getSimpleName())
-                .inHumanReadableForm().toString();
+                .inHumanReadableForm().tostring();
         }
         */
     }
@@ -2376,60 +2379,69 @@ namespace SerenityBDD.Core.time
          * Determine what the lowest level requirement (test cases, feature files, story files, should be
          * called. 'Story' is used by default. 'feature' is a popular alternative.
          */
-        public static string SERENITY_LOWEST_REQUIREMENT_TYPE;
 
-        [Obsolete]
-    THUCYDIDES_REQUIREMENT_TYPES,
+        public enum RequirementTypeEnum
+        {
+            Test,
+            Feature,
+            Story
+        }
+        public static RequirementTypeEnum SERENITY_LOWEST_REQUIREMENT_TYPE = RequirementTypeEnum.Story;
+
+        [Obsolete] public static string THUCYDIDES_REQUIREMENT_TYPES;
 
         /**
          * The hierarchy of requirement types.
          * This is the list of requirement types to be used when reading requirements from the file system
          * and when organizing the reports. It is a comma-separated list of tags.The default value is: capability, feature
          */
-        SERENITY_REQUIREMENT_TYPES,
+        public static string SERENITY_REQUIREMENT_TYPES = "capability,feature";
 
-        [Obsolete]
-    THUCYDIDES_REQUIREMENT_EXCLUSIONS,
+        [Obsolete] public static string THUCYDIDES_REQUIREMENT_EXCLUSIONS;
 
         /**
          * When deriving requirement types from a path, exclude any values from this comma-separated list.
          */
-        SERENITY_REQUIREMENT_EXCLUSIONS,
+        public static string SERENITY_REQUIREMENT_EXCLUSIONS;
 
-        [Obsolete]
-    THUCYDIDES_RELEASE_TYPES,
+
+        [Obsolete] public static string THUCYDIDES_RELEASE_TYPES = "Release, Iteration";
 
         /**
          * What tag names identify the release types (e.g. Release, Iteration, Sprint).
          * A comma-separated list. By default, "Release, Iteration"
          */
-        SERENITY_RELEASE_TYPES,
+        public static string SERENITY_RELEASE_TYPES = "Release, Iteration";
 
+        public enum LocatorFactoryEnum
+        {
+            DefaultElementLocatorFactory,
+            DisplayedElementLocatorFactory,
+            AjaxElementLocatorFactory
+        }
         [Obsolete]
-    THUCYDIDES_LOCATOR_FACTORY,
+        public static LocatorFactoryEnum THUCYDIDES_LOCATOR_FACTORY = LocatorFactoryEnum.DefaultElementLocatorFactory;
 
         /**
          * Normally, Serenity uses SmartElementLocatorFactory, an extension of the AjaxElementLocatorFactory
          * when instantiating page objects. This is to ensure that web elements are available and usable before they are used.
          * For alternative behaviour, you can set this value to DisplayedElementLocatorFactory, AjaxElementLocatorFactory or DefaultElementLocatorFactory.
          */
-        SERENITY_LOCATOR_FACTORY,
+        public static LocatorFactoryEnum SERENITY_LOCATOR_FACTORY = LocatorFactoryEnum.DefaultElementLocatorFactory;
 
-        [Obsolete]
-    THUCYDIDES_DATA_DIR,
+        [Obsolete] public static string THUCYDIDES_DATA_DIR;
 
         /**
          * Where Serenity stores local data.
          */
-        SERENITY_DATA_DIR,
+        public static string SERENITY_DATA_DIR;
 
         /**
          * Allows you to override the default serenity.properties location for properties file.
          */
-        PROPERTIES,
+        public static string PROPERTIES;
 
-        [Obsolete]
-    THUCYDIDES_TEST_REQUIREMENTS_BASEDIR,
+        [Obsolete] public static string THUCYDIDES_TEST_REQUIREMENTS_BASEDIR;
 
         /**
          *  The base directory in which requirements are kept. It is assumed that this directory contains sub folders
@@ -2441,7 +2453,7 @@ namespace SerenityBDD.Core.time
          *  is different from the requirements base dir (for example when building a multi-module project from parent pom with
          *  requirements stored inside a sub-module : See Jira #Thucydides-100)
          */
-        SERENITY_TEST_REQUIREMENTS_BASEDIR,
+        public static string SERENITY_TEST_REQUIREMENTS_BASEDIR;
 
 
         /**
@@ -2450,170 +2462,172 @@ namespace SerenityBDD.Core.time
          */
         //    THUCYDIDES_STORE_HTML_SOURCE,
 
-        [Obsolete]
-    THUCYDIDES_KEEP_UNSCALED_SCREENSHOTS,
+        [Obsolete] public static bool THUCYDIDES_KEEP_UNSCALED_SCREENSHOTS;
 
         /**
          * If set to true, a copy of the original screenshot will be kept when screenshots are scaled for the reports.
          * False by default to conserve disk space.
          */
-        SERENITY_KEEP_UNSCALED_SCREENSHOTS,
+        public static bool SERENITY_KEEP_UNSCALED_SCREENSHOTS = false;
 
         /**
          * If provided, only classes and/or methods with tags in this list will be executed. The parameter expects
          * a tag or comma-separated list of tags in the shortened form.
          * For example, -Dtags="iteration:I1" or -Dtags="color:red,flavor:strawberry"
          */
-        TAGS,
+        public static string TAGS;
 
         /**
          * If provided, each test in a test run will have these tags added.
          */
-        INJECTED_TAGS,
+        public static string INJECTED_TAGS;
 
-        [Obsolete]
-    THUCYDIDES_CSV_EXTRA_COLUMNS,
+        [Obsolete] public static string THUCYDIDES_CSV_EXTRA_COLUMNS;
 
         /**
          * If set to true, historical flags will be displayed in test lists.
          * This must be set in conjunction with the serenity.historyDirectory property
          */
-        SHOW_HISTORY_FLAGS,
+        public static bool SHOW_HISTORY_FLAGS = false;
 
         /**
          * Serenity will look in this directory for the previous build results, to use as a basis for the
          * historical flags shown in the test results. By default, the 'history' folder in the working directory will be used.
          */
-        SERENITY_HISTORY_DIRECTORY("serenity.historyDirectory"),
+         [Description("serenity.historyDirectory")]
+        public static string SERENITY_HISTORY_DIRECTORY;
 
         /**
          * Delete the history directory before a new set of results is recorded
          */
-        DELETE_HISTORY_DIRECTORY,
+        public static bool DELETE_HISTORY_DIRECTORY;
 
         /**
          * Add extra columns to the CSV output, obtained from tag values.
          */
-        SERENITY_CSV_EXTRA_COLUMNS,
+        public static string SERENITY_CSV_EXTRA_COLUMNS;
 
-        [Obsolete]
-    THUCYDIDES_CONSOLE_HEADINGS,
+        [Obsolete] public static string THUCYDIDES_CONSOLE_HEADINGS;
 
         /**
          * Write the console headings using ascii-art ("ascii", default value) or in normal text ("normal")
          */
-        SERENITY_CONSOLE_HEADINGS,
 
-        [Obsolete]
-    THUCYDIDES_CONSOLE_COLORS,
-        SERENITY_CONSOLE_COLORS,
+        public enum ConsoleHeadingStyle
+        {
+            ascii,
+            normal
+        }
+        public static ConsoleHeadingStyle SERENITY_CONSOLE_HEADINGS = ConsoleHeadingStyle.ascii;
+
+        [Obsolete] public static string THUCYDIDES_CONSOLE_COLORS;
+        public static string SERENITY_CONSOLE_COLORS;
 
         /**
          * If set to true, Asciidoc formatting will be supported in the narrative texts.
          */
-        NARRATIVE_FORMAT,
+        public static bool NARRATIVE_FORMAT;
 
         /**
          * What format should test results be generated in.
          * By default, this is "json,xml".
          */
-        OUTPUT_FORMATS,
+        public static string OUTPUT_FORMATS = "json,xml";
 
         /**
          * If set to true (the default), allow markdown formatting in test outcome titles and descriptions.
          * This is a comma-separated lists of values from the following: story, narrative, step
          * By default, Markdown is enabled for story titles and narrative texts, but not for steps.
          */
-        ENABLE_MARKDOWN,
+        public static bool ENABLE_MARKDOWN = true;
 
         /**
          * Path to PhantomJS executable
          */
-        PHANTOMJS_BINARY_PATH,
+        public static string PHANTOMJS_BINARY_PATH;
 
         /**
          * Path to the Gecko driver binary
          */
-        WEBDRIVER_GECKO_DRIVER,
+        public static string WEBDRIVER_GECKO_DRIVER;
 
         /**
          * If set to true, don't format embedded tables in JBehave or Gherkin steps.
          * False by default.
          */
-        IGNORE_EMBEDDED_TABLES,
+        public static bool IGNORE_EMBEDDED_TABLES = false;
 
         /**
          * If set, this will display the related tag statistics on the home page.
          * If you are using external requirements, you may not want to display these tags on the dashboard.
          */
-        SHOW_RELATED_TAGS,
+        public static bool SHOW_RELATED_TAGS = false;
 
         /**
          * If set to true (the default value), a story tag will be extracted from the test case or feature file
          * containing the test.
          */
-        USE_TEST_CASE_FOR_STORY_TAG,
+        public static bool USE_TEST_CASE_FOR_STORY_TAG = true;
 
         /**
          * Display the pie charts on the dashboard by default.
          * If this is set to false, the pie charts will be initially hidden on the dashboard.
          */
-        SHOW_PIE_CHARTS,
+        public static bool SHOW_PIE_CHARTS = true;
 
         /**
          * If set, this will define the list of tag types to appear on the dashboard screens
          */
-        DASHBOARD_TAG_LIST,
+        public static string DASHBOARD_TAG_LIST;
 
         /**
          * If set to false, render report names in a readable form as opposed to a hash format.
          * Note: this can cause problems on operating systems that limit path lengths such as Windows.
          */
-        SERENITY_COMPRESS_FILENAMES,
+        public static bool SERENITY_COMPRESS_FILENAMES = true;
 
         /**
          * If set, this will define the list of tag types to be excluded from the dashboard screens
          */
-        DASHBOARD_EXCLUDED_TAG_LIST,
+        public static string DASHBOARD_EXCLUDED_TAG_LIST;
 
         /**
          * Format the JSON test outcomes nicely.
          * "true" or "false", turned off by default.
          */
-        JSON_PRETTY_PRINTING,
+        public static bool JSON_PRETTY_PRINTING = false;
 
         /**
          * What charset to use for JSON processing.
          * Defaults to UTF-8
          */
-        JSON_CHARSET,
+        public static string JSON_CHARSET = "UTF-8";
 
         /**
          * What charset to use for report generation.
          * Defaults to UTF-8
          */
-        REPORT_CHARSET,
+        public static string REPORT_CHARSET = "UTF-8";
 
         /**
          * Stack traces are by default decluttered for readability.
          * For example, calls to instrumented code or internal test libraries is removed.
          * This behaviour can be deactivated by setting this property to false.
          */
-        SIMPLIFIED_STACK_TRACES,
+        public static bool SIMPLIFIED_STACK_TRACES = true;
 
-        [Obsolete]
-    THUCYDIDES_DRY_RUN,
+        [Obsolete] public static bool THUCYDIDES_DRY_RUN = false;
 
         /**
          * Run through the steps without actually executing them.
          */
-        SERENITY_DRY_RUN,
+        public static bool SERENITY_DRY_RUN = false;
 
         /**
          * What (human) language are the Cucumber feature files written in?
          * Defaults to "en"
          */
-        FEATURE_FILE_LANGUAGE,
+        public static string FEATURE_FILE_LANGUAGE = "en";
 
         /**
          * Display the context in the test title.
@@ -2622,82 +2636,88 @@ namespace SerenityBDD.Core.time
          * If the context is an OS (linux, mac, windows, android, iphone), an icon will be displayed
          * Otherwise, the context name will be displayed at the start of the test title.
          */
-        THUCYDIDES_DISPLAY_CONTEXT,
+        public static bool THUCYDIDES_DISPLAY_CONTEXT = false;
 
         /**
          * Include a context tag with a test if one is provided.
          * Set to 'true' by default
          */
-        THUCYDIDES_ADD_CONTEXT_TAG,
+        public static bool THUCYDIDES_ADD_CONTEXT_TAG = true;
 
         /**
          * What encoding to use for reading Cucumber feature files?
          * Defaults to system default encoding
          */
-        FEATURE_FILE_ENCODING,
+        public static string FEATURE_FILE_ENCODING;
 
         /**
          * Fine-tune the number of threads Serenity uses for report generation.
          */
-        REPORT_THREADS,
-        REPORT_MAX_THREADS,
-        REPORT_KEEP_ALIVE_TIME,
+        public static int REPORT_THREADS;
+        public static int REPORT_MAX_THREADS;
+        public static int REPORT_KEEP_ALIVE_TIME;
 
         /**
          * Set this to true if you want Serenity to report nested step structures for subsequent steps
          * after a step failure.
          */
-        DEEP_STEP_EXECUTION_AFTER_FAILURES,
+        public static bool DEEP_STEP_EXECUTION_AFTER_FAILURES = false;
 
 
         /**
          * What test result (success,ignored, or pending) should be shown for manual annotated tests in the reports?
          */
-        MANUAL_TEST_REPORT_RESULT,
 
-        [Obsolete]
-    THUCYDIDES_MAINTAIN_SESSION,
+        public enum TestResultEnum
+        {
+            success,
+            ignored,
+            pending
+        }
+        public static TestResultEnum MANUAL_TEST_REPORT_RESULT = TestResultEnum.pending;
+
+        [Obsolete] public static bool THUCYDIDES_MAINTAIN_SESSION = false;
 
         /**
          * Keep the Thucydides session data between tests.
          * Normally, the session data is cleared between tests.
          */
-        SERENITY_MAINTAIN_SESSION,
+        public static bool SERENITY_MAINTAIN_SESSION = false;
 
         /**
          * Path to PhantomJS SSL support
          */
-        PHANTOMJS_SSL_PROTOCOL,
+        public static string PHANTOMJS_SSL_PROTOCOL;
 
         /**
          * Comma-separated list of exception classes that should produce a compromised test in the reports.
          */
-        SERENITY_COMPROMISED_ON,
+        public static string SERENITY_COMPROMISED_ON;
 
         /**
          * Comma-separated list of exception classes that should produce an error in the reports.
          */
-        SERENITY_ERROR_ON,
+        public static string SERENITY_ERROR_ON;
 
         /**
          * Comma-separated list of exception classes that should produce a failure in the reports.
          */
-        SERENITY_FAIL_ON,
+        public static string SERENITY_FAIL_ON;
 
         /**
          * Comma-separated list of exception classes that should produce a pending test in the reports.
          */
-        SERENITY_PENDING_ON,
+        public static string SERENITY_PENDING_ON;
 
         /**
          * If set to true, add a tag for test failures, based on the error type and message
          */
-        SERENITY_TAG_FAILURES,
+        public static bool SERENITY_TAG_FAILURES = false;
 
         /**
          * A comma-separated list of tag types for which human-readable report names will be generated.
          */
-        SERENITY_LINKED_TAGS,
+        public static string SERENITY_LINKED_TAGS;
 
         /**
          * Should we assume that collections of webdriver elements are already on the page, or if we should wait for them to be available.
@@ -2707,68 +2727,69 @@ namespace SerenityBDD.Core.time
          * mode waits for at least one element to be visible before proceeding.
          * For legacy reasons, the default strategy is Pessimistic.
          */
-        SERENITY_WEBDRIVER_COLLECTION_LOADING_STRATEGY("serenity.webdriver.collection_loading_strategy"),
+         [Description("serenity.webdriver.collection_loading_strategy")]
+        public static string SERENITY_WEBDRIVER_COLLECTION_LOADING_STRATEGY;
 
         /**
          * Serenity will try to download drivers not present on the system.
          * If you don't want this behaviour, set this property to false
          */
-        AUTOMATIC_DRIVER_DOWNLOAD,
+        public static bool AUTOMATIC_DRIVER_DOWNLOAD = true;
 
         /**
          * If the Gecko Driver is on the system path, it will be used (with Marionnette) by default.
          * If you want to use the old-style Firefox driver, but have gecko on the system path,
          * then set this property to false.
          */
-        USE_GECKO_DRIVER,
+        public static bool USE_GECKO_DRIVER = true;
 
         /**
          * Use this property to pass options to Marionette using the 'moz:firefoxOptions' capability option.
          */
-        GECKO_FIREFOX_OPTIONS,
+        public static string GECKO_FIREFOX_OPTIONS;
 
         /**
          * Use this property to specify the maximum number of times to rerun the failing tests.
          */
-        TEST_RETRY_COUNT,
+        public static int TEST_RETRY_COUNT;
 
         /**
          * Use this property to specify the maximum number of times to rerun the failing tests for cucumber tests.
          */
-        TEST_RETRY_COUNT_CUCUMBER,
+        public static int TEST_RETRY_COUNT_CUCUMBER;
 
         /**
          * Record failures to a file specified by property rerun.failures.file or rerun.xml in current directory
          */
-        RECORD_FAILURES,
+        public static bool RECORD_FAILURES = false;
 
         /**
          * Replay failures from a file specified by property rerun.failures.file or rerun.xml in current directory
          */
-        REPLAY_FAILURES,
+        public static bool REPLAY_FAILURES = false;
 
         /**
          * Location of the directory where the failure files are recorded.
          */
-        RERUN_FAILURES_DIRECTORY,
+        public static string RERUN_FAILURES_DIRECTORY;
 
         /**
          * Provide a text that distinguishes tests run in a particular environment or context from the same test
          * run in a different environment or context.
          */
-        CONTEXT
-    ;
+        public static string CONTEXT;
+    
 
-    private String propertyName;
-    public static final int DEFAULT_HEIGHT = 700;
-    public static final int DEFAULT_WIDTH = 960;
+    private string propertyName;
+    public static readonly int DEFAULT_HEIGHT = 700;
+    public static readonly int DEFAULT_WIDTH = 960;
 
-    public static final String DEFAULT_HISTORY_DIRECTORY = "history";
+    public static readonly string DEFAULT_HISTORY_DIRECTORY = "history";
 
 
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(ThucydidesSystemProperty.class);
+    private readonly ILog logger = LogManager.GetLogger(typeof(ThucydidesSystemProperty));
 
-    ThucydidesSystemProperty(final String propertyName)
+    ThucydidesSystemProperty(string propertyName)
     {
         this.propertyName = propertyName;
     }
@@ -2778,25 +2799,25 @@ namespace SerenityBDD.Core.time
         this.propertyName = name().replaceAll("_", ".").toLowerCase();
     }
 
-    public String getPropertyName()
+    public string getPropertyName()
     {
         return propertyName;
     }
 
-    @Override
-    public String toString()
+
+        public override string ToString()
+        {
+            return propertyName;
+        }
+
+        public string From(EnvironmentVariables environmentVariables)
     {
-        return propertyName;
+        return From(environmentVariables, null);
     }
 
-    public String from(EnvironmentVariables environmentVariables)
+    private Optional<string> legacyPropertyValueIfPresentIn(EnvironmentVariables environmentVariables)
     {
-        return from(environmentVariables, null);
-    }
-
-    private Optional<String> legacyPropertyValueIfPresentIn(EnvironmentVariables environmentVariables)
-    {
-        String legacyValue = environmentVariables.getProperty(withLegacyPrefix(getPropertyName()));
+        string legacyValue = environmentVariables.getProperty(withLegacyPrefix(getPropertyName()));
         if (StringUtils.isNotEmpty(legacyValue))
         {
             logger.warn("Legacy property format detected for {}, please use the serenity.* format instead.", getPropertyName());
@@ -2804,31 +2825,31 @@ namespace SerenityBDD.Core.time
         return Optional.fromNullable(legacyValue);
     }
 
-    private String withLegacyPrefix(String propertyName)
+    private string withLegacyPrefix(string propertyName)
     {
         return propertyName.replaceAll("serenity.", "thucydides.");
     }
 
-    private String withSerenityPrefix(String propertyName)
+    private string withSerenityPrefix(string propertyName)
     {
         return propertyName.replaceAll("thucydides.", "serenity.");
     }
 
-    public String preferredName()
+    public string preferredName()
     {
         return withSerenityPrefix(getPropertyName());
     }
 
-    public List<String> legacyNames()
+    public List<string> legacyNames()
     {
-        List<String> names = new ArrayList<>(1);
+        List<string> names = new ArrayList<>(1);
         names.add(withLegacyPrefix(getPropertyName()));
         return names;
     }
 
-    public String from(EnvironmentVariables environmentVariables, String defaultValue)
+    public string from(EnvironmentVariables environmentVariables, string defaultValue)
     {
-        Optional<String> newPropertyValue
+        Optional<string> newPropertyValue
                 = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
 
         if (isDefined(newPropertyValue))
@@ -2837,12 +2858,12 @@ namespace SerenityBDD.Core.time
         }
         else
         {
-            Optional<String> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
+            Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
             return (isDefined(legacyValue)) ? legacyValue.get() : defaultValue;
         }
     }
 
-    private boolean isDefined(Optional<String> newPropertyValue)
+    private bool isDefined(Optional<string> newPropertyValue)
     {
         return newPropertyValue.isPresent() && StringUtils.isNotEmpty(newPropertyValue.get());
     }
@@ -2854,49 +2875,81 @@ namespace SerenityBDD.Core.time
 
     public int integerFrom(EnvironmentVariables environmentVariables, int defaultValue)
     {
-        Optional<String> newPropertyValue
+        Optional<string> newPropertyValue
                 = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
 
         if (isDefined(newPropertyValue))
         {
-            return Integer.parseInt(newPropertyValue.get());
+            return int.Parse(newPropertyValue.get());
         }
         else
         {
-            Optional<String> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
-            return (isDefined(legacyValue)) ? Integer.parseInt(legacyValue.get()) : defaultValue;
+            Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
+            return (isDefined(legacyValue)) ? int.Parse(legacyValue.get()) : defaultValue;
         }
     }
 
-    public Boolean booleanFrom(EnvironmentVariables environmentVariables)
+    public bool booleanFrom(EnvironmentVariables environmentVariables)
     {
         return booleanFrom(environmentVariables, false);
     }
 
-    public Boolean booleanFrom(EnvironmentVariables environmentVariables, Boolean defaultValue)
+    public bool booleanFrom(EnvironmentVariables environmentVariables, bool defaultValue)
     {
         if (environmentVariables == null) { return defaultValue; }
 
-        Optional<String> newPropertyValue
+        Optional<string> newPropertyValue
                 = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
 
         if (isDefined(newPropertyValue))
         {
-            return Boolean.valueOf(newPropertyValue.get());
+            return bool.Parse(newPropertyValue.get());
         }
         else
         {
-            Optional<String> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
-            return (isDefined(legacyValue)) ? Boolean.valueOf(legacyValue.get()) : defaultValue;
+            Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
+            return (isDefined(legacyValue)) ? bool.Parse(legacyValue.get()) : defaultValue;
         }
     }
 
-    public boolean isDefinedIn(EnvironmentVariables environmentVariables)
+    public bool isDefinedIn(EnvironmentVariables environmentVariables)
     {
-        return StringUtils.isNotEmpty(from(environmentVariables));
+        return StringUtils.isNotEmpty(From(environmentVariables));
     }
 
 }
+
+    public static class StringUtils
+    {
+        public static bool isNotEmpty(string src)
+        {
+            return !string.IsNullOrEmpty(src);
+        }
+    }
+
+    /// <summary>
+    /// this should be some container configuration like autofac or similar
+    /// </summary>
+    public interface Injector {
+        T getInstance<T>();
+    }
+
+    public class Injectors
+    {
+
+        private static Injector injector;
+
+        public static Injector getInjector()
+        {
+            //if (injector == null)
+            //{
+            //    injector = Guice.createInjector(new ThucydidesModule());
+            //}
+            //return injector;
+            throw new NotImplementedException("Some injection container should be here!");
+        }
+        
+    }
 }
 
 
