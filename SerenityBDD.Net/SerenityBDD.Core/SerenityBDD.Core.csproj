@@ -68,6 +68,7 @@
     <Compile Include="steps\StepFactory.cs" />
     <Compile Include="steps\StepInterceptor.cs" />
     <Compile Include="steps\StepLibraryConstructionStrategy.cs" />
+    <Compile Include="steps\ThucydidesSystemProperty.cs" />
     <Compile Include="steps\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
