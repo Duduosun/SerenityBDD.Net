@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using log4net;
-using SerenityBDD.Core.steps;
+using SerenityBDD.Core.Steps;
 
 namespace SerenityBDD.Core.time
 {
@@ -362,7 +362,7 @@ namespace SerenityBDD.Core.time
         /**
          *  If set to true, JIRA Workflow is active.
          */
-        public static PropertyBase SERENITY_JIRA_WORKFLOW_ACTIVE = false;
+        public static PropertyBase<bool> SERENITY_JIRA_WORKFLOW_ACTIVE = false;
 
         [Obsolete] public static PropertyBase THUCYDIDES_HISTORY;
 
@@ -385,19 +385,19 @@ namespace SerenityBDD.Core.time
          */
         public static PropertyBase SERENITY_BROWSER_WIDTH;
 
-        [Obsolete] public static PropertyBase THUCYDIDES_BROWSER_MAXIMIZED = false;
+        [Obsolete] public static PropertyBase<bool> THUCYDIDES_BROWSER_MAXIMIZED = false;
 
         /**
          * Set to true to get WebDriver to maximise the Browser window before the tests are executed.
          */
-        public static PropertyBase SERENITY_BROWSER_MAXIMIZED = false;
+        public static PropertyBase<bool> SERENITY_BROWSER_MAXIMIZED = false;
 
         [Obsolete] public static PropertyBase THUCYDIDES_RESIZED_IMAGE_WIDTH;
 
         /**
          * If set, resize screenshots to this size to save space.
          */
-        public static PropertyBase? SERENITY_RESIZED_IMAGE_WIDTH;
+        public static PropertyBase SERENITY_RESIZED_IMAGE_WIDTH;
 
         [Obsolete] public static PropertyBase THUCYDIDES_PUBLIC_URL;
 
@@ -470,13 +470,13 @@ namespace SerenityBDD.Core.time
 
         [Obsolete]
         [Description("thucydides.proxy.http_port")]
-        public static PropertyBase? THUCYDIDES_PROXY_HTTP_PORT;
+        public static PropertyBase THUCYDIDES_PROXY_HTTP_PORT;
 
         /**
          * HTTP Proxy port configuration for Firefox and PhantomJS
          * Use 'thucydides.proxy.http_port'
          */
-        [Description("serenity.proxy.http_port")] public static PropertyBase? SERENITY_PROXY_HTTP_PORT;
+        [Description("serenity.proxy.http_port")] public static PropertyBase SERENITY_PROXY_HTTP_PORT;
 
         [Obsolete] public static PropertyBase THUCYDIDES_PROXY_TYPE;
 
@@ -653,7 +653,7 @@ namespace SerenityBDD.Core.time
         /**
          * Disable flash on Internet Explorer on BrowserStack
          */
-        public static PropertyBase? BROWSERSTACK_IE_NO_FLASH;
+        public static PropertyBase BROWSERSTACK_IE_NO_FLASH;
 
         /**
          * Specify the Internet Explorer webdriver version on BrowserStack
@@ -663,9 +663,9 @@ namespace SerenityBDD.Core.time
         /**
          *  Enable the popup blocker in Internet Explorer on BrowserStack
          */
-        public static PropertyBase? BROWSERSTACK_IE_ENABLE_POPUPS;
+        public static PropertyBase BROWSERSTACK_IE_ENABLE_POPUPS;
 
-        [Obsolete] public static PropertyBase? THUCYDIDES_FILE_IO_RETRY_TIMEOUT;
+        [Obsolete] public static PropertyBase THUCYDIDES_FILE_IO_RETRY_TIMEOUT;
 
         /**
          * Timeout (in seconds) for retrying file I/O.
@@ -675,7 +675,7 @@ namespace SerenityBDD.Core.time
          * This property, if set, will retry copying the resource till timeout. A default value is used
          * if the property is not set.
          */
-        public static PropertyBase? SERENITY_FILE_IO_RETRY_TIMEOUT;
+        public static PropertyBase SERENITY_FILE_IO_RETRY_TIMEOUT;
 
         public enum LoggingTypeEnum
         {
@@ -683,13 +683,13 @@ namespace SerenityBDD.Core.time
             Normal,
             Verbose
         }
-        [Obsolete]
-        public static LoggingTypeEnum THUCYDIDES_LOGGING,
+
+        [Obsolete] public static PropertyBase<LoggingTypeEnum> THUCYDIDES_LOGGING;
 
         /**
          * Three levels are supported: QUIET, NORMAL and VERBOSE
          */
-        public static LoggingTypeEnum SERENITY_LOGGING = LoggingTypeEnum.Normal;
+        public static PropertyBase<LoggingTypeEnum> SERENITY_LOGGING = new PropertyBase<LoggingTypeEnum>("Serenity_Logging",LoggingTypeEnum.Normal);
 
         [Obsolete] public static PropertyBase THUCYDIDES_TEST_ROOT;
 

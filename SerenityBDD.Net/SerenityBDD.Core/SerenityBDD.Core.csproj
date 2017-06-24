@@ -34,6 +34,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -49,27 +52,46 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="steps\ClassUtils.cs" />
-    <Compile Include="steps\ConstructionStrategy.cs" />
-    <Compile Include="steps\DependencyInjector.cs" />
-    <Compile Include="steps\Enhancer.cs" />
-    <Compile Include="steps\EnvironmentDependencyInjector.cs" />
-    <Compile Include="steps\Fields.cs" />
-    <Compile Include="steps\IDependencyInjectorService.cs" />
-    <Compile Include="steps\IStepFactory.cs" />
+    <Compile Include="Steps\ClassUtils.cs" />
+    <Compile Include="Steps\ConstructionStrategy.cs" />
+    <Compile Include="Steps\DataFile.cs" />
+    <Compile Include="Steps\DependencyInjector.cs" />
+    <Compile Include="Steps\Enhancer.cs" />
+    <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
+    <Compile Include="Steps\Fields.cs" />
+    <Compile Include="Steps\Files.cs" />
+    <Compile Include="Steps\FileToUpload.cs" />
+    <Compile Include="Steps\IDependencyInjectorService.cs" />
+    <Compile Include="Exceptions\InvocationTargetException.cs" />
+    <Compile Include="Steps\IStepFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="steps\Instrumented.cs" />
-    <Compile Include="steps\MethodInterceptor.cs" />
-    <Compile Include="steps\PageObject.cs" />
-    <Compile Include="steps\PageObjectDependencyInjector.cs" />
-    <Compile Include="steps\Pages.cs" />
-    <Compile Include="steps\ScenarioSteps.cs" />
-    <Compile Include="steps\StepAnnotations.cs" />
-    <Compile Include="steps\StepFactory.cs" />
-    <Compile Include="steps\StepInterceptor.cs" />
-    <Compile Include="steps\StepLibraryConstructionStrategy.cs" />
-    <Compile Include="steps\ThucydidesSystemProperty.cs" />
-    <Compile Include="steps\TypeExtensions.cs" />
+    <Compile Include="Steps\Instrumented.cs" />
+    <Compile Include="Steps\MatchingPageExpressions.cs" />
+    <Compile Include="Steps\MethodInterceptor.cs" />
+    <Compile Include="Steps\Optional.cs" />
+    <Compile Include="Exceptions\PageLooksDodgyException.cs" />
+    <Compile Include="Steps\PageObject.cs" />
+    <Compile Include="Steps\PageObjectDependencyInjector.cs" />
+    <Compile Include="Steps\PageObjects.cs" />
+    <Compile Include="Steps\Pages.cs" />
+    <Compile Include="Steps\RenderedPageObjectView.cs" />
+    <Compile Include="Steps\ScenarioSteps.cs" />
+    <Compile Include="Steps\StepAnnotations.cs" />
+    <Compile Include="Steps\StepFactory.cs" />
+    <Compile Include="Steps\StepInterceptor.cs" />
+    <Compile Include="Steps\StepLibraryConstructionStrategy.cs" />
+    <Compile Include="Steps\ThucydidesSystemProperty.cs" />
+    <Compile Include="Steps\ThucydidesWebDriverSupport.cs" />
+    <Compile Include="Steps\TypeExtensions.cs" />
+    <Compile Include="Time\Clock.cs" />
+    <Compile Include="Time\Duration.cs" />
+    <Compile Include="Time\Injector.cs" />
+    <Compile Include="Time\Injectors.cs" />
+    <Compile Include="Time\PropertyBase.cs" />
+    <Compile Include="Time\Sleeper.cs" />
+    <Compile Include="Time\StringUtils.cs" />
+    <Compile Include="Time\SystemClock.cs" />
+    <Compile Include="Time\TimeUnit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using log4net;
 
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
     public class StepFactory : IStepFactory
     {

@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using log4net;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using SerenityBDD.Core.steps;
+using SerenityBDD.Core.Steps;
 
 using SerenityBDD.Core.time;
+using SerenityBDD.Core.Time;
 
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
-    public class PageObject
+    public partial class PageObject
     {
 
         private static readonly int WAIT_FOR_ELEMENT_PAUSE_LENGTH = 250;
@@ -51,28 +54,33 @@ namespace SerenityBDD.Core.steps
         {
             if (driver.instanceof(typeof(ConfigurableTimeouts)))
             {
-                ((ConfigurableTimeouts) driver).setImplicitTimeout(implicitTimeout);
+                ((ConfigurableTimeouts)driver).setImplicitTimeout(implicitTimeout);
             }
             else
             {
                 driver.Manage().Timeouts().ImplicitWait = implicitTimeout.TimeSpan;
-                
+
             }
         }
 
 
         public void resetImplicitTimeout()
         {
-            if (driver.instanceof(typeof(ConfigurableTimeouts))) {
+            if (driver.instanceof(typeof(ConfigurableTimeouts)))
+            {
                 waitForElementTimeout = ((ConfigurableTimeouts)driver).resetTimeouts();
-            } else {
+            }
+            else
+            {
                 waitForElementTimeout = getDefaultImplicitTimeout();
                 driver.Manage().Timeouts().ImplicitWait = waitForElementTimeout;
             }
         }
+
         private Duration getDefaultImplicitTimeout()
         {
-            var configuredTimeout = ThucydidesSystemProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.integerFrom(environmentVariables);
+            var configuredTimeout =
+                ThucydidesSystemProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.integerFrom(environmentVariables);
             return new Duration(configuredTimeout, TimeUnit.MILLISECONDS);
 
         }
@@ -85,37 +93,39 @@ namespace SerenityBDD.Core.steps
 
         protected PageObject()
         {
-            this.webdriverClock = new SystemClock();
-            this.clock = Injectors.getInjector().getInstance<SystemClock>();
+            webdriverClock = new SystemClock();
+            //TODO: Replace injectors
+            //this.clock = Injectors.getInjector().getInstance<SystemClock>();
             //this.environmentVariables = Injectors.getInjector().getProvider(EnvironmentVariables.class).get();
-            this.environmentVariables = Injectors.getInjector().getInstance<EnvironmentVariables>();
+            //this.environmentVariables = Injectors.getInjector().getInstance<EnvironmentVariables>();
 
             this.sleeper = Sleeper.SYSTEM_SLEEPER;
             setupPageUrls();
         }
-/*
-        protected PageObject(readonly IWebDriver driver, Predicate<PageObject> callback):this()
+
+
+        protected PageObject(IWebDriver driver, Action<PageObject> callback) : this()
         {
-            this.driver = driver;
-            callback.apply(this);
+            setDriver(driver);
+
+            callback(this);
         }
 
-        public PageObject(readonly IWebDriver driver, readonly int ajaxTimeout)
+        public PageObject(IWebDriver driver, int ajaxTimeout) : this()
         {
-            this();
             setDriver(driver, ajaxTimeout);
         }
 
-        public PageObject(readonly IWebDriver driver)
+        public PageObject(IWebDriver driver) : this()
         {
-            this();
+            // TODO: Determine whwat this overlaod if for ThucydidesWebDriverSupport
             ThucydidesWebDriverSupport.useDriver(driver);
             setDriver(driver);
         }
 
-        public PageObject(readonly IWebDriver driver, readonly EnvironmentVariables environmentVariables)
+        public PageObject(IWebDriver driver, EnvironmentVariables environmentVariables) : this()
         {
-            this();
+
             this.environmentVariables = environmentVariables;
             setDriver(driver);
         }
@@ -128,7 +138,8 @@ namespace SerenityBDD.Core.steps
 
         public void setDriver(IWebDriver driver)
         {
-            setDriver(driver, getImplicitWaitTimeout().in(TimeUnit.MILLISECONDS));
+            setDriver(driver, getImplicitWaitTimeout().in(TimeUnit.MILLISECONDS))
+            ;
         }
 
         public PageObject withDriver(IWebDriver driver)
@@ -143,8 +154,9 @@ namespace SerenityBDD.Core.steps
             if (waitForTimeout == null)
             {
                 int configuredWaitForTimeoutInMilliseconds =
-                    ThucydidesSystemProperty.WEBDRIVER_WAIT_FOR_TIMEOUT
-                        .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_WAIT_FOR_TIMEOUT.in(MILLISECONDS));
+                        ThucydidesSystemProperty.WEBDRIVER_WAIT_FOR_TIMEOUT
+                            .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_WAIT_FOR_TIMEOUT)
+                    ;
                 waitForTimeout = new Duration(configuredWaitForTimeoutInMilliseconds, TimeUnit.MILLISECONDS);
             }
             return waitForTimeout;
@@ -163,7 +175,8 @@ namespace SerenityBDD.Core.steps
             {
                 int configuredWaitForTimeoutInMilliseconds =
                     ThucydidesSystemProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT
-                        .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_IMPLICIT_WAIT_TIMEOUT.in(MILLISECONDS));
+                        .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_IMPLICIT_WAIT_TIMEOUT;
+                ;
                 waitForElementTimeout = new Duration(configuredWaitForTimeoutInMilliseconds, TimeUnit.MILLISECONDS);
             }
             return waitForElementTimeout;
@@ -174,59 +187,53 @@ namespace SerenityBDD.Core.steps
             this.pages = pages;
         }
 
-        public <T extends PageObject> T switchToPage(readonly Class<T> pageObjectClass)
+        public T switchToPage<T>(Type pageObjectClass)
+            where T : PageObject
         {
             if (pages.getDriver() == null)
             {
                 pages.setDriver(driver);
             }
 
-            return pages.getPage(pageObjectClass);
+            return (T)pages.getPage(pageObjectClass);
         }
 
-        public FileToUpload upload(readonly string filename)
+        public FileToUpload upload(string filename)
         {
             return new FileToUpload(driver, filename).useRemoteDriver(isDefinedRemoteUrl());
         }
 
-        public FileToUpload uploadData(string data) throws IOException
+
+        public FileToUpload uploadData(string data)
         {
-            Path datafile = Files.createTempFile("upload", "data");
-        Files.write(datafile, data.getBytes(StandardCharsets.UTF_8));
-        return new FileToUpload(driver, datafile.toAbsolutePath().tostring()).useRemoteDriver(isDefinedRemoteUrl());
-    }
+            var datafile = Files.createTempFile("upload", "data");
+            Files.write(datafile, System.Text.Encoding.UTF8.GetBytes(data));
+            return new FileToUpload(driver, datafile.toAbsolutePath().ToString()).useRemoteDriver(isDefinedRemoteUrl());
+        }
 
-    
+        public FileToUpload uploadData(byte[] data)
+        {
+            var datafile = Files.createTempFile("upload", "data");
+            Files.write(datafile, data);
+            return new FileToUpload(driver, datafile.toAbsolutePath().ToString()).useRemoteDriver(isDefinedRemoteUrl());
+        }
 
-    internal class JavascriptExecutorFacade
-    {
-    }
+        private bool isDefinedRemoteUrl()
+        {
+            bool isRemoteUrl = ThucydidesSystemProperty.WEBDRIVER_REMOTE_URL.isDefinedIn(environmentVariables);
+            bool isSaucelabsUrl = ThucydidesSystemProperty.SAUCELABS_URL.isDefinedIn(environmentVariables);
+            bool isBrowserStack = ThucydidesSystemProperty.BROWSERSTACK_URL.isDefinedIn(environmentVariables);
+            return isRemoteUrl || isSaucelabsUrl || isBrowserStack;
+        }
 
+        private void setupPageUrls()
+        {
+            setPageUrls(new PageUrls(this));
+        }
 
-
-    public FileToUpload uploadData(byte[] data) throws IOException
-{
-    Path datafile = Files.createTempFile("upload", "data");
-    Files.write(datafile, data);
-        return new FileToUpload(driver, datafile.toAbsolutePath().tostring()).useRemoteDriver(isDefinedRemoteUrl());
-    }
-
-    private bool isDefinedRemoteUrl()
-{
-    bool isRemoteUrl = ThucydidesSystemProperty.WEBDRIVER_REMOTE_URL.isDefinedIn(environmentVariables);
-    bool isSaucelabsUrl = ThucydidesSystemProperty.SAUCELABS_URL.isDefinedIn(environmentVariables);
-    bool isBrowserStack = ThucydidesSystemProperty.BROWSERSTACK_URL.isDefinedIn(environmentVariables);
-    return isRemoteUrl || isSaucelabsUrl || isBrowserStack;
-}
-
-private void setupPageUrls()
-{
-    setPageUrls(new PageUrls(this));
-}
-
-/**
- * Only for testing purposes.
- */
+        /**
+         * Only for testing purposes.
+         */
 
         public void setPageUrls(PageUrls pageUrls)
         {
@@ -239,11 +246,9 @@ private void setupPageUrls()
             getRenderedView().setWaitForTimeout(this.waitForTimeout);
         }
 
-        public void setWaitForElementTimeout(
-        readonly long waitForTimeoutInMilliseconds
-        )
+        public void setWaitForElementTimeout(long waitForTimeoutInMilliseconds)
         {
-            this.waitForElementTimeout = new Duration(waitForTimeoutInMilliseconds, MILLISECONDS);
+            this.waitForElementTimeout = new Duration(waitForTimeoutInMilliseconds, TimeUnit.MILLISECONDS);
         }
 
         protected RenderedPageObjectView getRenderedView()
@@ -255,7 +260,7 @@ private void setupPageUrls()
             return renderedView;
         }
 
-        protected net.serenitybdd.core.time.SystemClock getClock()
+        protected SystemClock getClock()
         {
             return clock;
         }
@@ -276,7 +281,7 @@ private void setupPageUrls()
 
         public string getTitle()
         {
-            return driver.getTitle();
+            return driver.Title;
         }
 
 
@@ -285,20 +290,17 @@ private void setupPageUrls()
             return thereAreNoPatternsDefined();
         }
 
-/**
- * Does this page object work for this URL? When matching a URL, we check
- * with and without trailing slashes
- */
-        public readonly bool compatibleWithUrl(
-        readonly string currentUrl
-        )
+        /**
+         * Does this page object work for this URL? When matching a URL, we check
+         * with and without trailing slashes
+         */
+
+        public bool compatibleWithUrl(string currentUrl)
         {
             return thereAreNoPatternsDefined() || matchUrlAgainstEachPattern(currentUrl);
         }
 
-        private bool matchUrlAgainstEachPattern(
-        readonly string currentUrl
-        )
+        private bool matchUrlAgainstEachPattern(string currentUrl)
         {
             return getMatchingPageExpressions().matchUrlAgainstEachPattern(currentUrl);
         }
@@ -309,7 +311,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForRenderedElements(
-        readonly By byElementCriteria
+            By byElementCriteria
         )
         {
             getRenderedView().waitFor(byElementCriteria);
@@ -338,7 +340,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForRenderedElementsToBePresent(
-        readonly By byElementCriteria
+            By byElementCriteria
         )
         {
             getRenderedView().waitForPresenceOf(byElementCriteria);
@@ -353,7 +355,7 @@ private void setupPageUrls()
 
 
         public PageObject waitForRenderedElementsToDisappear(
-        readonly By byElementCriteria
+            By byElementCriteria
         )
         {
             getRenderedView().waitForElementsToDisappear(byElementCriteria);
@@ -365,11 +367,12 @@ private void setupPageUrls()
             return waitForRenderedElementsToDisappear(xpathOrCssSelector(xpathOrCssSelector));
         }
 
-/**
- * Waits for a given text to appear anywhere on the page.
- */
+        /**
+         * Waits for a given text to appear anywhere on the page.
+         */
+
         public PageObject waitForTextToAppear(
-        readonly string expectedText
+            string expectedText
         )
         {
             getRenderedView().waitForText(expectedText);
@@ -377,7 +380,7 @@ private void setupPageUrls()
         }
 
         public PageObject waitForTitleToAppear(
-        readonly string expectedTitle
+            string expectedTitle
         )
         {
             waitOnPage().until(ExpectedConditions.titleIs(expectedTitle));
@@ -388,23 +391,24 @@ private void setupPageUrls()
         {
             return new WebDriverWait(driver, getWaitForTimeout().in(TimeUnit.SECONDS))
             ;
-//        waitForTimeoutInSecondsWithAMinimumOfOneSecond());
+            //        waitForTimeoutInSecondsWithAMinimumOfOneSecond());
         }
 
         public PageObject waitForTitleToDisappear(
-        readonly string expectedTitle
+            string expectedTitle
         )
         {
             getRenderedView().waitForTitleToDisappear(expectedTitle);
             return this;
         }
 
-/**
- * Waits for a given text to appear inside the element.
- */
+        /**
+         * Waits for a given text to appear inside the element.
+         */
+
         public PageObject waitForTextToAppear(
-        readonly WebElement element, 
-        readonly string expectedText
+            IWebElement element,
+            string expectedText
         )
         {
             getRenderedView().waitForText(element, expectedText);
@@ -416,12 +420,13 @@ private void setupPageUrls()
             return StepEventBus.getEventBus().webdriverCallsAreSuspended();
         }
 
-/**
- * Waits for a given text to disappear from the element.
- */
+        /**
+         * Waits for a given text to disappear from the element.
+         */
+
         public PageObject waitForTextToDisappear(
-        readonly WebElement element, 
-        readonly string expectedText
+            IWebElement element,
+            string expectedText
         )
         {
             if (!driverIsDisabled())
@@ -432,90 +437,98 @@ private void setupPageUrls()
         }
 
 
-        private ExpectedCondition<bool> elementDoesNotContain(
-        readonly WebElement element, 
-        readonly string expectedText
-        )
+        private ExpectedCondition<bool> elementDoesNotContain(IWebElement element, string expectedText)
         {
             return new ExpectedCondition<bool>()
             {
                 public bool apply(IWebDriver driver)
-                {
+            {
                 return !element.getText().contains(expectedText);
             }
-            }
+        }
+
+        public
+        PageObject
+        waitForTextToDisappear
+        (
+        string
+        expectedText
+        )
+        {
+            return
+            waitForTextToDisappear
+            (
+            expectedText
+            ,
+            getWaitForTimeout
+            (
+            )
+            )
             ;
         }
 
-        public PageObject waitForTextToDisappear(
-        readonly string expectedText
-        )
+        /**
+         * Waits for a given text to not be anywhere on the page.
+         */
+        public PageObject waitForTextToDisappear(string expectedText, TimeSpan timespan)
         {
-            return waitForTextToDisappear(expectedText, getWaitForTimeout().in(MILLISECONDS))
-            ;
+            getRenderedView().waitForTextToDisappear(expectedText, timespan);
+            return this;
         }
-
-/**
- * Waits for a given text to not be anywhere on the page.
- */
-        public PageObject waitForTextToDisappear(
-        readonly string expectedText, 
-        readonly long timeoutInMilliseconds
-        )
+        public PageObject waitForTextToDisappear(string expectedText, long timeoutInMilliseconds)
         {
 
-            getRenderedView().waitForTextToDisappear(expectedText, timeoutInMilliseconds);
+            getRenderedView().waitForTextToDisappear(expectedText, TimeSpan.FromMilliseconds(timeoutInMilliseconds));
             return this;
         }
 
-/**
- * Waits for a given text to appear anywhere on the page.
- */
-        public PageObject waitForTextToAppear(
-        readonly string expectedText, 
-        readonly long timeout
-        )
+        /**
+         * Waits for a given text to appear anywhere on the page.
+         */
+
+        public PageObject waitForTextToAppear(string expectedText, TimeSpan timeout)
         {
 
             getRenderedView().waitForTextToAppear(expectedText, timeout);
             return this;
         }
 
-/**
- * Waits for any of a number of text blocks to appear anywhere on the
- * screen.
- */
-        public PageObject waitForAnyTextToAppear(
-        readonly
-        string.
-        ..
-        expectedText
-        )
+        /**
+         * Waits for any of a number of text blocks to appear anywhere on the
+         * screen.
+         */
+
+        public PageObject waitForAnyTextToAppear(params string[] expectedText)
         {
             getRenderedView().waitForAnyTextToAppear(expectedText);
             return this;
         }
 
         public PageObject waitForAnyTextToAppear(
-        readonly WebElement element, 
-        readonly
-        string.
+        IWebElement element,
+
+        string .
         ..
+
         expectedText
+
         )
         {
             getRenderedView().waitForAnyTextToAppear(element, expectedText);
             return this;
         }
 
-/**
- * Waits for all of a number of text blocks to appear on the screen.
- */
+        /**
+         * Waits for all of a number of text blocks to appear on the screen.
+         */
+
         public PageObject waitForAllTextToAppear(
-        readonly
-        string.
+
+        string .
         ..
+
         expectedTexts
+
         )
         {
             getRenderedView().waitForAllTextToAppear(expectedTexts);
@@ -523,10 +536,12 @@ private void setupPageUrls()
         }
 
         public PageObject waitForAnyRenderedElementOf(
-        readonly
+
         By.
+
         ..
         expectedElements
+
         )
         {
             getRenderedView().waitForAnyRenderedElementOf(expectedElements);
@@ -534,13 +549,14 @@ private void setupPageUrls()
         }
 
         protected void waitABit(
-        readonly long timeInMilliseconds
+        long timeInMilliseconds
         )
         {
             getClock().pauseFor(timeInMilliseconds);
         }
 
         public WaitForBuilder<? extends
+
         PageObject
         >
 
@@ -549,8 +565,8 @@ private void setupPageUrls()
             return new PageObjectStepDelayer(clock, this).waitFor(duration);
         }
 
-        public List<WebElement> thenReturnElementList(
-        readonly By byListCriteria
+        public List<IWebElement> thenReturnElementList(
+            By byListCriteria
         )
         {
             return driver.findElements(byListCriteria);
@@ -563,14 +579,15 @@ private void setupPageUrls()
 
         T foo()
         {
-            return (T) this;
+            return (T)this;
         }
 
-/**
- * Check that the specified text appears somewhere in the page.
- */
+        /**
+         * Check that the specified text appears somewhere in the page.
+         */
+
         public void shouldContainText(
-        readonly string textValue
+            string textValue
         )
         {
             if (!containsText(textValue))
@@ -581,89 +598,97 @@ private void setupPageUrls()
             }
         }
 
-/**
- * Check that all of the specified texts appears somewhere in the page.
- */
+        /**
+         * Check that all of the specified texts appears somewhere in the page.
+         */
+
         public void shouldContainAllText(
-        readonly
-        string.
-        ..
-        textValues
+
+            string .
+                ..
+
+                textValues
+
         )
         {
             if (!containsAllText(textValues))
             {
                 string errorMessage = string.format(
-                    "One of the text elements in '%s' was not found in the page", (Object[]) textValues);
+                    "One of the text elements in '%s' was not found in the page", (Object[])textValues);
                 throw new NoSuchElementException(errorMessage);
             }
         }
 
-/**
- * Does the specified web element contain a given text value. Useful for dropdowns and so on.
- *
- * [Obsolete] use element(webElement).containsText(textValue)
- */
+        /**
+         * Does the specified web element contain a given text value. Useful for dropdowns and so on.
+         *
+         * [Obsolete] use element(IWebElement).containsText(textValue)
+         */
+
         [Obsolete]
         public bool containsTextInElement(
-        readonly WebElement webElement, 
-        readonly string textValue
+            IWebElement element,
+            string textValue
         )
         {
-            return element(webElement).containsText(textValue);
+            return element(IWebElement).containsText(textValue);
         }
 
-/*
- * Check that the element contains a given text.
- * [Obsolete] use element(webElement).shouldContainText(textValue)
- */
+        /*
+         * Check that the element contains a given text.
+         * [Obsolete] use element(IWebElement).shouldContainText(textValue)
+         */
+
         [Obsolete]
         public void shouldContainTextInElement(
-        readonly WebElement webElement, 
-        readonly string textValue
+            IWebElement element,
+            string textValue
         )
         {
-            element(webElement).shouldContainText(textValue);
+            element(IWebElement).shouldContainText(textValue);
         }
 
-/*
- * Check that the element does not contain a given text.
- * [Obsolete] use element(webElement).shouldNotContainText(textValue)
- */
+        /*
+         * Check that the element does not contain a given text.
+         * [Obsolete] use element(IWebElement).shouldNotContainText(textValue)
+         */
+
         [Obsolete]
         public void shouldNotContainTextInElement(
-        readonly WebElement webElement, 
-        readonly string textValue
+            IWebElement element,
+            string textValue
         )
         {
-            element(webElement).shouldNotContainText(textValue);
+            element(IWebElement).shouldNotContainText(textValue);
         }
 
-/**
- * Clear a field and enter a value into it.
- */
+        /**
+         * Clear a field and enter a value into it.
+         */
+
         public void typeInto(
-        readonly WebElement field, 
-        readonly string value
+            IWebElement field,
+            string value
         )
         {
             element(field).type(value);
         }
 
-/**
- * Clear a field and enter a value into it.
- * This is a more fluent alternative to using the typeInto method.
- */
+        /**
+         * Clear a field and enter a value into it.
+         * This is a more fluent alternative to using the typeInto method.
+         */
+
         public FieldEntry enter(
-        readonly string value
+            string value
         )
         {
             return new FieldEntry(value);
         }
 
         public void selectFromDropdown(
-        readonly WebElement dropdown, 
-        readonly string visibleLabel
+            IWebElement dropdown,
+            string visibleLabel
         )
         {
 
@@ -672,11 +697,13 @@ private void setupPageUrls()
         }
 
         public void selectMultipleItemsFromDropdown(
-        readonly WebElement dropdown, 
-        readonly
-        string.
-        ..
-        selectedLabels
+            IWebElement dropdown,
+
+            string .
+                ..
+
+                selectedLabels
+
         )
         {
             Dropdown.forWebElement(dropdown).selectMultipleItems(selectedLabels);
@@ -685,36 +712,36 @@ private void setupPageUrls()
 
 
         public Set<string> getSelectedOptionLabelsFrom(
-        readonly WebElement dropdown
+            IWebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedOptionLabels();
         }
 
         public Set<string> getSelectedOptionValuesFrom(
-        readonly WebElement dropdown
+            IWebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedOptionValues();
         }
 
         public string getSelectedValueFrom(
-        readonly WebElement dropdown
+            IWebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedValue();
         }
 
         public string getSelectedLabelFrom(
-        readonly WebElement dropdown
+            IWebElement dropdown
         )
         {
             return Dropdown.forWebElement(dropdown).getSelectedLabel();
         }
 
         public void setCheckbox(
-        readonly WebElement field, 
-        readonly bool value
+            IWebElement field,
+            bool value
         )
         {
             Checkbox checkbox = new Checkbox(field);
@@ -723,20 +750,23 @@ private void setupPageUrls()
         }
 
         public bool containsText(
-        readonly string textValue
+            string textValue
         )
         {
             return getRenderedView().containsText(textValue);
         }
 
-/**
- * Check that the specified text appears somewhere in the page.
- */
+        /**
+         * Check that the specified text appears somewhere in the page.
+         */
+
         public bool containsAllText(
-        readonly
-        string.
-        ..
-        textValues
+
+            string .
+                ..
+
+                textValues
+
         )
         {
             for (string textValue :
@@ -750,25 +780,26 @@ private void setupPageUrls()
             return true;
         }
 
-/**
- * Fail the test if this element is not displayed (rendered) on the screen.
- */
+        /**
+         * Fail the test if this element is not displayed (rendered) on the screen.
+         */
+
         public void shouldBeVisible(
-        readonly WebElement field
+            IWebElement field
         )
         {
             element(field).shouldBeVisible();
         }
 
         public void shouldBeVisible(
-        readonly By byCriteria
+            By byCriteria
         )
         {
             waitOnPage().until(ExpectedConditions.visibilityOfElementLocated(byCriteria));
         }
 
         public void shouldNotBeVisible(
-        readonly WebElement field
+            IWebElement field
         )
         {
             try
@@ -777,15 +808,15 @@ private void setupPageUrls()
             }
             catch (NoSuchElementException e)
             {
-// A non-existant element is not visible
+                // A non-existant element is not visible
             }
         }
 
         public void shouldNotBeVisible(
-        readonly By byCriteria
+            By byCriteria
         )
         {
-            List<WebElement> matchingElements = getDriver().findElements(byCriteria);
+            List<IWebElement> matchingElements = getDriver().findElements(byCriteria);
             if (!matchingElements.isEmpty())
             {
                 waitOnPage().until(ExpectedConditions.invisibilityOfElementLocated(byCriteria));
@@ -815,7 +846,7 @@ private void setupPageUrls()
         }
 
         public string updateUrlWithBaseUrlIfDefined(
-        readonly string startingUrl
+            string startingUrl
         )
         {
 
@@ -831,9 +862,9 @@ private void setupPageUrls()
         }
 
         private string replaceHost(
-        readonly string starting, 
-        readonly string
-        base)
+            string starting,
+            string
+                base)
         {
 
             string updatedUrl = starting;
@@ -860,9 +891,9 @@ private void setupPageUrls()
         }
 
         private string hostComponentFrom(
-        readonly string protocol, 
-        readonly string host, 
-        readonly int port
+            string protocol,
+            string host,
+            int port
         )
         {
             stringBuilder hostComponent = new stringBuilder(protocol);
@@ -873,39 +904,45 @@ private void setupPageUrls()
                 hostComponent.append(":");
                 hostComponent.append(port);
             }
-            return hostComponent.tostring();
+            return hostComponent.ToString();
         }
 
-/**
- * Open the IWebDriver browser using a paramaterized URL. Parameters are
- * represented in the URL using {0}, {1}, etc.
- */
-        public readonly void open(
-        readonly string[] parameterValues
+        /**
+         * Open the IWebDriver browser using a paramaterized URL. Parameters are
+         * represented in the URL using {0}, {1}, etc.
+         */
+
+        public void open(
+            string[] parameterValues
         )
         {
             open(OpenMode.CHECK_URL_PATTERNS, parameterValues);
         }
 
-/**
- * Opens page without checking URL patterns. Same as open(string...)) otherwise.
- */
-        public readonly void openUnchecked(
-        readonly
-        string.
-        ..
-        parameterValues
+        /**
+         * Opens page without checking URL patterns. Same as open(string...)) otherwise.
+         */
+
+        public void openUnchecked(
+
+            string .
+                ..
+
+                parameterValues
+
         )
         {
             open(OpenMode.IGNORE_URL_PATTERNS, parameterValues);
         }
 
         private void open(
-        readonly OpenMode openMode, 
-        readonly
-        string.
-        ..
-        parameterValues
+            OpenMode openMode,
+
+            string .
+                ..
+
+                parameterValues
+
         )
         {
             string startingUrl = pageUrls.getStartingUrl(parameterValues);
@@ -916,29 +953,30 @@ private void setupPageUrls()
             LOGGER.debug("Page opened");
         }
 
-        public readonly void open(
-        readonly string urlTemplateName, 
-        readonly string[] parameterValues
+        public void open(
+            string urlTemplateName,
+            string[] parameterValues
         )
         {
             open(OpenMode.CHECK_URL_PATTERNS, urlTemplateName, parameterValues);
         }
 
-/**
- * Opens page without checking URL patterns. Same as {@link #open(string, string[])} otherwise.
- */
-        public readonly void openUnchecked(
-        readonly string urlTemplateName, 
-        readonly string[] parameterValues
+        /**
+         * Opens page without checking URL patterns. Same as {@link #open(string, string[])} otherwise.
+         */
+
+        public void openUnchecked(
+            string urlTemplateName,
+            string[] parameterValues
         )
         {
             open(OpenMode.IGNORE_URL_PATTERNS, urlTemplateName, parameterValues);
         }
 
         private void open(
-        readonly OpenMode openMode, 
-        readonly string urlTemplateName, 
-        readonly string[] parameterValues
+            OpenMode openMode,
+            string urlTemplateName,
+            string[] parameterValues
         )
         {
             string startingUrl = pageUrls.getNamedUrl(urlTemplateName,
@@ -950,44 +988,44 @@ private void setupPageUrls()
             LOGGER.debug("Page opened");
         }
 
-/**
- * Open the IWebDriver browser to the base URL, determined by the DefaultUrl
- * annotation if present. If the DefaultUrl annotation is not present, the
- * default base URL will be used. If the DefaultUrl annotation is present, a
- * URL based on the current base url from the system-wide default url
- * and the relative path provided in the DefaultUrl annotation will be used to
- * determine the URL to open. For example, consider the following class:
- * <pre>
- *     <code>
- *         &#064;DefaultUrl("http://localhost:8080/client/list")
- *         public class ClientList extends PageObject {
- *             ...
- *
- *             &#064;WhenPageOpens
- *             public void waitUntilTitleAppears() {...}
- *         }
- *     </code>
- * </pre>
- * Suppose you are using a base URL of http://stage.acme.com. When you call open() for this class,
- * it will open http://stage.acme.com/client/list. It will then invoke the waitUntilTitleAppears() method.
- */
+        /**
+         * Open the IWebDriver browser to the base URL, determined by the DefaultUrl
+         * annotation if present. If the DefaultUrl annotation is not present, the
+         * default base URL will be used. If the DefaultUrl annotation is present, a
+         * URL based on the current base url from the system-wide default url
+         * and the relative path provided in the DefaultUrl annotation will be used to
+         * determine the URL to open. For example, consider the following class:
+         * <pre>
+         *     <code>
+         *         &#064;DefaultUrl("http://localhost:8080/client/list")
+         *         public class ClientList extends PageObject {
+         *             ...
+         *
+         *             &#064;WhenPageOpens
+         *             public void waitUntilTitleAppears() {...}
+         *         }
+         *     </code>
+         * </pre>
+         * Suppose you are using a base URL of http://stage.acme.com. When you call open() for this class,
+         * it will open http://stage.acme.com/client/list. It will then invoke the waitUntilTitleAppears() method.
+         */
 
-        readonly public void open()
+        public void open()
         {
             open(OpenMode.CHECK_URL_PATTERNS);
         }
 
-/**
- * Opens page without checking URL patterns. Same as {@link #open()} otherwise.
- */
+        /**
+         * Opens page without checking URL patterns. Same as {@link #open()} otherwise.
+         */
 
-        readonly public void openUnchecked()
+        public void openUnchecked()
         {
             open(OpenMode.IGNORE_URL_PATTERNS);
         }
 
         private void open(
-        readonly OpenMode openMode
+            OpenMode openMode
         )
         {
             string startingUrl = updateUrlWithBaseUrlIfDefined(pageUrls.getStartingUrl());
@@ -1003,7 +1041,7 @@ private void setupPageUrls()
         }
 
         private void checkUrlPatterns(
-        readonly OpenMode openMode
+            OpenMode openMode
         )
         {
             if (openMode == OpenMode.CHECK_URL_PATTERNS)
@@ -1024,10 +1062,10 @@ private void setupPageUrls()
             }
         }
 
-/**
- * Use the @At annotation (if present) to check that a page object is displaying the correct page.
- * Will throw an exception if the current URL does not match the expected one.
- */
+        /**
+         * Use the @At annotation (if present) to check that a page object is displaying the correct page.
+         * Will throw an exception if the current URL does not match the expected one.
+         */
 
         public void shouldBeDisplayed()
         {
@@ -1044,129 +1082,114 @@ private void setupPageUrls()
             throw new WrongPageError(errorDetails);
         }
 
-        readonly public void openAt(string startingUrl)
+        public void openAt(string startingUrl)
         {
             openPageAtUrl(updateUrlWithBaseUrlIfDefined(startingUrl));
             callWhenPageOpensMethods();
         }
 
-/**
- * Override this method
- */
+        /**
+         * Override this method
+         */
 
         public void callWhenPageOpensMethods()
         {
-            for (Method annotatedMethod :
-            methodsAnnotatedWithWhenPageOpens())
+            foreach (var annotatedMethod in methodsAnnotatedWithWhenPageOpens())
             {
                 try
                 {
-                    annotatedMethod.setAccessible(true);
-                    annotatedMethod.invoke(this);
+                    annotatedMethod.Invoke(this, new object[] { });
                 }
-                catch (Throwable e)
+                catch (AssertionException)
                 {
-                    LOGGER.error("Could not execute @WhenPageOpens annotated method: " + e.getMessage());
-                    if (e
-                    instanceof InvocationTargetException)
+                    throw;
+                }
+                catch (Exception e)
+                {
+                    LOGGER.Error("Could not execute @WhenPageOpens annotated method: ", e);
+                    if (e is InvocationTargetException)
                     {
-                        e = ((InvocationTargetException) e).getTargetException();
+                        e = ((InvocationTargetException)e).getTargetException();
                     }
-                    if (AssertionError.class.
-                    isAssignableFrom(e.getClass()))
-                    {
-                        throw (AssertionError) e;
-                    }
-                    else
-                    {
-                        throw new UnableToInvokeWhenPageOpensMethods(
-                            "Could not execute @WhenPageOpens annotated method: "
-                            + e.getMessage(), e);
-                    }
+
+                    throw new UnableToInvokeWhenPageOpensMethods(annotatedMethod, e);
+
                 }
             }
         }
 
-        private List<Method> methodsAnnotatedWithWhenPageOpens()
+        private IEnumerable<MethodInfo> methodsAnnotatedWithWhenPageOpens()
         {
-            List<Method> methods = MethodFinder.inClass(this.getClass()).getAllMethods();
-            List<Method> annotatedMethods = new ArrayList<>();
-            for (Method method :
-            methods)
+            var methods = MethodFinder.inClass(this.GetType()).getAllMethods();
+            var annotatedMethods = new List<MethodInfo>();
+            foreach (var method in methods)
             {
-                if (method.getAnnotation(WhenPageOpens.class) !=
-                null)
+                var attr = method.GetCustomAttribute<WhenPageOpens>();
+                if (attr != null)
                 {
-                    if (method.getParameterTypes().length == 0)
+                    if (method.GetParameters().Length == 0)
                     {
-                        annotatedMethods.add(method);
+                        annotatedMethods.Add(method);
                     }
                     else
                     {
-                        throw new UnableToInvokeWhenPageOpensMethods(
-                            "Could not execute @WhenPageOpens annotated method: WhenPageOpens method cannot have parameters: " +
-                            method);
+                        throw new PageOpenMethodCannotHaveParametersException(method);
                     }
                 }
             }
             return annotatedMethods;
         }
 
-        public static string[] withParameters(
-        readonly
-        string.
-        ..
-        parameterValues
-        )
+        public static string[] withParameters(params string[] parameterValues)
         {
             return parameterValues;
         }
 
-        private void openPageAtUrl(
-        readonly string startingUrl
-        )
+        private void openPageAtUrl(string startingUrl)
         {
-            getDriver().get(startingUrl);
+            getDriver().Navigate().GoToUrl(startingUrl);
             if (javascriptIsSupportedIn(getDriver()))
             {
                 addJQuerySupport();
             }
         }
 
-        public void clickOn(
-        readonly WebElement webElement
-        )
+
+        private bool javascriptIsSupportedIn(IWebDriver webDriver)
         {
-            element(webElement).click();
+            throw new NotImplementedException();
         }
 
-/**
- * Returns true if at least one matching element is found on the page and is visible.
- */
-        public bool isElementVisible(
-        readonly By byCriteria
-        )
+        public void clickOn(IWebElement element)
+        {
+
+            element.Click();
+        }
+
+        /**
+         * Returns true if at least one matching element is found on the page and is visible.
+         */
+
+        public bool isElementVisible(By byCriteria)
         {
             return getRenderedView().elementIsDisplayed(byCriteria);
         }
 
-        public void setDefaultBaseUrl(
-        readonly string defaultBaseUrl
-        )
+        public void setDefaultBaseUrl(string defaultBaseUrl)
         {
             pageUrls.overrideDefaultBaseUrl(defaultBaseUrl);
         }
 
-/**
- * Returns true if the specified element has the focus.
- *
- * [Obsolete] Use element(webElement).hasFocus() instead
- */
-        public bool hasFocus(
-        readonly WebElement webElement
-        )
+        /**
+         * Returns true if the specified element has the focus.
+         *
+         * [Obsolete] Use element(IWebElement).hasFocus() instead
+         */
+
+        public bool hasFocus(IWebElement element)
         {
-            return element(webElement).hasFocus();
+            return element.Equals(driver.SwitchTo().ActiveElement());
+
         }
 
         public void blurActiveElement()
@@ -1183,29 +1206,19 @@ private void setupPageUrls()
             return javascriptExecutorFacade;
         }
 
-/**
- * Provides a fluent API for querying web elements.
- */
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-
-        T element(WebElement webElement)
+        /**
+         * Provides a fluent API for querying web elements.
+         */
+        public WebElementFacade element(IWebElement element)
         {
-            return net.serenitybdd.core.pages.WebElementFacadeImpl.wrapWebElement(driver, webElement,
-                getImplicitWaitTimeout().in(MILLISECONDS),
-            getWaitForTimeout().in
-            (MILLISECONDS),
-            nameOf(webElement))
-            ;
+            return WebElementFacadeImpl.wrapWebElement(driver, element, getImplicitWaitTimeout(), getWaitForTimeout(), nameOf(element));
         }
 
-        private string nameOf(WebElement webElement)
+        private string nameOf(IWebElement element)
         {
             try
             {
-                return webElement.tostring();
+                return element.ToString();
             }
             catch (Exception e)
             {
@@ -1214,636 +1227,455 @@ private void setupPageUrls()
         }
 
 
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-        T
-        $
-
-        (WebElement webElement)
+        public WebElementFacade JQuery(IWebElement element)
         {
-            return element(webElement);
+            return this.element(element);
         }
 
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-        T
-        $
-
-        (string xpathOrCssSelector)
+        public WebElementFacade JQuery(string xpathOrCssSelector)
         {
-            return element(xpathOrCssSelector);
+            return this.element(xpathOrCssSelector);
         }
 
-/**
- * Provides a fluent API for querying web elements.
- */
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-
-        T element(By bySelector)
+        /**
+         * Provides a fluent API for querying web elements.
+         */
+        public WebElementFacade element(By bySelector)
         {
-            return net.serenitybdd.core.pages.WebElementFacadeImpl.wrapWebElement(driver,
-                bySelector,
-                getImplicitWaitTimeout().in(MILLISECONDS),
-            getWaitForTimeout().in
-            (MILLISECONDS),
-            bySelector.tostring())
-            ;
+            return WebElementFacadeImpl.wrapWebElement(driver, bySelector, getImplicitWaitTimeout(), getWaitForTimeout(), bySelector.ToString());
         }
 
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-
-        T find(List<By> selectors)
+        public WebElementFacade find(IEnumerable<By> selectors)
         {
-            T element = null;
-            for (By selector :
-            selectors)
+            WebElementFacade e = null;
+            foreach (var selector in selectors)
             {
-                if (element == null)
+                if (e == null)
                 {
-                    element = element(selector);
+                    e = this.element(selector);
                 }
                 else
                 {
-                    element = element.find(selector);
+                    e = e.find(selector);
                 }
             }
-            return element;
+            return e;
         }
 
-        public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
-
-        T find(By. ..selectors)
+        public WebElementFacade find(params By [] selectors)
         {
-            return find(Lists.newArrayList(selectors));
+            return find(selectors.ToList());
         }
 
-        public List<net.serenitybdd.core.pages.WebElementFacade> findAll(By bySelector)
+        public List<WebElementFacade> findAll(By bySelector)
         {
-            List<WebElement> matchingWebElements = driver.findElements(bySelector);
+            var matchingWebElements = driver.FindElements(bySelector);
             return convert(matchingWebElements, toWebElementFacades());
         }
 
-        private Converter<WebElement, net.serenitybdd.core.pages.WebElementFacade> toWebElementFacades()
+        private Converter<IWebElement, WebElementFacade> toWebElementFacades()
         {
-            return new Converter<WebElement, net.serenitybdd.core.pages.WebElementFacade>()
-            {
-                public net.serenitybdd.core.pages.WebElementFacade convert(WebElement from)
-                {
-                return element(from);
-            }
-            }
-            ;
+            return this.element(from);
+            
         }
+            ;
+    }
 
-/**
- * Provides a fluent API for querying web elements.
- */
-        public <
+    /**
+     * Provides a fluent API for querying web elements.
+     */
+    public <
         T extends
         net.serenitybdd.core.pages.WebElementFacade
         >
 
         T element(string xpathOrCssSelector)
-        {
-            return element(xpathOrCssSelector(xpathOrCssSelector));
-        }
+    {
+        return element(xpathOrCssSelector(xpathOrCssSelector));
+    }
 
-        public <
+    public <
         T extends
         net.serenitybdd.core.pages.WebElementFacade
         >
 
         T findBy(string xpathOrCssSelector)
+    {
+        return element(xpathOrCssSelector);
+    }
+
+    public List<net.serenitybdd.core.pages.WebElementFacade> findAll(string xpathOrCssSelector)
+    {
+        return findAll(xpathOrCssSelector(xpathOrCssSelector));
+    }
+
+    public bool containsElements(By bySelector)
+    {
+        return !findAll(bySelector).isEmpty();
+    }
+
+    public bool containsElements(string xpathOrCssSelector)
+    {
+        return !findAll(xpathOrCssSelector).isEmpty();
+    }
+
+
+    public Object evaluateJavascript(string script)
+    {
+        addJQuerySupport();
+        JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
+        return js.executeScript(script);
+    }
+
+    public Object evaluateJavascript(string script, params Object[] args)
+    {
+        addJQuerySupport();
+        JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
+        return js.executeScript(script, args)
+        ;
+    }
+
+    public void addJQuerySupport()
+    {
+        if (pageIsLoaded() && jqueryIntegrationIsActivated() && driverIsJQueryCompatible())
         {
-            return element(xpathOrCssSelector);
+            JQueryEnabledPage jQueryEnabledPage = JQueryEnabledPage.withDriver(getDriver());
+            jQueryEnabledPage.activateJQuery();
         }
+    }
 
-        public List<net.serenitybdd.core.pages.WebElementFacade> findAll(string xpathOrCssSelector)
-        {
-            return findAll(xpathOrCssSelector(xpathOrCssSelector));
-        }
-
-        public bool containsElements(By bySelector)
-        {
-            return !findAll(bySelector).isEmpty();
-        }
-
-        public bool containsElements(string xpathOrCssSelector)
-        {
-            return !findAll(xpathOrCssSelector).isEmpty();
-        }
-
-
-        public Object evaluateJavascript(
-        readonly string script
-        )
-        {
-            addJQuerySupport();
-            JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
-            return js.executeScript(script);
-        }
-
-        public Object evaluateJavascript(
-        readonly string script, 
-        readonly
-        Object.
-        .. params)
-        {
-            addJQuerySupport();
-            JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
-            return js.executeScript(script,  params)
-            ;
-        }
-
-        public void addJQuerySupport()
-        {
-            if (pageIsLoaded() && jqueryIntegrationIsActivated() && driverIsJQueryCompatible())
-            {
-                JQueryEnabledPage jQueryEnabledPage = JQueryEnabledPage.withDriver(getDriver());
-                jQueryEnabledPage.activateJQuery();
-            }
-        }
-
-        protected bool driverIsJQueryCompatible()
-        {
-            try
-            {
-                if (getDriver()
-                instanceof WebDriverFacade)
-                {
-                    return SupportedWebDriver.forClass(((WebDriverFacade) getDriver()).getDriverClass())
-                        .supportsJavascriptInjection();
-                }
-                return SupportedWebDriver.forClass(getDriver().getClass()).supportsJavascriptInjection();
-            }
-            catch (IllegalArgumentException probablyAMockedDriver)
-            {
-                return false;
-            }
-        }
-
-        private bool jqueryIntegrationIsActivated()
-        {
-            return THUCYDIDES_JQUERY_INTEGRATION.booleanFrom(environmentVariables, true);
-        }
-
-        public RadioButtonGroup inRadioButtonGroup(string name)
-        {
-            return new RadioButtonGroup(getDriver().findElements(By.name(name)));
-        }
-
-        private bool pageIsLoaded()
-        {
-            try
-            {
-                return (driverIsInstantiated() && getDriver().getCurrentUrl() != null);
-            }
-            catch (WebDriverException e)
-            {
-                return false;
-            }
-        }
-
-        protected bool driverIsInstantiated()
+    protected bool driverIsJQueryCompatible()
+    {
+        try
         {
             if (getDriver()
-            instanceof WebDriverFacade)
-            {
-                return ((WebDriverFacade) getDriver()).isEnabled() && ((WebDriverFacade) getDriver()).isInstantiated();
+                    instanceof WebDriverFacade)
+                {
+                return SupportedWebDriver.forClass(((WebDriverFacade)getDriver()).getDriverClass())
+                    .supportsJavascriptInjection();
             }
-            return true;
+            return SupportedWebDriver.forClass(getDriver().getClass()).supportsJavascriptInjection();
         }
-
-        public ThucydidesFluentWait<IWebDriver> waitForWithRefresh()
+        catch (IllegalArgumentException probablyAMockedDriver)
         {
-            return new FluentWaitWithRefresh<>(driver, webdriverClock, sleeper)
-                .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
-            TimeUnit.MILLISECONDS)
-                .
-            pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
-                .ignoring(NoSuchElementException.class,
+            return false;
+        }
+    }
+
+    private bool jqueryIntegrationIsActivated()
+    {
+        return THUCYDIDES_JQUERY_INTEGRATION.booleanFrom(environmentVariables, true);
+    }
+
+    public RadioButtonGroup inRadioButtonGroup(string name)
+    {
+        return new RadioButtonGroup(getDriver().findElements(By.name(name)));
+    }
+
+    private bool pageIsLoaded()
+    {
+        try
+        {
+            return (driverIsInstantiated() && getDriver().getCurrentUrl() != null);
+        }
+        catch (WebDriverException e)
+        {
+            return false;
+        }
+    }
+
+    protected bool driverIsInstantiated()
+    {
+        if (getDriver()
+                instanceof WebDriverFacade)
+            {
+            return ((WebDriverFacade)getDriver()).isEnabled() && ((WebDriverFacade)getDriver()).isInstantiated();
+        }
+        return true;
+    }
+
+    public ThucydidesFluentWait<IWebDriver> waitForWithRefresh()
+    {
+        return new FluentWaitWithRefresh<>(driver, webdriverClock, sleeper)
+            .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
+        TimeUnit.MILLISECONDS)
+            .
+        pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
+            .ignoring(NoSuchElementException.class,
             NoSuchFrameException.class)
             ;
         }
 
-        public ThucydidesFluentWait<IWebDriver> waitForCondition()
-        {
-            return new NormalFluentWait<>(driver, webdriverClock, sleeper)
-                .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
-            TimeUnit.MILLISECONDS)
-                .
-            pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
-                .ignoring(NoSuchElementException.class,
+public ThucydidesFluentWait<IWebDriver> waitForCondition()
+{
+    return new NormalFluentWait<>(driver, webdriverClock, sleeper)
+        .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
+    TimeUnit.MILLISECONDS)
+        .
+    pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
+        .ignoring(NoSuchElementException.class,
             NoSuchFrameException.class)
             ;
         }
 
-        public WebElementFacade waitFor(WebElement webElement)
-        {
-            return waitFor($(webElement))
-            ;
-        }
+        public WebElementFacade waitFor(IWebElement element)
+{
+    return waitFor($(IWebElement))
+    ;
+}
 
-        public WebElementFacade waitFor(WebElementFacade webElement)
-        {
-            return getRenderedView().waitFor(webElement);
-        }
+public WebElementFacade waitFor(WebElementFacade IWebElement)
+{
+    return getRenderedView().waitFor(IWebElement);
+}
 
 
-        public Alert getAlert()
-        {
-            return driver.switchTo().alert();
-        }
+public Alert getAlert()
+{
+    return driver.switchTo().alert();
+}
 
-        public Actions withAction()
-        {
-            IWebDriver proxiedDriver = ((WebDriverFacade) getDriver()).getProxiedDriver();
-            return new Actions(proxiedDriver);
-        }
+public Actions withAction()
+{
+    IWebDriver proxiedDriver = ((WebDriverFacade)getDriver()).getProxiedDriver();
+    return new Actions(proxiedDriver);
+}
 
-        public class FieldEntry
-        {
+public class FieldEntry
+{
 
-            private readonly string value;
+    private string value;
 
-            public FieldEntry(
-            readonly string value
-            )
-            {
-                this.value = value;
-            }
+    public FieldEntry(
+        string value
+    )
+    {
+        this.value = value;
+    }
 
-            public void into(
-            readonly WebElement field
-            )
-            {
-                element(field).type(value);
-            }
+    public void into(
+        IWebElement field
+    )
+    {
+        element(field).type(value);
+    }
 
-            public void into(
-            readonly net.serenitybdd.core.pages.WebElementFacade field
-            )
-            {
-                field.type(value);
-            }
+    public void into(
+        net.serenitybdd.core.pages.WebElementFacade field
+    )
+    {
+        field.type(value);
+    }
 
-            public void intoField(
-            readonly By bySelector
-            )
-            {
-                WebElement field = getDriver().findElement(bySelector);
-                into(field);
-            }
-        }
+    public void intoField(
+        By bySelector
+    )
+    {
+        IWebElement field = getDriver().findElement(bySelector);
+        into(field);
+    }
+}
 
-        private void notifyScreenChange()
-        {
-            StepEventBus.getEventBus().notifyScreenChange();
-        }
+private void notifyScreenChange()
+{
+    StepEventBus.getEventBus().notifyScreenChange();
+}
 
-        protected ThucydidesFluentAdapter fluent()
-        {
-            return new ThucydidesFluentAdapter(getDriver());
-        }
+protected ThucydidesFluentAdapter fluent()
+{
+    return new ThucydidesFluentAdapter(getDriver());
+}
 
-        public T moveTo<T>(string xpathOrCssSelector)
-            where T : WebElementFacade
-        {
-            if (!driverIsDisabled())
-            {
-                withAction().moveToElement(findBy(xpathOrCssSelector)).perform();
-            }
-            return findBy(xpathOrCssSelector);
-        }
+public T moveTo<T>(string xpathOrCssSelector)
+    where T : WebElementFacade
+{
+    if (!driverIsDisabled())
+    {
+        withAction().moveToElement(findBy(xpathOrCssSelector)).perform();
+    }
+    return findBy(xpathOrCssSelector);
+}
 
-        public <
+public <
         T extends
         WebElementFacade
         >
 
         T moveTo(By locator)
-        {
-            if (!driverIsDisabled())
-            {
-                withAction().moveToElement(find(locator)).perform();
-            }
-            return find(locator);
-        }
-
-        public void waitForAngularRequestsToFinish()
-        {
-            if ((bool) getJavascriptExecutorFacade().executeScript(
-                "return (typeof angular !== 'undefined')? true : false;"))
-            {
-                getJavascriptExecutorFacade().executeAsyncScript(
-                    "var callback = arguments[arguments.length - 1];"
-                    +
-                    "angular.element(document.body).injector().get('$browser').notifyWhenNoOutstandingRequests(callback);");
-            }
-        }
-
-        Inflector inflection = Inflector.getInstance();
-
-
-        public override string tostring()
-        {
-            return inflection.of(getClass().getSimpleName())
-                .inHumanReadableForm().tostring();
-        }
-        */
-    }
-
-    internal class ConfigurableTimeouts
-    {
-        public void setImplicitTimeout(Duration implicitTimeout)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Duration resetTimeouts()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class JavascriptExecutorFacade
-    {
-    }
-
-    public static class ClassExtensions
-    {
-        public static bool instanceof(this object src, Type tgt)
-        {
-            return tgt.IsAssignableFrom(src);
-        }
-    }
-
-    public class PageUrls
 {
+    if (!driverIsDisabled())
+    {
+        withAction().moveToElement(find(locator)).perform();
+    }
+    return find(locator);
+}
+
+public void waitForAngularRequestsToFinish()
+{
+    if ((bool)getJavascriptExecutorFacade().executeScript(
+        "return (typeof angular !== 'undefined')? true : false;"))
+    {
+        getJavascriptExecutorFacade().executeAsyncScript(
+            "var callback = arguments[arguments.length - 1];"
+            +
+            "angular.element(document.body).injector().get('$browser').notifyWhenNoOutstandingRequests(callback);");
+    }
+}
+
+Inflector inflection = Inflector.getInstance();
+
+
+public override string ToString()
+{
+    return inflection.of(getClass().getSimpleName())
+        .inHumanReadableForm().ToString();
+}
+        */
+
+        public void setDriver(IWebDriver webDriver)
+{
+    this.WebDriver = webDriver;
+}
+
+public IWebDriver WebDriver { get; set; }
+    }
+
+    public class WebElementFacadeImpl
+{
+    public static WebElementFacade wrapWebElement(IWebDriver driver, IWebElement element, Duration implicitWaitTimeout, Duration waitForTimeout, string elementName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static WebElementFacade wrapWebElement(IWebDriver driver, By bySelector, Duration getImplicitWaitTimeout, Duration getWaitForTimeout, string elementName)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class WebElementFacade
+{
+    public WebElementFacade find(By selector)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class WhenPageOpens : Attribute
+{
+}
+
+internal class MethodFinder
+{
+    public static MethodFinder inClass(object getClass)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<MethodInfo> getAllMethods()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class UnableToInvokeWhenPageOpensMethods : Exception
+{
+    public MethodInfo Method { get; }
+
+    public UnableToInvokeWhenPageOpensMethods(MethodInfo method, Exception exception) : this(
+                        "Could not execute @WhenPageOpens annotated method: " + exception.Message, method, exception)
+    {
+
+    }
+
+    protected UnableToInvokeWhenPageOpensMethods(string message, MethodInfo methodInfo, Exception exception) : base(message, exception)
+    {
+        this.Method = methodInfo;
+    }
+}
+
+public class PageOpenMethodCannotHaveParametersException : UnableToInvokeWhenPageOpensMethods
+{
+
+    public PageOpenMethodCannotHaveParametersException(MethodInfo method) : base("Methods marked with PageOpen cannot have parameters", method, null)
+    {
+
+    }
+
+
+}
+
+public class DefaultTimeouts
+{
+    public static int DEFAULT_IMPLICIT_WAIT_TIMEOUT { get; private set; } = 30000;
+    public static int DEFAULT_WAIT_FOR_TIMEOUT { get; private set; } = 30000;
+}
+
+public class DefaultPageObjectInitialiser
+{
+    public DefaultPageObjectInitialiser(IWebDriver driver, long timeout)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void apply(PageObject pageObject)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public struct ExpectedCondition
+{
+}
+
+internal class ConfigurableTimeouts
+{
+    public void setImplicitTimeout(Duration implicitTimeout)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Duration resetTimeouts()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class JavascriptExecutorFacade
+{
+    private IWebDriver driver;
+
+    public JavascriptExecutorFacade(IWebDriver driver)
+    {
+        this.driver = driver;
+    }
+
+    public object executeScript(string script)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public static class ClassExtensions
+{
+    public static bool instanceof(this object src, Type tgt)
+    {
+        return tgt.IsAssignableFrom(src);
+    }
+}
+
+public class PageUrls
+{
+    public void overrideDefaultBaseUrl(string defaultBaseUrl)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class RenderedPageObjectView
 {
 }
 
+
 }
-
-namespace SerenityBDD.Core.time
-{
-    public enum TimeUnit{
-        MILLISECONDS;
-    }
-
-    class Clock : SystemClock
-    {
-    }
-
-    internal class Sleeper
-    {
-    }
-
-    internal class Duration
-    {
-        private int duration;
-        private TimeUnit unit;
-
-        public static implicit operator TimeSpan(Duration src)
-        {
-            return src.TimeSpan;
-        }
-
-        public static implicit operator Duration(TimeSpan src)
-        {
-            return new Duration(src);
-        }
-        public Duration(TimeSpan timespan)
-        {
-            this.TimeSpan = timespan;
-        }
-
-        public Duration(int duration, TimeUnit unit)
-        {
-            
-            this.duration = duration;
-            this.unit = unit;
-        }
-
-        public TimeSpan TimeSpan { get; set; }
-        
-    }
-
-    internal class SystemClock
-    {
-    }
-
-    public class PropertyBase<T>:PropertyBase
-    {
-        public T Value { get; set; }
-
-        public PropertyBase(string propertyName) : base(propertyName)
-        {
-        }
-
-        public PropertyBase(string propertyName, T defaultValue):base(propertyName)
-        {
-            this.Value = defaultValue;
-        }
-        public static implicit operator T(PropertyBase<T> src)
-        {
-            return (T) src.Value;
-        }
-
-    }
-    public class PropertyBase
-    {
-
-        private string propertyName;
-        public static readonly int DEFAULT_HEIGHT = 700;
-        public static readonly int DEFAULT_WIDTH = 960;
-
-        public static readonly string DEFAULT_HISTORY_DIRECTORY = "history";
-
-
-    private ILog logger = LogManager.GetLogger(typeof(PropertyBase));
-
-    public PropertyBase(string propertyName)
-        {
-            this.propertyName = propertyName.Replace("_", ".").ToLowerInvariant();
-        }
-
-        public static PropertyBase<T> create<T>(string propertyName)
-        {
-            return new PropertyBase<T>(propertyName);
-        }
-        public static PropertyBase<T> withDefault<T>(string propertyName, T defaultValue)
-        {
-            return new PropertyBase<T>(propertyName, defaultValue);
-        }
-    
-       
-        public string getPropertyName()
-        {
-            return propertyName;
-        }
-        
-    public override string ToString()
-        {
-            return propertyName;
-        }
-
-        public string From(EnvironmentVariables environmentVariables)
-        {
-            return From(environmentVariables, null);
-        }
-
-        private Optional<string> legacyPropertyValueIfPresentIn(EnvironmentVariables environmentVariables)
-        {
-            string legacyValue = environmentVariables.getProperty(withLegacyPrefix(getPropertyName()));
-            if (StringUtils.isNotEmpty(legacyValue))
-            {
-                logger.Warn("Legacy property format detected for {}, please use the serenity.* format instead.", getPropertyName());
-            }
-            return Optional.fromNullable(legacyValue);
-        }
-
-        private string withLegacyPrefix(string propertyName)
-        {
-            return propertyName.Replace("serenity.", "thucydides.");
-        }
-
-        private string withSerenityPrefix(string propertyName)
-        {
-            return propertyName.Replace("thucydides.", "serenity.");
-        }
-
-        public string preferredName()
-        {
-            return withSerenityPrefix(getPropertyName());
-        }
-
-        public List<string> legacyNames()
-        {
-            List<string> names = new[] {withLegacyPrefix(getPropertyName())}.ToList();
-
-            return names;
-        }
-
-        public string From(EnvironmentVariables environmentVariables, string defaultValue)
-        {
-            Optional<string> newPropertyValue
-                    = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
-
-            if (isDefined(newPropertyValue))
-            {
-                return newPropertyValue.get();
-            }
-            else
-            {
-                Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
-                return (isDefined(legacyValue)) ? legacyValue.get() : defaultValue;
-            }
-        }
-
-        private bool isDefined(Optional<string> newPropertyValue)
-        {
-            return newPropertyValue.isPresent() && StringUtils.isNotEmpty(newPropertyValue.get());
-        }
-
-        public int integerFrom(EnvironmentVariables environmentVariables)
-        {
-            return integerFrom(environmentVariables, 0);
-        }
-
-        public int integerFrom(EnvironmentVariables environmentVariables, int defaultValue)
-        {
-            Optional<string> newPropertyValue
-                    = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
-
-            if (isDefined(newPropertyValue))
-            {
-                return int.Parse(newPropertyValue.get());
-            }
-            else
-            {
-                Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
-                return (isDefined(legacyValue)) ? int.Parse(legacyValue.get()) : defaultValue;
-            }
-        }
-
-        public bool booleanFrom(EnvironmentVariables environmentVariables)
-        {
-            return booleanFrom(environmentVariables, false);
-        }
-
-        public bool booleanFrom(EnvironmentVariables environmentVariables, bool defaultValue)
-        {
-            if (environmentVariables == null) { return defaultValue; }
-
-            Optional<string> newPropertyValue
-                    = Optional.fromNullable(environmentVariables.getProperty(withSerenityPrefix(getPropertyName())));
-
-            if (isDefined(newPropertyValue))
-            {
-                return bool.Parse(newPropertyValue.get());
-            }
-            else
-            {
-                Optional<string> legacyValue = legacyPropertyValueIfPresentIn(environmentVariables);
-                return (isDefined(legacyValue)) ? bool.Parse(legacyValue.get()) : defaultValue;
-            }
-        }
-
-        public bool isDefinedIn(EnvironmentVariables environmentVariables)
-        {
-            return StringUtils.isNotEmpty(From(environmentVariables));
-        }
-
-    }
-
-    public static class StringUtils
-    {
-        public static bool isNotEmpty(string src)
-        {
-            return !string.IsNullOrEmpty(src);
-        }
-    }
-
-    /// <summary>
-    /// this should be some container configuration like autofac or similar
-    /// </summary>
-    public interface Injector {
-        T getInstance<T>();
-    }
-
-    public class Injectors
-    {
-
-        private static Injector injector;
-
-        public static Injector getInjector()
-        {
-            //if (injector == null)
-            //{
-            //    injector = Guice.createInjector(new ThucydidesModule());
-            //}
-            //return injector;
-            throw new NotImplementedException("Some injection container should be here!");
-        }
-        
-    }
-}
-
 

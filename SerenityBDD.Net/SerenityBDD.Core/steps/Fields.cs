@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
     public class Fields
     {

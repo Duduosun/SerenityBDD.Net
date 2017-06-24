@@ -1,4 +1,4 @@
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
     interface DependencyInjector 
     {

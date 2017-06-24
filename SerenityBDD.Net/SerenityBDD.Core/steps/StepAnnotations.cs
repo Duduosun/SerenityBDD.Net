@@ -1,6 +1,6 @@
 using System;
 
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
     internal class StepAnnotations  
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using log4net;
 
-namespace SerenityBDD.Core.steps
+namespace SerenityBDD.Core.Steps
 {
     /// <summary>
     /// interceptor, but should probably use castle.windsor instead!
