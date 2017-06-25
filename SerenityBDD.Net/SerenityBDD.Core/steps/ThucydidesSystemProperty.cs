@@ -415,18 +415,18 @@ namespace SerenityBDD.Core.time
          * Useful for debugging, but not very when running the tests on a build server.
          * It is not activated by default.
          */
-        public static PropertyBase SERENITY_ACTIVATE_FIREBUGS = false;
+        public static PropertyBase SERENITY_ACTIVATE_FIREBUGS =new PropertyBase<bool>("SERENITY_ACTIVATE_FIREBUGS", false);
 
         /**
          * Enable applets in Firefox.
          * Use the system property 'security.enable_java'.
          * Applets slow down webdriver, so are disabled by default.
          */
-        public static PropertyBase SECURITY_ENABLE_JAVA = "security.enable_java";
+        public static PropertyBase SECURITY_ENABLE_JAVA = new PropertyBase<bool>("security.enable_java",false);
 
         [Obsolete] public static PropertyBase THUCYDIDES_ACTIVATE_HIGHLIGHTING;
 
-        public static PropertyBase SERENITY_ACTIVATE_HIGHLIGHTING = false ;
+        public static PropertyBase SERENITY_ACTIVATE_HIGHLIGHTING = new PropertyBase<bool>("SERENITY_ACTIVATE_HIGHLIGHTING",false) ;
 
         public enum BatchStrategyEnum
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using log4net;
@@ -149,6 +150,7 @@ namespace SerenityBDD.Core.Time
             return StringUtils.isNotEmpty(From(environmentVariables));
         }
 
+      
     }
     public class PropertyBase<T> : PropertyBase
     {

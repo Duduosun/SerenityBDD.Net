@@ -97,7 +97,6 @@
     <Compile Include="Steps\StepFactory.cs" />
     <Compile Include="Steps\StepInterceptor.cs" />
     <Compile Include="Steps\StepLibraryConstructionStrategy.cs" />
-    <Compile Include="Steps\Th.cs" />
     <Compile Include="Steps\ThucydidesFluentWait.cs" />
     <Compile Include="Steps\ThucydidesSystemProperty.cs" />
     <Compile Include="Steps\ThucydidesWebDriverSupport.cs" />
