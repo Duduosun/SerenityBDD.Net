@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{34EF419E-BCBF-49EB-B95D-495924C9F160}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SerenityBDD.Core</RootNamespace>
+    <AssemblyName>SerenityBDD.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.4.0\lib\net40\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Steps\ClassUtils.cs" />
+    <Compile Include="Steps\ConstructionStrategy.cs" />
+    <Compile Include="Steps\DataFile.cs" />
+    <Compile Include="Steps\DependencyInjector.cs" />
+    <Compile Include="Steps\Enhancer.cs" />
+    <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
+    <Compile Include="Steps\Fields.cs" />
+    <Compile Include="Steps\Files.cs" />
+    <Compile Include="Steps\FileToUpload.cs" />
+    <Compile Include="Steps\IDependencyInjectorService.cs" />
+    <Compile Include="Exceptions\InvocationTargetException.cs" />
+    <Compile Include="Steps\IStepFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\Instrumented.cs" />
+    <Compile Include="Steps\MatchingPageExpressions.cs" />
+    <Compile Include="Steps\MethodInterceptor.cs" />
+    <Compile Include="Steps\Optional.cs" />
+    <Compile Include="Exceptions\PageLooksDodgyException.cs" />
+    <Compile Include="Steps\PageObject.cs" />
+    <Compile Include="Steps\PageObjectDependencyInjector.cs" />
+    <Compile Include="Steps\PageObjects.cs" />
+    <Compile Include="Steps\Pages.cs" />
+    <Compile Include="Steps\RenderedPageObjectView.cs" />
+    <Compile Include="Steps\ScenarioSteps.cs" />
+    <Compile Include="Steps\StepAnnotations.cs" />
+    <Compile Include="Steps\StepFactory.cs" />
+    <Compile Include="Steps\StepInterceptor.cs" />
+    <Compile Include="Steps\StepLibraryConstructionStrategy.cs" />
+    <Compile Include="Steps\ThucydidesSystemProperty.cs" />
+    <Compile Include="Steps\ThucydidesWebDriverSupport.cs" />
+    <Compile Include="Steps\TypeExtensions.cs" />
+    <Compile Include="Time\Clock.cs" />
+    <Compile Include="Time\Duration.cs" />
+    <Compile Include="Time\Injector.cs" />
+    <Compile Include="Time\Injectors.cs" />
+    <Compile Include="Time\PropertyBase.cs" />
+    <Compile Include="Time\Sleeper.cs" />
+    <Compile Include="Time\StringUtils.cs" />
+    <Compile Include="Time\SystemClock.cs" />
+    <Compile Include="Time\TimeUnit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
