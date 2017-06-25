@@ -3,9 +3,8 @@ using OpenQA.Selenium;
 
 namespace SerenityBDD.Core.Steps
 {
-    public partial class PageObject
-    {
-        public class FileToUpload
+
+    public class FileToUpload
     {
         private IWebDriver driver;
         private string filename;
@@ -23,6 +22,6 @@ namespace SerenityBDD.Core.Steps
         }
     }
 }
-    }
+    
 
 

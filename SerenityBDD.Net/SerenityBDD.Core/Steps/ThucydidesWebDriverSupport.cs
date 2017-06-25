@@ -3,8 +3,7 @@ using OpenQA.Selenium;
 
 namespace SerenityBDD.Core.Steps
 {
-    public partial class PageObject
-    {
+    
         public class ThucydidesWebDriverSupport 
     {
         public static void useDriver(IWebDriver driver)
@@ -13,6 +12,6 @@ namespace SerenityBDD.Core.Steps
         }
     }
 }
-    }
+    
 
 

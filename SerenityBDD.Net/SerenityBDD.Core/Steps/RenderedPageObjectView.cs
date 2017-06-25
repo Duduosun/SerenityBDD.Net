@@ -1,10 +1,11 @@
 using System;
 using OpenQA.Selenium;
 using SerenityBDD.Core.time;
+using SerenityBDD.Core.Time;
 
 namespace SerenityBDD.Core.Steps
 {
-    internal class RenderedPageObjectView
+    public class RenderedPageObjectView
     {
         private IWebDriver driver;
         private PageObject pageObject;
@@ -45,6 +46,36 @@ namespace SerenityBDD.Core.Steps
         }
 
         internal bool elementIsDisplayed(By byCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitFor(ExpectedCondition byElementCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForPresenceOf(By byElementCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForElementsToDisappear(By byElementCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForText(string expectedText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForTitleToDisappear(string expectedTitle)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void waitForText(IWebElement element, string expectedText)
         {
             throw new NotImplementedException();
         }

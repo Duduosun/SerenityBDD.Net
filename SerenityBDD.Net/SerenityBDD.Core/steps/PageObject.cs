@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,8 +17,11 @@ using SerenityBDD.Core.Time;
 
 namespace SerenityBDD.Core.Steps
 {
-    public partial class PageObject
+    public class PageObject
+
     {
+
+        public IWebDriver WebDriver { get; set; }
 
         private static readonly int WAIT_FOR_ELEMENT_PAUSE_LENGTH = 250;
 
@@ -54,7 +58,7 @@ namespace SerenityBDD.Core.Steps
         {
             if (driver.instanceof(typeof(ConfigurableTimeouts)))
             {
-                ((ConfigurableTimeouts)driver).setImplicitTimeout(implicitTimeout);
+                ((ConfigurableTimeouts) driver).setImplicitTimeout(implicitTimeout);
             }
             else
             {
@@ -68,7 +72,7 @@ namespace SerenityBDD.Core.Steps
         {
             if (driver.instanceof(typeof(ConfigurableTimeouts)))
             {
-                waitForElementTimeout = ((ConfigurableTimeouts)driver).resetTimeouts();
+                waitForElementTimeout = ((ConfigurableTimeouts) driver).resetTimeouts();
             }
             else
             {
@@ -111,17 +115,6 @@ namespace SerenityBDD.Core.Steps
             callback(this);
         }
 
-        public PageObject(IWebDriver driver, int ajaxTimeout) : this()
-        {
-            setDriver(driver, ajaxTimeout);
-        }
-
-        public PageObject(IWebDriver driver) : this()
-        {
-            // TODO: Determine whwat this overlaod if for ThucydidesWebDriverSupport
-            ThucydidesWebDriverSupport.useDriver(driver);
-            setDriver(driver);
-        }
 
         public PageObject(IWebDriver driver, EnvironmentVariables environmentVariables) : this()
         {
@@ -130,7 +123,7 @@ namespace SerenityBDD.Core.Steps
             setDriver(driver);
         }
 
-        protected void setDriver(IWebDriver driver, long timeout)
+        protected void setDriver(IWebDriver driver, TimeSpan timeout)
         {
             this.driver = driver;
             new DefaultPageObjectInitialiser(driver, timeout).apply(this);
@@ -138,8 +131,8 @@ namespace SerenityBDD.Core.Steps
 
         public void setDriver(IWebDriver driver)
         {
-            setDriver(driver, getImplicitWaitTimeout().in(TimeUnit.MILLISECONDS))
-            ;
+            setDriver(driver, getImplicitWaitTimeout());
+
         }
 
         public PageObject withDriver(IWebDriver driver)
@@ -155,7 +148,7 @@ namespace SerenityBDD.Core.Steps
             {
                 int configuredWaitForTimeoutInMilliseconds =
                         ThucydidesSystemProperty.WEBDRIVER_WAIT_FOR_TIMEOUT
-                            .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_WAIT_FOR_TIMEOUT)
+                            .integerFrom(environmentVariables, (int) DefaultTimeouts.DEFAULT_WAIT_FOR_TIMEOUT)
                     ;
                 waitForTimeout = new Duration(configuredWaitForTimeoutInMilliseconds, TimeUnit.MILLISECONDS);
             }
@@ -175,8 +168,8 @@ namespace SerenityBDD.Core.Steps
             {
                 int configuredWaitForTimeoutInMilliseconds =
                     ThucydidesSystemProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT
-                        .integerFrom(environmentVariables, (int)DefaultTimeouts.DEFAULT_IMPLICIT_WAIT_TIMEOUT;
-                ;
+                        .integerFrom(environmentVariables, (int) DefaultTimeouts.DEFAULT_IMPLICIT_WAIT_TIMEOUT);
+                
                 waitForElementTimeout = new Duration(configuredWaitForTimeoutInMilliseconds, TimeUnit.MILLISECONDS);
             }
             return waitForElementTimeout;
@@ -195,7 +188,7 @@ namespace SerenityBDD.Core.Steps
                 pages.setDriver(driver);
             }
 
-            return (T)pages.getPage(pageObjectClass);
+            return (T) pages.getPage(pageObjectClass);
         }
 
         public FileToUpload upload(string filename)
@@ -328,9 +321,14 @@ namespace SerenityBDD.Core.Steps
             return new RenderedPageObjectView(driver, this, timeout, false);
         }
 
+        public By xpathOrCssSelector(string src)
+        {
+            throw new NotImplementedException();
+        }
+
         public PageObject waitFor(string xpathOrCssSelector)
         {
-            return waitForRenderedElements(xpathOrCssSelector(xpathOrCssSelector));
+            return waitForRenderedElements(this.xpathOrCssSelector(xpathOrCssSelector));
         }
 
         public PageObject waitFor(ExpectedCondition expectedCondition)
@@ -350,7 +348,7 @@ namespace SerenityBDD.Core.Steps
 
         public PageObject waitForPresenceOf(string xpathOrCssSelector)
         {
-            return waitForRenderedElementsToBePresent(xpathOrCssSelector(xpathOrCssSelector));
+            return waitForRenderedElementsToBePresent(this.xpathOrCssSelector(xpathOrCssSelector));
         }
 
 
@@ -364,24 +362,20 @@ namespace SerenityBDD.Core.Steps
 
         public PageObject waitForAbsenceOf(string xpathOrCssSelector)
         {
-            return waitForRenderedElementsToDisappear(xpathOrCssSelector(xpathOrCssSelector));
+            return waitForRenderedElementsToDisappear(this.xpathOrCssSelector(xpathOrCssSelector));
         }
 
         /**
          * Waits for a given text to appear anywhere on the page.
          */
 
-        public PageObject waitForTextToAppear(
-            string expectedText
-        )
+        public PageObject waitForTextToAppear(string expectedText)
         {
             getRenderedView().waitForText(expectedText);
             return this;
         }
 
-        public PageObject waitForTitleToAppear(
-            string expectedTitle
-        )
+        public PageObject waitForTitleToAppear(string expectedTitle)
         {
             waitOnPage().until(ExpectedConditions.titleIs(expectedTitle));
             return this;
@@ -389,8 +383,7 @@ namespace SerenityBDD.Core.Steps
 
         private WebDriverWait waitOnPage()
         {
-            return new WebDriverWait(driver, getWaitForTimeout().in(TimeUnit.SECONDS))
-            ;
+            return new WebDriverWait(driver, getWaitForTimeout());
             //        waitForTimeoutInSecondsWithAMinimumOfOneSecond());
         }
 
@@ -406,10 +399,7 @@ namespace SerenityBDD.Core.Steps
          * Waits for a given text to appear inside the element.
          */
 
-        public PageObject waitForTextToAppear(
-            IWebElement element,
-            string expectedText
-        )
+        public PageObject waitForTextToAppear(IWebElement element, string expectedText)
         {
             getRenderedView().waitForText(element, expectedText);
             return this;
@@ -424,73 +414,126 @@ namespace SerenityBDD.Core.Steps
          * Waits for a given text to disappear from the element.
          */
 
-        public PageObject waitForTextToDisappear(
-            IWebElement element,
-            string expectedText
-        )
+        public PageObject waitForTextToDisappear(IWebElement element,string expectedText)
         {
             if (!driverIsDisabled())
             {
-                waitForCondition().until(elementDoesNotContain(element, expectedText));
+                waitForCondition()?.until(elementDoesNotContain(element, expectedText));
             }
             return this;
         }
 
-
-        private ExpectedCondition<bool> elementDoesNotContain(IWebElement element, string expectedText)
+        private Wait waitForCondition()
         {
-            return new ExpectedCondition<bool>()
-            {
-                public bool apply(IWebDriver driver)
-            {
-                return !element.getText().contains(expectedText);
-            }
+            throw new NotImplementedException();
         }
 
+
+        private ExpectedCondition elementDoesNotContain(IWebElement element, string expectedText)
+        {
+
+            var wt = new WebDriverWait(this.WebDriver, getImplicitWaitTimeout());
+            return wt.until(driver => element.Text.Contains(expectedText));
+            
+        }
+
+        public PageObject waitForTextToDisappear(string expectedText)
+        {
+            return waitForTextToDisappear(expectedText,getWaitForTimeout());
+        }
+
+        /**
+         * Waits for a given text to not be anywhere on the page.
+         */
         public
         PageObject
         waitForTextToDisappear
         (
         string
         expectedText
+        ,
+        TimeSpan
+        timespan
         )
         {
-            return
+            getRenderedView
+            (
+            )
+            .
             waitForTextToDisappear
             (
             expectedText
             ,
-            getWaitForTimeout
+            timespan
+            )
+            ;
+            return
+            this
+            ;
+        }
+        public
+        PageObject
+        waitForTextToDisappear
+        (
+        string
+        expectedText
+        ,
+        long
+        timeoutInMilliseconds
+        )
+        {
+
+            getRenderedView
             (
+            )
+            .
+            waitForTextToDisappear
+            (
+            expectedText
+            ,
+            TimeSpan
+            .
+            FromMilliseconds
+            (
+            timeoutInMilliseconds
             )
             )
             ;
-        }
-
-        /**
-         * Waits for a given text to not be anywhere on the page.
-         */
-        public PageObject waitForTextToDisappear(string expectedText, TimeSpan timespan)
-        {
-            getRenderedView().waitForTextToDisappear(expectedText, timespan);
-            return this;
-        }
-        public PageObject waitForTextToDisappear(string expectedText, long timeoutInMilliseconds)
-        {
-
-            getRenderedView().waitForTextToDisappear(expectedText, TimeSpan.FromMilliseconds(timeoutInMilliseconds));
-            return this;
+            return
+            this
+            ;
         }
 
         /**
          * Waits for a given text to appear anywhere on the page.
          */
 
-        public PageObject waitForTextToAppear(string expectedText, TimeSpan timeout)
+        public
+        PageObject
+        waitForTextToAppear
+        (
+        string
+        expectedText
+        ,
+        TimeSpan
+        timeout
+        )
         {
 
-            getRenderedView().waitForTextToAppear(expectedText, timeout);
-            return this;
+            getRenderedView
+            (
+            )
+            .
+            waitForTextToAppear
+            (
+            expectedText
+            ,
+            timeout
+            )
+            ;
+            return
+            this
+            ;
         }
 
         /**
@@ -498,61 +541,141 @@ namespace SerenityBDD.Core.Steps
          * screen.
          */
 
-        public PageObject waitForAnyTextToAppear(params string[] expectedText)
+        public
+        PageObject
+        waitForAnyTextToAppear
+        (
+        params
+        string
+        [
+        ]
+        expectedText
+        )
         {
-            getRenderedView().waitForAnyTextToAppear(expectedText);
-            return this;
+            getRenderedView
+            (
+            )
+            .
+            waitForAnyTextToAppear
+            (
+            expectedText
+            )
+            ;
+            return
+            this
+            ;
         }
 
-        public PageObject waitForAnyTextToAppear(
-        IWebElement element,
+        public
+        PageObject
+        waitForAnyTextToAppear
+        (
+        IWebElement
+        element
+        ,
 
-        string .
-        ..
+        string
+        .
+        .
+        .
 
         expectedText
 
         )
         {
-            getRenderedView().waitForAnyTextToAppear(element, expectedText);
-            return this;
+            getRenderedView
+            (
+            )
+            .
+            waitForAnyTextToAppear
+            (
+            element
+            ,
+            expectedText
+            )
+            ;
+            return
+            this
+            ;
         }
 
         /**
          * Waits for all of a number of text blocks to appear on the screen.
          */
 
-        public PageObject waitForAllTextToAppear(
+        public
+        PageObject
+        waitForAllTextToAppear
+        (
 
-        string .
-        ..
+        string
+        .
+        .
+        .
 
         expectedTexts
 
         )
         {
-            getRenderedView().waitForAllTextToAppear(expectedTexts);
-            return this;
+            getRenderedView
+            (
+            )
+            .
+            waitForAllTextToAppear
+            (
+            expectedTexts
+            )
+            ;
+            return
+            this
+            ;
         }
 
-        public PageObject waitForAnyRenderedElementOf(
+        public
+        PageObject
+        waitForAnyRenderedElementOf
+        (
 
-        By.
+        By
+        .
 
-        ..
+        .
+        .
         expectedElements
 
         )
         {
-            getRenderedView().waitForAnyRenderedElementOf(expectedElements);
-            return this;
+            getRenderedView
+            (
+            )
+            .
+            waitForAnyRenderedElementOf
+            (
+            expectedElements
+            )
+            ;
+            return
+            this
+            ;
         }
 
-        protected void waitABit(
-        long timeInMilliseconds
+        protected
+        void
+        waitABit
+        (
+        long
+        timeInMilliseconds
         )
         {
-            getClock().pauseFor(timeInMilliseconds);
+            getClock
+            (
+            )
+            .
+            pauseFor
+            (
+            timeInMilliseconds
+            )
+            ;
         }
 
         public WaitForBuilder<? extends
@@ -579,7 +702,7 @@ namespace SerenityBDD.Core.Steps
 
         T foo()
         {
-            return (T)this;
+            return (T) this;
         }
 
         /**
@@ -614,7 +737,7 @@ namespace SerenityBDD.Core.Steps
             if (!containsAllText(textValues))
             {
                 string errorMessage = string.format(
-                    "One of the text elements in '%s' was not found in the page", (Object[])textValues);
+                    "One of the text elements in '%s' was not found in the page", (Object[]) textValues);
                 throw new NoSuchElementException(errorMessage);
             }
         }
@@ -1098,7 +1221,7 @@ namespace SerenityBDD.Core.Steps
             {
                 try
                 {
-                    annotatedMethod.Invoke(this, new object[] { });
+                    annotatedMethod.Invoke(this, new object[] {});
                 }
                 catch (AssertionException)
                 {
@@ -1109,7 +1232,7 @@ namespace SerenityBDD.Core.Steps
                     LOGGER.Error("Could not execute @WhenPageOpens annotated method: ", e);
                     if (e is InvocationTargetException)
                     {
-                        e = ((InvocationTargetException)e).getTargetException();
+                        e = ((InvocationTargetException) e).getTargetException();
                     }
 
                     throw new UnableToInvokeWhenPageOpensMethods(annotatedMethod, e);
@@ -1209,9 +1332,11 @@ namespace SerenityBDD.Core.Steps
         /**
          * Provides a fluent API for querying web elements.
          */
+
         public WebElementFacade element(IWebElement element)
         {
-            return WebElementFacadeImpl.wrapWebElement(driver, element, getImplicitWaitTimeout(), getWaitForTimeout(), nameOf(element));
+            return WebElementFacadeImpl.wrapWebElement(driver, element, getImplicitWaitTimeout(), getWaitForTimeout(),
+                nameOf(element));
         }
 
         private string nameOf(IWebElement element)
@@ -1240,9 +1365,11 @@ namespace SerenityBDD.Core.Steps
         /**
          * Provides a fluent API for querying web elements.
          */
+
         public WebElementFacade element(By bySelector)
         {
-            return WebElementFacadeImpl.wrapWebElement(driver, bySelector, getImplicitWaitTimeout(), getWaitForTimeout(), bySelector.ToString());
+            return WebElementFacadeImpl.wrapWebElement(driver, bySelector, getImplicitWaitTimeout(), getWaitForTimeout(),
+                bySelector.ToString());
         }
 
         public WebElementFacade find(IEnumerable<By> selectors)
@@ -1262,7 +1389,7 @@ namespace SerenityBDD.Core.Steps
             return e;
         }
 
-        public WebElementFacade find(params By [] selectors)
+        public WebElementFacade find(params By[] selectors)
         {
             return find(selectors.ToList());
         }
@@ -1273,135 +1400,139 @@ namespace SerenityBDD.Core.Steps
             return convert(matchingWebElements, toWebElementFacades());
         }
 
+        private List<TTGT> convert<TSRC, TTGT>(ReadOnlyCollection<TSRC> matchingWebElements, Converter<TSRC, TTGT> converter)
+        {
+            return converter.Convert(matchingWebElements).ToList();
+        }
+
         private Converter<IWebElement, WebElementFacade> toWebElementFacades()
         {
-            return this.element(from);
-            
+            return new Converter<IWebElement, WebElementFacade>();
+
         }
-            ;
+
+        /**
+* Provides a fluent API for querying web elements.
+*/
+        public WebElementFacade element(string xpathOrCssSelector)
+        {
+            return element(this.xpathOrCssSelector(xpathOrCssSelector));
+        }
+
     }
+}
 
-    /**
-     * Provides a fluent API for querying web elements.
-     */
-    public <
-        T extends
-        net.serenitybdd.core.pages.WebElementFacade
-        >
+/*
+ * 
 
-        T element(string xpathOrCssSelector)
-    {
-        return element(xpathOrCssSelector(xpathOrCssSelector));
-    }
-
-    public <
+public <
         T extends
         net.serenitybdd.core.pages.WebElementFacade
         >
 
         T findBy(string xpathOrCssSelector)
+{
+    return element(xpathOrCssSelector);
+}
+
+public List<net.serenitybdd.core.pages.WebElementFacade> findAll(string xpathOrCssSelector)
+{
+    return findAll(xpathOrCssSelector(xpathOrCssSelector));
+}
+
+public bool containsElements(By bySelector)
+{
+    return !findAll(bySelector).isEmpty();
+}
+
+public bool containsElements(string xpathOrCssSelector)
+{
+    return !findAll(xpathOrCssSelector).isEmpty();
+}
+
+
+public Object evaluateJavascript(string script)
+{
+    addJQuerySupport();
+    JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
+    return js.executeScript(script);
+}
+
+public Object evaluateJavascript(string script, params Object[] args)
+{
+    addJQuerySupport();
+    JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
+    return js.executeScript(script, args)
+    ;
+}
+
+public void addJQuerySupport()
+{
+    if (pageIsLoaded() && jqueryIntegrationIsActivated() && driverIsJQueryCompatible())
     {
-        return element(xpathOrCssSelector);
+        JQueryEnabledPage jQueryEnabledPage = JQueryEnabledPage.withDriver(getDriver());
+        jQueryEnabledPage.activateJQuery();
     }
+}
 
-    public List<net.serenitybdd.core.pages.WebElementFacade> findAll(string xpathOrCssSelector)
-    {
-        return findAll(xpathOrCssSelector(xpathOrCssSelector));
-    }
-
-    public bool containsElements(By bySelector)
-    {
-        return !findAll(bySelector).isEmpty();
-    }
-
-    public bool containsElements(string xpathOrCssSelector)
-    {
-        return !findAll(xpathOrCssSelector).isEmpty();
-    }
-
-
-    public Object evaluateJavascript(string script)
-    {
-        addJQuerySupport();
-        JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
-        return js.executeScript(script);
-    }
-
-    public Object evaluateJavascript(string script, params Object[] args)
-    {
-        addJQuerySupport();
-        JavascriptExecutorFacade js = new JavascriptExecutorFacade(driver);
-        return js.executeScript(script, args)
-        ;
-    }
-
-    public void addJQuerySupport()
-    {
-        if (pageIsLoaded() && jqueryIntegrationIsActivated() && driverIsJQueryCompatible())
-        {
-            JQueryEnabledPage jQueryEnabledPage = JQueryEnabledPage.withDriver(getDriver());
-            jQueryEnabledPage.activateJQuery();
-        }
-    }
-
-    protected bool driverIsJQueryCompatible()
-    {
-        try
-        {
-            if (getDriver()
-                    instanceof WebDriverFacade)
-                {
-                return SupportedWebDriver.forClass(((WebDriverFacade)getDriver()).getDriverClass())
-                    .supportsJavascriptInjection();
-            }
-            return SupportedWebDriver.forClass(getDriver().getClass()).supportsJavascriptInjection();
-        }
-        catch (IllegalArgumentException probablyAMockedDriver)
-        {
-            return false;
-        }
-    }
-
-    private bool jqueryIntegrationIsActivated()
-    {
-        return THUCYDIDES_JQUERY_INTEGRATION.booleanFrom(environmentVariables, true);
-    }
-
-    public RadioButtonGroup inRadioButtonGroup(string name)
-    {
-        return new RadioButtonGroup(getDriver().findElements(By.name(name)));
-    }
-
-    private bool pageIsLoaded()
-    {
-        try
-        {
-            return (driverIsInstantiated() && getDriver().getCurrentUrl() != null);
-        }
-        catch (WebDriverException e)
-        {
-            return false;
-        }
-    }
-
-    protected bool driverIsInstantiated()
+protected bool driverIsJQueryCompatible()
+{
+    try
     {
         if (getDriver()
+                    instanceof WebDriverFacade)
+                {
+            return SupportedWebDriver.forClass(((WebDriverFacade)getDriver()).getDriverClass())
+                .supportsJavascriptInjection();
+        }
+        return SupportedWebDriver.forClass(getDriver().getClass()).supportsJavascriptInjection();
+    }
+    catch (IllegalArgumentException probablyAMockedDriver)
+    {
+        return false;
+    }
+}
+
+private bool jqueryIntegrationIsActivated()
+{
+    return THUCYDIDES_JQUERY_INTEGRATION.booleanFrom(environmentVariables, true);
+}
+
+public RadioButtonGroup inRadioButtonGroup(string name)
+{
+    return new RadioButtonGroup(getDriver().findElements(By.name(name)));
+}
+
+private bool pageIsLoaded()
+{
+    try
+    {
+        return (driverIsInstantiated() && getDriver().getCurrentUrl() != null);
+    }
+    catch (WebDriverException e)
+    {
+        return false;
+    }
+}
+
+protected bool driverIsInstantiated()
+{
+    if (getDriver()
                 instanceof WebDriverFacade)
             {
-            return ((WebDriverFacade)getDriver()).isEnabled() && ((WebDriverFacade)getDriver()).isInstantiated();
-        }
-        return true;
+        return ((WebDriverFacade)getDriver()).isEnabled() && ((WebDriverFacade)getDriver()).isInstantiated();
     }
+    return true;
+}
 
-    public ThucydidesFluentWait<IWebDriver> waitForWithRefresh()
-    {
-        return new FluentWaitWithRefresh<>(driver, webdriverClock, sleeper)
-            .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
-        TimeUnit.MILLISECONDS)
-            .
-        pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
-            .ignoring(NoSuchElementException.class,
+public ThucydidesFluentWait<IWebDriver> waitForWithRefresh()
+{
+    return new FluentWaitWithRefresh<>(driver, webdriverClock, sleeper)
+        .withTimeout(getWaitForTimeout(),
+    TimeUnit.MILLISECONDS)
+        .
+    pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
+        .ignoring(NoSuchElementException.class,
             NoSuchFrameException.class)
             ;
         }
@@ -1409,7 +1540,7 @@ namespace SerenityBDD.Core.Steps
 public ThucydidesFluentWait<IWebDriver> waitForCondition()
 {
     return new NormalFluentWait<>(driver, webdriverClock, sleeper)
-        .withTimeout(getWaitForTimeout().in(TimeUnit.MILLISECONDS),
+        .withTimeout(getWaitForTimeout(),
     TimeUnit.MILLISECONDS)
         .
     pollingEvery(WAIT_FOR_ELEMENT_PAUSE_LENGTH, TimeUnit.MILLISECONDS)
@@ -1460,8 +1591,7 @@ public class FieldEntry
         element(field).type(value);
     }
 
-    public void into(
-        net.serenitybdd.core.pages.WebElementFacade field
+    public void into(net.serenitybdd.core.pages.WebElementFacade field
     )
     {
         field.type(value);
@@ -1496,12 +1626,7 @@ public T moveTo<T>(string xpathOrCssSelector)
     return findBy(xpathOrCssSelector);
 }
 
-public <
-        T extends
-        WebElementFacade
-        >
-
-        T moveTo(By locator)
+public WebElementFacade moveTo(By locator)
 {
     if (!driverIsDisabled())
     {
@@ -1530,152 +1655,14 @@ public override string ToString()
     return inflection.of(getClass().getSimpleName())
         .inHumanReadableForm().ToString();
 }
-        */
 
-        public void setDriver(IWebDriver webDriver)
-{
-    this.WebDriver = webDriver;
-}
 
-public IWebDriver WebDriver { get; set; }
-    }
 
-    public class WebElementFacadeImpl
-{
-    public static WebElementFacade wrapWebElement(IWebDriver driver, IWebElement element, Duration implicitWaitTimeout, Duration waitForTimeout, string elementName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static WebElementFacade wrapWebElement(IWebDriver driver, By bySelector, Duration getImplicitWaitTimeout, Duration getWaitForTimeout, string elementName)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class WebElementFacade
-{
-    public WebElementFacade find(By selector)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-internal class WhenPageOpens : Attribute
-{
-}
-
-internal class MethodFinder
-{
-    public static MethodFinder inClass(object getClass)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<MethodInfo> getAllMethods()
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class UnableToInvokeWhenPageOpensMethods : Exception
-{
-    public MethodInfo Method { get; }
-
-    public UnableToInvokeWhenPageOpensMethods(MethodInfo method, Exception exception) : this(
-                        "Could not execute @WhenPageOpens annotated method: " + exception.Message, method, exception)
-    {
-
-    }
-
-    protected UnableToInvokeWhenPageOpensMethods(string message, MethodInfo methodInfo, Exception exception) : base(message, exception)
-    {
-        this.Method = methodInfo;
-    }
-}
-
-public class PageOpenMethodCannotHaveParametersException : UnableToInvokeWhenPageOpensMethods
-{
-
-    public PageOpenMethodCannotHaveParametersException(MethodInfo method) : base("Methods marked with PageOpen cannot have parameters", method, null)
-    {
-
-    }
-
+    
 
 }
 
-public class DefaultTimeouts
-{
-    public static int DEFAULT_IMPLICIT_WAIT_TIMEOUT { get; private set; } = 30000;
-    public static int DEFAULT_WAIT_FOR_TIMEOUT { get; private set; } = 30000;
-}
 
-public class DefaultPageObjectInitialiser
-{
-    public DefaultPageObjectInitialiser(IWebDriver driver, long timeout)
-    {
-        throw new NotImplementedException();
-    }
+*/
 
-    public void apply(PageObject pageObject)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public struct ExpectedCondition
-{
-}
-
-internal class ConfigurableTimeouts
-{
-    public void setImplicitTimeout(Duration implicitTimeout)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Duration resetTimeouts()
-    {
-        throw new NotImplementedException();
-    }
-}
-
-internal class JavascriptExecutorFacade
-{
-    private IWebDriver driver;
-
-    public JavascriptExecutorFacade(IWebDriver driver)
-    {
-        this.driver = driver;
-    }
-
-    public object executeScript(string script)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public static class ClassExtensions
-{
-    public static bool instanceof(this object src, Type tgt)
-    {
-        return tgt.IsAssignableFrom(src);
-    }
-}
-
-public class PageUrls
-{
-    public void overrideDefaultBaseUrl(string defaultBaseUrl)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class RenderedPageObjectView
-{
-}
-
-
-}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using log4net;
 using SerenityBDD.Core.Steps;
+using SerenityBDD.Core.Time;
 
 namespace SerenityBDD.Core.time
 {

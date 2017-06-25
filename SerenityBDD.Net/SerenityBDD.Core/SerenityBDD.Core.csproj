@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -52,12 +55,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Steps\Class1.cs" />
+    <Compile Include="Steps\ClassExtensions.cs" />
     <Compile Include="Steps\ClassUtils.cs" />
+    <Compile Include="Steps\ConfigurableTimeouts.cs" />
     <Compile Include="Steps\ConstructionStrategy.cs" />
+    <Compile Include="Steps\Converter.cs" />
     <Compile Include="Steps\DataFile.cs" />
+    <Compile Include="Steps\DefaultPageObjectInitialiser.cs" />
+    <Compile Include="Steps\DefaultTimeouts.cs" />
     <Compile Include="Steps\DependencyInjector.cs" />
     <Compile Include="Steps\Enhancer.cs" />
     <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
+    <Compile Include="Steps\ExpectedCondition.cs" />
+    <Compile Include="Steps\ExpectedConditions.cs" />
     <Compile Include="Steps\Fields.cs" />
     <Compile Include="Steps\Files.cs" />
     <Compile Include="Steps\FileToUpload.cs" />
@@ -66,23 +77,38 @@
     <Compile Include="Steps\IStepFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Instrumented.cs" />
+    <Compile Include="Steps\JavascriptExecutorFacade.cs" />
     <Compile Include="Steps\MatchingPageExpressions.cs" />
+    <Compile Include="Steps\MethodFinder.cs" />
     <Compile Include="Steps\MethodInterceptor.cs" />
     <Compile Include="Steps\Optional.cs" />
     <Compile Include="Exceptions\PageLooksDodgyException.cs" />
     <Compile Include="Steps\PageObject.cs" />
     <Compile Include="Steps\PageObjectDependencyInjector.cs" />
     <Compile Include="Steps\PageObjects.cs" />
+    <Compile Include="Steps\PageOpenMethodCannotHaveParametersException.cs" />
     <Compile Include="Steps\Pages.cs" />
+    <Compile Include="Steps\PageUrls.cs" />
+    <Compile Include="Steps\PollingSchedule.cs" />
     <Compile Include="Steps\RenderedPageObjectView.cs" />
     <Compile Include="Steps\ScenarioSteps.cs" />
     <Compile Include="Steps\StepAnnotations.cs" />
+    <Compile Include="Steps\StepEventBus.cs" />
     <Compile Include="Steps\StepFactory.cs" />
     <Compile Include="Steps\StepInterceptor.cs" />
     <Compile Include="Steps\StepLibraryConstructionStrategy.cs" />
+    <Compile Include="Steps\Th.cs" />
+    <Compile Include="Steps\ThucydidesFluentWait.cs" />
     <Compile Include="Steps\ThucydidesSystemProperty.cs" />
     <Compile Include="Steps\ThucydidesWebDriverSupport.cs" />
+    <Compile Include="Steps\TimeoutSchedule.cs" />
     <Compile Include="Steps\TypeExtensions.cs" />
+    <Compile Include="Steps\UnableToInvokeWhenPageOpensMethods.cs" />
+    <Compile Include="Steps\Wait.cs" />
+    <Compile Include="Steps\WebDriverWait.cs" />
+    <Compile Include="Steps\WebElementFacade.cs" />
+    <Compile Include="Steps\WebElementFacadeImpl.cs" />
+    <Compile Include="Steps\WhenPageOpens.cs" />
     <Compile Include="Time\Clock.cs" />
     <Compile Include="Time\Duration.cs" />
     <Compile Include="Time\Injector.cs" />

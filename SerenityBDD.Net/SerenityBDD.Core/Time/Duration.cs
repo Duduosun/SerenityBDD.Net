@@ -4,6 +4,17 @@ namespace SerenityBDD.Core.Time
 {
     public class Duration
     {
+        public double In(TimeUnit units)
+        {
+            switch (units)
+            {
+                case TimeUnit.MILLISECONDS:
+                    return this.TimeSpan.TotalMilliseconds;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(units), units, null);
+            }
+        }
 
         public static implicit operator TimeSpan(Duration src)
         {
