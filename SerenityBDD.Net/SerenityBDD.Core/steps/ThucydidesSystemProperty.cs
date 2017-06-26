@@ -13,120 +13,120 @@ namespace SerenityBDD.Core.time
         /**
          * The WebDriver driver - firefox, chrome, iexplorer, htmlunit, safari.
          */
-        public static PropertyBase WEBDRIVER_DRIVER = new PropertyBase("WebDriver_Driver");
+        public static PropertyBase<string> WEBDRIVER_DRIVER = new PropertyBase<string>(nameof(WEBDRIVER_DRIVER));
 
 
         /** A shortcut for 'webdriver.driver'. */
-        public static PropertyBase DRIVER = new PropertyBase("webdriver.driver");
+        public static PropertyBase<string> DRIVER = new PropertyBase<string>("webdriver.driver");
 
         /**
          * If using a provided driver, what type is it.
          * The implementation class needs to be defined in the webdriver.provided.{type} system property.
         */
-        public static PropertyBase WEBDRIVER_PROVIDED_TYPE = new PropertyBase("webdriver.provided.type");
+        public static PropertyBase<string> WEBDRIVER_PROVIDED_TYPE = new PropertyBase<string>(nameof(WEBDRIVER_PROVIDED_TYPE));
 
         /**
          * The default starting URL for the application, and base URL for relative paths.
          */
-        public static PropertyBase WEBDRIVER_BASE_URL = new PropertyBase("webdriver.base.url");
+        public static PropertyBase<string> WEBDRIVER_BASE_URL = new PropertyBase<string>(nameof(WEBDRIVER_BASE_URL));
 
         /**
          * The URL to be used for remote drivers (including a selenium grid hub)
          */
-        public static PropertyBase WEBDRIVER_REMOTE_URL = new PropertyBase("webdriver.remote.url");
+        public static PropertyBase<string> WEBDRIVER_REMOTE_URL = new PropertyBase<string>(nameof(WEBDRIVER_REMOTE_URL));
 
         /**
          * What port to run PhantomJS on (used in conjunction with webdriver.remote.url to
          * register with a Selenium hub, e.g. -Dphantomjs.webdriver=5555 -Dwebdriver.remote.url=http://localhost:4444
          */
-        public static PropertyBase PHANTOMJS_WEBDRIVER_PORT = new PropertyBase("phantomjs.webdriver.port");
+        public static PropertyBase<int> PHANTOMJS_WEBDRIVER_PORT = new PropertyBase<int>(nameof(PHANTOMJS_WEBDRIVER_PORT));
 
         /**
          * The driver to be used for remote drivers
          */
-        public static PropertyBase WEBDRIVER_REMOTE_DRIVER = new PropertyBase("webdriver.remote.driver");
+        public static PropertyBase<string> WEBDRIVER_REMOTE_DRIVER = new PropertyBase<string>(nameof(WEBDRIVER_REMOTE_DRIVER));
 
-        public static PropertyBase WEBDRIVER_REMOTE_BROWSER_VERSION = new PropertyBase("webdriver.remote.browser.version");
+        public static PropertyBase<string> WEBDRIVER_REMOTE_BROWSER_VERSION = new PropertyBase<string>(nameof(WEBDRIVER_REMOTE_BROWSER_VERSION));
 
-        public static PropertyBase WEBDRIVER_REMOTE_OS = new PropertyBase("webdriver.remote.os");
+        public static PropertyBase<string> WEBDRIVER_REMOTE_OS = new PropertyBase<string>(nameof(WEBDRIVER_REMOTE_OS));
 
         /**
          * Path to the Internet Explorer driver, if it is not on the system path.
          */
-        public static PropertyBase WEBDRIVER_IE_DRIVER = new PropertyBase("webdriver.ie.driver");
+        public static PropertyBase<string> WEBDRIVER_IE_DRIVER = new PropertyBase<string>(nameof(WEBDRIVER_IE_DRIVER));
 
         /**
          * Path to the Edge driver, if it is not on the system path.
          */
-        public static PropertyBase WEBDRIVER_EDGE_DRIVER = new PropertyBase("webdriver.edge.driver");
+        public static PropertyBase<string> WEBDRIVER_EDGE_DRIVER = new PropertyBase<string>(nameof(WEBDRIVER_EDGE_DRIVER));
 
         /**
          * Path to the Chrome driver, if it is not on the system path.
          */
-        public static PropertyBase WEBDRIVER_CHROME_DRIVER = new PropertyBase("webdriver.chrome.driver");
+        public static PropertyBase WEBDRIVER_CHROME_DRIVER = new PropertyBase(nameof(WEBDRIVER_CHROME_DRIVER));
 
         /**
          * Path to the Chrome binary, if it is not on the system path.
          */
-        public static PropertyBase WEBDRIVER_CHROME_BINARY = new PropertyBase("webdriver.chrome.binary");
+        public static PropertyBase WEBDRIVER_CHROME_BINARY = new PropertyBase(nameof(WEBDRIVER_CHROME_BINARY));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_PROJECT_KEY = new PropertyBase("thucydides.project.key");
+        [Obsolete] public static PropertyBase THUCYDIDES_PROJECT_KEY = new PropertyBase(nameof(THUCYDIDES_PROJECT_KEY));
 
         /**
          * A unique identifier for the project under test, used to record test statistics.
          */
-        public static PropertyBase SERENITY_PROJECT_KEY = new PropertyBase("serenity.project.key");
+        public static PropertyBase SERENITY_PROJECT_KEY = new PropertyBase(nameof(SERENITY_PROJECT_KEY));
 
         [Obsolete]
-        public static PropertyBase THUCYDIDES_PROJECT_NAME = new PropertyBase("thucydides.project.name");
+        public static PropertyBase THUCYDIDES_PROJECT_NAME = new PropertyBase(nameof(THUCYDIDES_PROJECT_NAME));
 
         /**
          * What name should appear on the reports
          */
-        public static PropertyBase SERENITY_PROJECT_NAME = new PropertyBase("serenity.project.name");
+        public static PropertyBase SERENITY_PROJECT_NAME = new PropertyBase(nameof(SERENITY_PROJECT_NAME));
 
 
-        [Obsolete] public static PropertyBase THUCYDIDES_HOME = new PropertyBase("thucydides.project.home");
+        [Obsolete] public static PropertyBase THUCYDIDES_HOME = new PropertyBase(nameof(THUCYDIDES_HOME));
 
         /**
          * The home directory for Thucydides output and data files - by default, $USER_HOME/.thucydides
          */
-        public static PropertyBase SERENITY_HOME = new PropertyBase("serenity.home");
+        public static PropertyBase SERENITY_HOME = new PropertyBase(nameof(SERENITY_HOME));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_RESOURCES = new PropertyBase("thucydides.report.resources");
+        [Obsolete] public static PropertyBase<string> THUCYDIDES_REPORT_RESOURCES = new PropertyBase<string>(nameof(THUCYDIDES_REPORT_RESOURCES));
 
         /**
          * Indicates a directory from which the resources for the HTML reports should be copied.
          * This directory currently needs to be provided in a JAR file.
          */
-        public static PropertyBase SERENITY_REPORT_RESOURCES = new PropertyBase("serenity.report.resources");
+        public static PropertyBase<string> SERENITY_REPORT_RESOURCES = new PropertyBase<string>(nameof(SERENITY_REPORT_RESOURCES));
 
         /**
          * Encoding for reports output
          */
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_ENCODING = new PropertyBase("thucydides.report.encoding");
+        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_ENCODING = new PropertyBase(nameof(THUCYDIDES_REPORT_ENCODING));
 
         /**
          * Encoding for reports output
          */
-        public static PropertyBase SERENITY_REPORT_ENCODING = new PropertyBase("serenity.report.encoding");
+        public static PropertyBase SERENITY_REPORT_ENCODING = new PropertyBase(nameof(SERENITY_REPORT_ENCODING));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_OUTPUT_DIRECTORY = new PropertyBase("thucydides.outputDirectory");
+        [Obsolete] public static PropertyBase THUCYDIDES_OUTPUT_DIRECTORY = new PropertyBase(nameof(THUCYDIDES_OUTPUT_DIRECTORY));
 
         /**
          * Where should reports be generated (use the system property 'serenity.outputDirectory').
          */
-        public static PropertyBase SERENITY_OUTPUT_DIRECTORY = new PropertyBase("serenity.outputDirectory");
+        public static PropertyBase SERENITY_OUTPUT_DIRECTORY = new PropertyBase(nameof(SERENITY_OUTPUT_DIRECTORY));
 
         /**
          * Default name of report with configurations. It will contains some values that was used during generation of reports
          */
-        [Obsolete] public static PropertyBase THUCYDIDES_CONFIGURATION_REPORT = new PropertyBase("thucydides.configuration.json");
+        [Obsolete] public static PropertyBase THUCYDIDES_CONFIGURATION_REPORT = new PropertyBase(nameof(THUCYDIDES_CONFIGURATION_REPORT));
 
         /**
          * Default name of report with configurations. It will contains some values that was used during generation of reports
          */
-        public static PropertyBase SERENITY_CONFIGURATION_REPORT = new PropertyBase("serenity.configuration.json");
+        public static PropertyBase SERENITY_CONFIGURATION_REPORT = new PropertyBase(nameof(SERENITY_CONFIGURATION_REPORT));
 
         [Obsolete] public static PropertyBase THUCYDIDES_FLOW_REPORTS_DIR = new PropertyBase("flow");
 
@@ -140,17 +140,17 @@ namespace SerenityBDD.Core.time
          * This can save disk space and speed up the tests somewhat. Useful for data-driven testing.
          * [Obsolete] This property is still supported, but thucydides.take.screenshots provides more fine-grained control.
          */
+         
+        [Obsolete] public static PropertyBase THUCYDIDES_ONLY_SAVE_FAILING_SCREENSHOTS = new PropertyBase(nameof(THUCYDIDES_ONLY_SAVE_FAILING_SCREENSHOTS));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ONLY_SAVE_FAILING_SCREENSHOTS = new PropertyBase("thucydies.only.save.failing.screenshots");
-
-        [Obsolete] public static PropertyBase THUCYDIDES_DRIVER_CAPABILITIES = new PropertyBase("thucydides.driver.capabilities");
+        [Obsolete] public static PropertyBase THUCYDIDES_DRIVER_CAPABILITIES = new PropertyBase(nameof(THUCYDIDES_DRIVER_CAPABILITIES));
 
         /**
          * A set of user-defined capabilities to be used to configure the WebDriver driver.
          * Capabilities should be passed in as a space or semi-colon-separated list of key:value pairs, e.g.
          * "build:build-1234; max-duration:300; single-window:true; tags:[tag1,tag2,tag3]"
          */
-        public static PropertyBase SERENITY_DRIVER_CAPABILITIES = new PropertyBase("serenity.driver.capabilities");
+        public static PropertyBase SERENITY_DRIVER_CAPABILITIES = new PropertyBase(nameof(SERENITY_DRIVER_CAPABILITIES));
 
         /**
          * Should Thucydides take screenshots for every clicked button and every selected link?
@@ -161,17 +161,17 @@ namespace SerenityBDD.Core.time
          * This will be overridden if the THUCYDIDES_ONLY_SAVE_FAILING_SCREENSHOTS option is set to true.
          * [Obsolete] This property is still supported, but thucydides.take.screenshots provides more fine-grained control.
          */
-        [Obsolete] public static PropertyBase THUCYDIDES_VERBOSE_SCREENSHOTS = PropertyBase.withDefault("thucydides.verbose.screenshots",false);
+        [Obsolete] public static PropertyBase THUCYDIDES_VERBOSE_SCREENSHOTS = PropertyBase.withDefault(nameof(THUCYDIDES_VERBOSE_SCREENSHOTS),false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_VERBOSE_STEPS = PropertyBase.withDefault("thucydides.verbose.steps",false );
+        [Obsolete] public static PropertyBase THUCYDIDES_VERBOSE_STEPS = PropertyBase.withDefault(nameof(THUCYDIDES_VERBOSE_STEPS),false );
 
         /**
          * If set to true, WebElementFacade events and other step actions will be logged to the console.
          */
-        public static PropertyBase SERENITY_VERBOSE_STEPS = PropertyBase.withDefault("serenity.verbose.steps",false);
+        public static PropertyBase SERENITY_VERBOSE_STEPS = PropertyBase.withDefault(nameof(SERENITY_VERBOSE_STEPS),false);
 
 
-        [Obsolete] public static PropertyBase THUCYDIDES_TAKE_SCREENSHOTS = PropertyBase.withDefault("thucydides.take.screenshots",false);
+        [Obsolete] public static PropertyBase THUCYDIDES_TAKE_SCREENSHOTS = PropertyBase.withDefault(nameof(THUCYDIDES_TAKE_SCREENSHOTS),false);
 
         /**
          *  Fine-grained control over when screenshots are to be taken.
@@ -191,62 +191,62 @@ namespace SerenityBDD.Core.time
             AfterEachStep,
             ForFailures
         }
-        public static PropertyBase<TakeScreenshotsWhenEnum> SERENITY_TAKE_SCREENSHOTS = PropertyBase.withDefault("SERENITY_TAKE_SCREENSHOTS", TakeScreenshotsWhenEnum.ForEachAction);
+        public static PropertyBase<TakeScreenshotsWhenEnum> SERENITY_TAKE_SCREENSHOTS = PropertyBase.withDefault(nameof(SERENITY_TAKE_SCREENSHOTS), TakeScreenshotsWhenEnum.ForEachAction);
 
         [Obsolete]
-        public static PropertyBase THUCYDIDES_REPORTS_SHOW_STEP_DETAILS = PropertyBase.withDefault("THUCYDIDES_REPORTS_SHOW_STEP_DETAILS",false );
+        public static PropertyBase THUCYDIDES_REPORTS_SHOW_STEP_DETAILS = PropertyBase.withDefault(nameof(THUCYDIDES_REPORTS_SHOW_STEP_DETAILS),false );
 
         /**
          * Should Thucydides display detailed information in the test result tables.
          * If this is set to true, test result tables will display a breakdown of the steps by result.
          * This is false by default.
          */
-        public static PropertyBase SERENITY_REPORTS_SHOW_STEP_DETAILS = PropertyBase.withDefault("SERENITY_REPORTS_SHOW_STEP_DETAILS",false );
+        public static PropertyBase SERENITY_REPORTS_SHOW_STEP_DETAILS = PropertyBase.withDefault(nameof(SERENITY_REPORTS_SHOW_STEP_DETAILS),false );
 
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_MANUAL_TESTS = PropertyBase.withDefault("THUCYDIDES_REPORT_SHOW_MANUAL_TESTS",false );
+        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_MANUAL_TESTS = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_SHOW_MANUAL_TESTS),false );
 
         /**
          * Show statistics for manual tests in the test reports.
          */
-        public static PropertyBase SERENITY_REPORT_SHOW_MANUAL_TESTS = PropertyBase.withDefault("SERENITY_REPORT_SHOW_MANUAL_TESTS",false );
+        public static PropertyBase SERENITY_REPORT_SHOW_MANUAL_TESTS = PropertyBase.withDefault(nameof(SERENITY_REPORT_SHOW_MANUAL_TESTS),false );
 
         [Obsolete]
-        public static PropertyBase THUCYDIDES_REPORT_SHOW_RELEASES = PropertyBase.withDefault("THUCYDIDES_REPORT_SHOW_RELEASES",false );
+        public static PropertyBase THUCYDIDES_REPORT_SHOW_RELEASES = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_SHOW_RELEASES),false );
 
         /**
          * Report on releases
          */
-        public static PropertyBase SERENITY_REPORT_SHOW_RELEASES = PropertyBase.withDefault("SERENITY_REPORT_SHOW_RELEASES", false);
+        public static PropertyBase SERENITY_REPORT_SHOW_RELEASES = PropertyBase.withDefault(nameof(SERENITY_REPORT_SHOW_RELEASES), false);
 
         [Obsolete]
-        public static PropertyBase THUCYDIDES_REPORT_SHOW_PROGRESS = PropertyBase.withDefault("THUCYDIDES_REPORT_SHOW_PROGRESS", false);
+        public static PropertyBase THUCYDIDES_REPORT_SHOW_PROGRESS = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_SHOW_PROGRESS), false);
 
-        public static PropertyBase SERENITY_REPORT_SHOW_PROGRESS = PropertyBase.withDefault("SERENITY_REPORT_SHOW_PROGRESS", false);
+        public static PropertyBase SERENITY_REPORT_SHOW_PROGRESS = PropertyBase.withDefault(nameof(SERENITY_REPORT_SHOW_PROGRESS), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_HISTORY = PropertyBase.withDefault("THUCYDIDES_REPORT_SHOW_HISTORY", false);
+        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_HISTORY = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_SHOW_HISTORY), false);
 
-        public static PropertyBase SERENITY_REPORT_SHOW_HISTORY = PropertyBase.withDefault("SERENITY_REPORT_SHOW_HISTORY", false);
+        public static PropertyBase SERENITY_REPORT_SHOW_HISTORY = PropertyBase.withDefault(nameof(SERENITY_REPORT_SHOW_HISTORY), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_TAG_MENUS = PropertyBase.withDefault("THUCYDIDES_REPORT_SHOW_TAG_MENUS", false);
+        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_SHOW_TAG_MENUS = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_SHOW_TAG_MENUS), false);
 
-        public static PropertyBase SERENITY_REPORT_SHOW_TAG_MENUS = PropertyBase.withDefault("SERENITY_REPORT_SHOW_TAG_MENUS", false);
+        public static PropertyBase SERENITY_REPORT_SHOW_TAG_MENUS = PropertyBase.withDefault(nameof(SERENITY_REPORT_SHOW_TAG_MENUS), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_TAG_MENUS = PropertyBase.withDefault("THUCYDIDES_REPORT_TAG_MENUS", false);
+        [Obsolete] public static PropertyBase THUCYDIDES_REPORT_TAG_MENUS = PropertyBase.withDefault(nameof(THUCYDIDES_REPORT_TAG_MENUS), false);
 
-        public static PropertyBase SERENITY_REPORT_TAG_MENUS = PropertyBase.withDefault("SERENITY_REPORT_TAG_MENUS", false);
+        public static PropertyBase SERENITY_REPORT_TAG_MENUS = PropertyBase.withDefault(nameof(SERENITY_REPORT_TAG_MENUS), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE = PropertyBase.withDefault("THUCYDIDES_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE", false);
+        [Obsolete] public static PropertyBase THUCYDIDES_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE = PropertyBase.withDefault(nameof(THUCYDIDES_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE), false);
 
-        public static PropertyBase SERENITY_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE = PropertyBase.withDefault("SERENITY_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE", false);
+        public static PropertyBase SERENITY_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE = PropertyBase.withDefault(nameof(SERENITY_EXCLUDE_UNRELATED_REQUIREMENTS_OF_TYPE), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_RESTART_BROWSER_FREQUENCY = PropertyBase.withDefault("THUCYDIDES_RESTART_BROWSER_FREQUENCY", 3);
+        [Obsolete] public static PropertyBase THUCYDIDES_RESTART_BROWSER_FREQUENCY = PropertyBase.withDefault(nameof(THUCYDIDES_RESTART_BROWSER_FREQUENCY), 3);
 
         /**
          * Restart the browser every so often during data-driven tests.
          */
-        public static PropertyBase SERENITY_RESTART_BROWSER_FREQUENCY =PropertyBase.withDefault("SERENITY_RESTART_BROWSER_FREQUENCY",3 );
+        public static PropertyBase SERENITY_RESTART_BROWSER_FREQUENCY =PropertyBase.withDefault(nameof(SERENITY_RESTART_BROWSER_FREQUENCY),3 );
 
-        [Obsolete] public static PropertyBase THUCYDIDES_RESTART_BROWSER_FOR_EACH = PropertyBase.withDefault("THUCYDIDES_RESTART_BROWSER_FOR_EACH",true );
+        [Obsolete] public static PropertyBase THUCYDIDES_RESTART_BROWSER_FOR_EACH = PropertyBase.withDefault(nameof(THUCYDIDES_RESTART_BROWSER_FOR_EACH),true );
 
         /**
          * Indicate when a browser should be restarted during a test run.
@@ -263,197 +263,199 @@ namespace SerenityBDD.Core.time
             never
         }
 
-        public static PropertyBase SERENITY_RESTART_BROWSER_FOR_EACH = PropertyBase.withDefault("SERENITY_RESTART_BROWSER_FOR_EACH", RestartBrowserWhenEnum.example);
+        public static PropertyBase SERENITY_RESTART_BROWSER_FOR_EACH = PropertyBase.withDefault(nameof(SERENITY_RESTART_BROWSER_FOR_EACH), RestartBrowserWhenEnum.example);
 
         [Obsolete]
-        public static PropertyBase THUCYDIDES_DIFFERENT_BROWSER_FOR_EACH_ACTOR = PropertyBase.withDefault("THUCYDIDES_DIFFERENT_BROWSER_FOR_EACH_ACTOR",false);
+        public static PropertyBase THUCYDIDES_DIFFERENT_BROWSER_FOR_EACH_ACTOR = PropertyBase.withDefault(nameof(THUCYDIDES_DIFFERENT_BROWSER_FOR_EACH_ACTOR),false);
 
         /**
          * When multiple actors are used with the Screenplay pattern, a separate browser is configured for each actor.
          * Set this property to false if you want actors use a common browser.
          * This can be useful if actors are used to illustrate the intent of a test, but no tests use more than one actor simultaneously
          */
-        public static PropertyBase SERENITY_DIFFERENT_BROWSER_FOR_EACH_ACTOR = PropertyBase.withDefault("SERENITY_DIFFERENT_BROWSER_FOR_EACH_ACTOR",true);
+        public static PropertyBase SERENITY_DIFFERENT_BROWSER_FOR_EACH_ACTOR = PropertyBase.withDefault(nameof(SERENITY_DIFFERENT_BROWSER_FOR_EACH_ACTOR),true);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_STEP_DELAY = PropertyBase.create<double>("THUCYDIDES_STEP_DELAY");
+        [Obsolete] public static PropertyBase THUCYDIDES_STEP_DELAY = PropertyBase.create<double>(nameof(THUCYDIDES_STEP_DELAY));
 
         /**
          * Pause (in ms) between each test step.
          */
-        public static PropertyBase SERENITY_STEP_DELAY = PropertyBase.create<double>("SERENITY_STEP_DELAY");
+        public static PropertyBase SERENITY_STEP_DELAY = PropertyBase.create<double>(nameof(SERENITY_STEP_DELAY));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_TIMEOUT = PropertyBase.create<double>("THUCYDIDES_TIMEOUT");
+        [Obsolete] public static PropertyBase THUCYDIDES_TIMEOUT = PropertyBase.create<double>(nameof(THUCYDIDES_TIMEOUT));
 
         /**
          * How long should the driver wait for elements not immediately visible, in seconds.
          */
-        public static PropertyBase SERENITY_TIMEOUT = PropertyBase.withDefault("SERENITY_TIMEOUT",10);
+        public static PropertyBase SERENITY_TIMEOUT = PropertyBase.withDefault(nameof(SERENITY_TIMEOUT),10);
 
         /**
          * Don't accept sites using untrusted certificates.
          * By default, Thucydides accepts untrusted certificates - use this to change this behaviour.
          */
-        public static PropertyBase REFUSE_UNTRUSTED_CERTIFICATES = PropertyBase.withDefault("REFUSE_UNTRUSTED_CERTIFICATES", false);
+        public static PropertyBase REFUSE_UNTRUSTED_CERTIFICATES = PropertyBase.withDefault(nameof(REFUSE_UNTRUSTED_CERTIFICATES), false);
 
         /**
          * Use the same browser for all tests (the "Highlander" rule)
          * [Obsolete]: Use THUCYDIDES_RESTART_BROWSER_FOR_EACH instead.
          */
         [Obsolete]
-        public static PropertyBase THUCYDIDES_USE_UNIQUE_BROWSER = PropertyBase.withDefault("THUCYDIDES_USE_UNIQUE_BROWSER", true);
+        public static PropertyBase THUCYDIDES_USE_UNIQUE_BROWSER = PropertyBase.withDefault(nameof(THUCYDIDES_USE_UNIQUE_BROWSER), true);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ESTIMATED_AVERAGE_STEP_COUNT = PropertyBase.create<int>("THUCYDIDES_ESTIMATED_AVERAGE_STEP_COUNT");
+        [Obsolete] public static PropertyBase THUCYDIDES_ESTIMATED_AVERAGE_STEP_COUNT = PropertyBase.create<int>(nameof(THUCYDIDES_ESTIMATED_AVERAGE_STEP_COUNT));
 
         /**
          * The estimated number of steps in a pending scenario.
          * This is used for stories where no scenarios have been defined.
          */
-        public static PropertyBase SERENITY_ESTIMATED_AVERAGE_STEP_COUNT =PropertyBase.create<int >("SERENITY_ESTIMATED_AVERAGE_STEP_COUNT");
+        public static PropertyBase SERENITY_ESTIMATED_AVERAGE_STEP_COUNT =PropertyBase.create<int >(nameof(SERENITY_ESTIMATED_AVERAGE_STEP_COUNT));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ESTIMATED_TESTS_PER_REQUIREMENT = PropertyBase.create<int>("THUCYDIDES_ESTIMATED_TESTS_PER_REQUIREMENT");
+        [Obsolete] public static PropertyBase THUCYDIDES_ESTIMATED_TESTS_PER_REQUIREMENT = PropertyBase.create<int>(nameof(THUCYDIDES_ESTIMATED_TESTS_PER_REQUIREMENT));
 
         /**
          * The estimated number of tests in a typical story.
          * Used to estimate functional coverage in the requirements reports.
          */
-        public static PropertyBase SERENITY_ESTIMATED_TESTS_PER_REQUIREMENT = PropertyBase.create<int>("SERENITY_ESTIMATED_TESTS_PER_REQUIREMENT");
+        public static PropertyBase SERENITY_ESTIMATED_TESTS_PER_REQUIREMENT = PropertyBase.create<int>(nameof(SERENITY_ESTIMATED_TESTS_PER_REQUIREMENT));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ISSUE_TRACKER_URL = PropertyBase.create<string>("THUCYDIDES_ISSUE_TRACKER_URL");
+        [Obsolete] public static PropertyBase THUCYDIDES_ISSUE_TRACKER_URL = PropertyBase.create<string>(nameof(THUCYDIDES_ISSUE_TRACKER_URL));
 
         /**
          *  Base URL for the issue tracking system to be referred to in the reports.
          *  If defined, any issues quoted in the form #1234 will be linked to the relevant
          *  issue in the issue tracking system. Works with JIRA, Trac etc.
          */
-        public static PropertyBase SERENITY_ISSUE_TRACKER_URL = PropertyBase.create<string>("SERENITY_ISSUE_TRACKER_URL");
+        public static PropertyBase SERENITY_ISSUE_TRACKER_URL = PropertyBase.create<string>(nameof(SERENITY_ISSUE_TRACKER_URL));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_NATIVE_EVENTS = PropertyBase.withDefault("THUCYDIDES_NATIVE_EVENTS",true);
+        [Obsolete] public static PropertyBase THUCYDIDES_NATIVE_EVENTS = PropertyBase.withDefault(nameof(THUCYDIDES_NATIVE_EVENTS),true);
 
         /**
          * Activate native events in Firefox.
          * This is true by default, but can cause issues with some versions of linux.
          */
-        public static PropertyBase SERENITY_NATIVE_EVENTS = PropertyBase.withDefault("SERENITY_NATIVE_EVENTS", true);
+        public static PropertyBase SERENITY_NATIVE_EVENTS = PropertyBase.withDefault(nameof(SERENITY_NATIVE_EVENTS), true);
 
         /**
          * If the base JIRA URL is defined, Thucydides will build the issue tracker url using the standard JIRA form.
          */
-        public static PropertyBase JIRA_URL;
+        public static PropertyBase JIRA_URL = PropertyBase.create<string>(nameof(JIRA_URL));
 
         /**
          *  If defined, the JIRA project id will be prepended to issue numbers.
          */
-        public static PropertyBase JIRA_PROJECT;
+        public static PropertyBase JIRA_PROJECT = PropertyBase.create<string>(nameof(JIRA_PROJECT));
 
         /**
          *  If defined, the JIRA username required to connect to JIRA.
          */
-        public static PropertyBase JIRA_USERNAME;
+        public static PropertyBase JIRA_USERNAME = PropertyBase.create<string>(nameof(JIRA_USERNAME));
 
         /**
          *  If defined, the JIRA password required to connect to JIRA.
          */
-        public static PropertyBase JIRA_PASSWORD;
+        public static PropertyBase JIRA_PASSWORD = PropertyBase.create<string>(nameof(JIRA_PASSWORD));
 
         /**
          *  The JIRA workflow is defined in this file.
          */
-        public static PropertyBase SERENITY_JIRA_WORKFLOW;
+        public static PropertyBase SERENITY_JIRA_WORKFLOW = PropertyBase.create<string>(nameof(SERENITY_JIRA_WORKFLOW));
 
         /**
          *  If set to true, JIRA Workflow is active.
          */
-        public static PropertyBase<bool> SERENITY_JIRA_WORKFLOW_ACTIVE = false;
+        public static PropertyBase<bool> SERENITY_JIRA_WORKFLOW_ACTIVE = PropertyBase.withDefault(nameof(SERENITY_JIRA_WORKFLOW_ACTIVE),false );
 
-        [Obsolete] public static PropertyBase THUCYDIDES_HISTORY;
+        [Obsolete] public static PropertyBase THUCYDIDES_HISTORY = PropertyBase.create<string>(nameof(THUCYDIDES_HISTORY));
 
         /**
          * Base directory in which history files are stored.
          */
-        public static PropertyBase SERENITY_HISTORY;
+        public static PropertyBase SERENITY_HISTORY = PropertyBase.create<string>(nameof(SERENITY_HISTORY));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_BROWSER_HEIGHT;
-
-        /**
-         *  Redimension the browser to enable larger screenshots.
-         */
-        public static PropertyBase SERENITY_BROWSER_HEIGHT;
-
-        [Obsolete] public static PropertyBase THUCYDIDES_BROWSER_WIDTH;
+        [Obsolete] public static PropertyBase THUCYDIDES_BROWSER_HEIGHT = PropertyBase.create<int>(nameof(THUCYDIDES_BROWSER_HEIGHT));
 
         /**
          *  Redimension the browser to enable larger screenshots.
          */
-        public static PropertyBase SERENITY_BROWSER_WIDTH;
+        public static PropertyBase SERENITY_BROWSER_HEIGHT = PropertyBase.create<int>(nameof(SERENITY_BROWSER_HEIGHT));
 
-        [Obsolete] public static PropertyBase<bool> THUCYDIDES_BROWSER_MAXIMIZED = false;
+        [Obsolete] public static PropertyBase THUCYDIDES_BROWSER_WIDTH = PropertyBase.create<int>(nameof(THUCYDIDES_BROWSER_WIDTH));
+
+        /**
+         *  Redimension the browser to enable larger screenshots.
+         */
+        public static PropertyBase SERENITY_BROWSER_WIDTH = PropertyBase.create<int>(nameof(SERENITY_BROWSER_WIDTH));
+
+        [Obsolete] public static PropertyBase<bool> THUCYDIDES_BROWSER_MAXIMIZED =  PropertyBase.withDefault(nameof(THUCYDIDES_BROWSER_MAXIMIZED),false );
 
         /**
          * Set to true to get WebDriver to maximise the Browser window before the tests are executed.
          */
-        public static PropertyBase<bool> SERENITY_BROWSER_MAXIMIZED = false;
+        public static PropertyBase<bool> SERENITY_BROWSER_MAXIMIZED = PropertyBase.withDefault(nameof(SERENITY_BROWSER_MAXIMIZED), false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_RESIZED_IMAGE_WIDTH;
+        [Obsolete] public static PropertyBase THUCYDIDES_RESIZED_IMAGE_WIDTH =PropertyBase.create<int>(nameof(THUCYDIDES_RESIZED_IMAGE_WIDTH));
 
         /**
          * If set, resize screenshots to this size to save space.
          */
-        public static PropertyBase SERENITY_RESIZED_IMAGE_WIDTH;
+        public static PropertyBase SERENITY_RESIZED_IMAGE_WIDTH = PropertyBase.create<int>(nameof(SERENITY_RESIZED_IMAGE_WIDTH));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_PUBLIC_URL;
+        [Obsolete] public static PropertyBase THUCYDIDES_PUBLIC_URL = PropertyBase.create<string>(nameof(THUCYDIDES_PUBLIC_URL));
 
         /**
          * Public URL where the Thucydides reports will be displayed.
          * This is mainly for use by plugins.
          */
-        public static PropertyBase SERENITY_PUBLIC_URL;
+        public static PropertyBase SERENITY_PUBLIC_URL = PropertyBase.create<string>(nameof(SERENITY_PUBLIC_URL));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ACTIVATE_FIREBUGS;
+        [Obsolete] public static PropertyBase THUCYDIDES_ACTIVATE_FIREBUGS = PropertyBase.create<bool>(nameof(THUCYDIDES_ACTIVATE_FIREBUGS));
 
         /**
          * Activate the Firebugs plugin for firefox.
          * Useful for debugging, but not very when running the tests on a build server.
          * It is not activated by default.
          */
-        public static PropertyBase SERENITY_ACTIVATE_FIREBUGS =new PropertyBase<bool>("SERENITY_ACTIVATE_FIREBUGS", false);
+        public static PropertyBase SERENITY_ACTIVATE_FIREBUGS =new PropertyBase<bool>(nameof(SERENITY_ACTIVATE_FIREBUGS), false);
 
         /**
          * Enable applets in Firefox.
          * Use the system property 'security.enable_java'.
          * Applets slow down webdriver, so are disabled by default.
          */
-        public static PropertyBase SECURITY_ENABLE_JAVA = new PropertyBase<bool>("security.enable_java",false);
+        public static PropertyBase SECURITY_ENABLE_JAVA = new PropertyBase<bool>(nameof(SECURITY_ENABLE_JAVA),false);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_ACTIVATE_HIGHLIGHTING;
+        [Obsolete] public static PropertyBase THUCYDIDES_ACTIVATE_HIGHLIGHTING = PropertyBase.withDefault(nameof(THUCYDIDES_ACTIVATE_HIGHLIGHTING),false);
 
-        public static PropertyBase SERENITY_ACTIVATE_HIGHLIGHTING = new PropertyBase<bool>("SERENITY_ACTIVATE_HIGHLIGHTING",false) ;
+        public static PropertyBase SERENITY_ACTIVATE_HIGHLIGHTING = PropertyBase.withDefault(nameof(SERENITY_ACTIVATE_HIGHLIGHTING),false) ;
 
         public enum BatchStrategyEnum
         {
             DivideEqually,
             DivideByTestCount
         }
-        [Obsolete] public static BatchStrategyEnum THUCYDIDES_BATCH_STRATEGY = BatchStrategyEnum.DivideEqually;
+        [Obsolete] public static BatchStrategyEnum THUCYDIDES_BATCH_STRATEGY =PropertyBase.withDefault(nameof(THUCYDIDES_BATCH_STRATEGY), BatchStrategyEnum.DivideEqually);
 
         /**
          * Batch strategy to use for parallel batches.
          * Allowed values - DIVIDE_EQUALLY (default) and DIVIDE_BY_TEST_COUNT
          */
-        public static BatchStrategyEnum SERENITY_BATCH_STRATEGY = BatchStrategyEnum.DivideEqually;
 
-        [Obsolete] public static PropertyBase THUCYDIDES_BATCH_COUNT;
+        public static BatchStrategyEnum SERENITY_BATCH_STRATEGY =
+            PropertyBase.withDefault(nameof(SERENITY_BATCH_STRATEGY), BatchStrategyEnum.DivideEqually);
+
+        [Obsolete] public static PropertyBase THUCYDIDES_BATCH_COUNT = PropertyBase.create<int>(nameof(THUCYDIDES_BATCH_COUNT));
 
         /**
          *  A deprecated property that is synonymous with thucydides.batch.size
          */
-        public static PropertyBase SERENITY_BATCH_COUNT;
+        public static PropertyBase SERENITY_BATCH_COUNT = PropertyBase.create<int>(nameof(SERENITY_BATCH_COUNT));
 
-        [Obsolete] public static PropertyBase THUCYDIDES_BATCH_SIZE;
+        [Obsolete] public static PropertyBase THUCYDIDES_BATCH_SIZE = PropertyBase.create<int>(nameof(THUCYDIDES_BATCH_SIZE));
 
         /**
          *  If batch testing is being used, this is the size of the batches being executed.
          */
-        public static PropertyBase SERENITY_BATCH_SIZE;
+        public static PropertyBase SERENITY_BATCH_SIZE = PropertyBase.create<int>(nameof(SERENITY_BATCH_SIZE));
 
         [Obsolete] public static PropertyBase THUCYDIDES_BATCH_NUMBER;
 
@@ -517,7 +519,7 @@ namespace SerenityBDD.Core.time
          * To add a custom tag provider, just implement the TagProvider interface and specify the root package for this
          * provider in this parameter.
          */
-        public static PropertyBase SERENITY_EXT_PACKAGES;
+        public static PropertyBase<string> SERENITY_EXT_PACKAGES = new PropertyBase<string>(nameof(SERENITY_EXT_PACKAGES));
 
         /**
          * Arguments to be passed to the Chrome driver, separated by commas.
@@ -533,14 +535,14 @@ namespace SerenityBDD.Core.time
          * Preferences to be passed to the Firefox driver, separated by semi-colons (commas often appear in the preference
          * values.
          */
-        public static PropertyBase FIREFOX_PREFERENCES;
+        public static PropertyBase<string> FIREFOX_PREFERENCES = new PropertyBase<string>(nameof(FIREFOX_PREFERENCES));
 
         /**
          * Full path to the Firefox profile to be used with Firefox.
          * You can include Java system properties ${user.dir}, ${user.home} and the Windows environment variables %APPDIR%
          * and %USERPROFILE (assuming these are correctly set in the environment)
          */
-        public static PropertyBase WEBDRIVER_FIREFOX_PROFILE;
+        public static PropertyBase<string> WEBDRIVER_FIREFOX_PROFILE = new PropertyBase<string>(nameof(WEBDRIVER_FIREFOX_PROFILE));
 
         [Obsolete] public static PropertyBase THUCYDIDES_JQUERY_INTEGRATION;
 
@@ -549,25 +551,24 @@ namespace SerenityBDD.Core.time
          * If set to true, JQuery will be injected into any page that does not already have it.
          * This option is deactivated by default, as it can slow down page loading.
          */
-        public static PropertyBase SERENITY_JQUERY_INTEGRATION = false;
+        public static PropertyBase<bool> SERENITY_JQUERY_INTEGRATION = new PropertyBase<bool>(nameof(SERENITY_JQUERY_INTEGRATION), false );
+        
+        public static PropertyBase<string> SAUCELABS_BROWSERNAME = new PropertyBase<string>("saucelabs.browserName");
 
-        [Description("saucelabs.browserName")]
-        public static PropertyBase SAUCELABS_BROWSERNAME;
+        public static PropertyBase<string> SAUCELABS_TARGET_PLATFORM = new PropertyBase<string>(nameof(SAUCELABS_TARGET_PLATFORM));
 
-        public static PropertyBase SAUCELABS_TARGET_PLATFORM;
+        public static PropertyBase<string> SAUCELABS_DRIVER_VERSION = new PropertyBase<string>(nameof(SAUCELABS_DRIVER_VERSION));
 
-        public static PropertyBase SAUCELABS_DRIVER_VERSION;
-
-        public static PropertyBase SAUCELABS_TEST_NAME;
+        public static PropertyBase<string> SAUCELABS_TEST_NAME = new PropertyBase<string>(nameof(SAUCELABS_TEST_NAME));
         /**
          * SauceLabs URL if running the web tests on SauceLabs
          */
-        public static PropertyBase SAUCELABS_URL;
+        public static PropertyBase<string> SAUCELABS_URL =new PropertyBase<string>(nameof(SAUCELABS_URL));
 
         /**
          * SauceLabs access key - if provided, Thucydides can generate links to the SauceLabs reports that don't require a login.
          */
-        public static PropertyBase SAUCELABS_ACCESS_KEY;
+        public static PropertyBase<string> SAUCELABS_ACCESS_KEY = new PropertyBase<string>(nameof(SAUCELABS_ACCESS_KEY));
 
         /**
          * SauceLabs user id - if provided with the access key,
