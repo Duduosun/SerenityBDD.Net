@@ -18,5 +18,10 @@ namespace SerenityBDD.Core.Steps
         {
             throw new NotImplementedException();
         }
+
+        public void notifyScreenChange()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

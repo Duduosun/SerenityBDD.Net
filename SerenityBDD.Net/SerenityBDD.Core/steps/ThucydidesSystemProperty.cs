@@ -585,7 +585,7 @@ namespace SerenityBDD.Core.time
          * Saucelabs records screenshots as well as videos by default. Since Thucydides also records screenshots,
          * this feature is disabled by default. It can be reactivated using this system property.
          */
-        public static PropertyBase SAUCELABS_RECORD_SCREENSHOTS = true ;
+        public static PropertyBase SAUCELABS_RECORD_SCREENSHOTS = PropertyBase.withDefault("SAUCELABS_RECORD_SCREENSHOTS",true ) ;
 
         /**
          * BrowserStack Hub URL if running the tests on BrowserStack Cloud
@@ -714,14 +714,14 @@ namespace SerenityBDD.Core.time
          */
         public static PropertyBase SERENITY_REQUIREMENTS_DIR;
 
-        [Obsolete] public static PropertyBase THUCYDIDES_USE_REQUIREMENTS_DIRECTORIES = true ;
+        [Obsolete] public static PropertyBase THUCYDIDES_USE_REQUIREMENTS_DIRECTORIES = PropertyBase.withDefault("THUCYDIDES_USE_REQUIREMENTS_DIRECTORIES", true);
 
         /**
          * By default, Thucydides will read requirements from the directory structure that contains the stories.
          * When other tag and requirements plugins are used, such as the JIRA plugin, this can cause conflicting
          * tags. Set this property to false to deactivate this feature (it is true by default).
          */
-        public static PropertyBase SERENITY_USE_REQUIREMENTS_DIRECTORIES = true;
+        public static PropertyBase SERENITY_USE_REQUIREMENTS_DIRECTORIES = PropertyBase.withDefault("SERENITY_USE_REQUIREMENTS_DIRECTORIES",true );
 
         [Obsolete] public static PropertyBase THUCYDIDES_ANNOTATED_REQUIREMENTS_DIR;
 
@@ -754,7 +754,7 @@ namespace SerenityBDD.Core.time
          * This is the list of requirement types to be used when reading requirements from the file system
          * and when organizing the reports. It is a comma-separated list of tags.The default value is: capability, feature
          */
-        public static PropertyBase SERENITY_REQUIREMENT_TYPES = "capability,feature";
+        public static PropertyBase SERENITY_REQUIREMENT_TYPES = PropertyBase.withDefault("SERENITY_REQUIREMENT_TYPES", "capability,feature");
 
         [Obsolete] public static PropertyBase THUCYDIDES_REQUIREMENT_EXCLUSIONS;
 
@@ -764,13 +764,13 @@ namespace SerenityBDD.Core.time
         public static PropertyBase SERENITY_REQUIREMENT_EXCLUSIONS;
 
 
-        [Obsolete] public static PropertyBase THUCYDIDES_RELEASE_TYPES = "Release, Iteration";
+        [Obsolete] public static PropertyBase THUCYDIDES_RELEASE_TYPES =PropertyBase.withDefault("THUCYDIDES_RELEASE_TYPES", "Release, Iteration");
 
         /**
          * What tag names identify the release types (e.g. Release, Iteration, Sprint).
          * A comma-separated list. By default, "Release, Iteration"
          */
-        public static PropertyBase SERENITY_RELEASE_TYPES = "Release, Iteration";
+        public static PropertyBase SERENITY_RELEASE_TYPES =PropertyBase.withDefault("SERENITY_RELEASE_TYPES", "Release, Iteration");
 
         public enum LocatorFactoryEnum
         {
@@ -827,7 +827,7 @@ namespace SerenityBDD.Core.time
          * If set to true, a copy of the original screenshot will be kept when screenshots are scaled for the reports.
          * False by default to conserve disk space.
          */
-        public static PropertyBase SERENITY_KEEP_UNSCALED_SCREENSHOTS = false;
+        public static PropertyBase SERENITY_KEEP_UNSCALED_SCREENSHOTS =PropertyBase.withDefault("SERENITY_KEEP_UNSCALED_SCREENSHOTS",false );
 
         /**
          * If provided, only classes and/or methods with tags in this list will be executed. The parameter expects
@@ -847,7 +847,7 @@ namespace SerenityBDD.Core.time
          * If set to true, historical flags will be displayed in test lists.
          * This must be set in conjunction with the serenity.historyDirectory property
          */
-        public static PropertyBase SHOW_HISTORY_FLAGS = false;
+        public static PropertyBase SHOW_HISTORY_FLAGS = PropertyBase.withDefault("SHOW_HISTORY_FLAGS", false);
 
         /**
          * Serenity will look in this directory for the previous build results, to use as a basis for the
@@ -891,14 +891,14 @@ namespace SerenityBDD.Core.time
          * What format should test results be generated in.
          * By default, this is "json,xml".
          */
-        public static PropertyBase OUTPUT_FORMATS = "json,xml";
+        public static PropertyBase OUTPUT_FORMATS = PropertyBase.withDefault("OUTPUT_FORMATS", "json,xml");
 
         /**
          * If set to true (the default), allow markdown formatting in test outcome titles and descriptions.
          * This is a comma-separated lists of values from the following: story, narrative, step
          * By default, Markdown is enabled for story titles and narrative texts, but not for steps.
          */
-        public static PropertyBase ENABLE_MARKDOWN = true;
+        public static PropertyBase ENABLE_MARKDOWN = PropertyBase.withDefault("ENABLE_MARKDOWN", true);
 
         /**
          * Path to PhantomJS executable
@@ -914,25 +914,25 @@ namespace SerenityBDD.Core.time
          * If set to true, don't format embedded tables in JBehave or Gherkin steps.
          * False by default.
          */
-        public static PropertyBase IGNORE_EMBEDDED_TABLES = false;
+        public static PropertyBase IGNORE_EMBEDDED_TABLES =PropertyBase.withDefault("IGNORE_EMBEDDED_TABLES", false );
 
         /**
          * If set, this will display the related tag statistics on the home page.
          * If you are using external requirements, you may not want to display these tags on the dashboard.
          */
-        public static PropertyBase SHOW_RELATED_TAGS = false;
+        public static PropertyBase SHOW_RELATED_TAGS = PropertyBase.withDefault("SHOW_RELATED_TAGS",false );
 
         /**
          * If set to true (the default value), a story tag will be extracted from the test case or feature file
          * containing the test.
          */
-        public static PropertyBase USE_TEST_CASE_FOR_STORY_TAG = true;
+        public static PropertyBase USE_TEST_CASE_FOR_STORY_TAG =PropertyBase.withDefault("USE_TEST_CASE_FOR_STORY_TAG", true);
 
         /**
          * Display the pie charts on the dashboard by default.
          * If this is set to false, the pie charts will be initially hidden on the dashboard.
          */
-        public static PropertyBase SHOW_PIE_CHARTS = true;
+        public static PropertyBase SHOW_PIE_CHARTS =PropertyBase.withDefault("SHOW_PIE_CHARTS",true );
 
         /**
          * If set, this will define the list of tag types to appear on the dashboard screens
@@ -943,7 +943,7 @@ namespace SerenityBDD.Core.time
          * If set to false, render report names in a readable form as opposed to a hash format.
          * Note: this can cause problems on operating systems that limit path lengths such as Windows.
          */
-        public static PropertyBase SERENITY_COMPRESS_FILENAMES = true;
+        public static PropertyBase SERENITY_COMPRESS_FILENAMES =PropertyBase.withDefault("SERENITY_COMPRESS_FILENAMES",true );
 
         /**
          * If set, this will define the list of tag types to be excluded from the dashboard screens
@@ -954,39 +954,39 @@ namespace SerenityBDD.Core.time
          * Format the JSON test outcomes nicely.
          * "true" or "false", turned off by default.
          */
-        public static PropertyBase JSON_PRETTY_PRINTING = false;
+        public static PropertyBase JSON_PRETTY_PRINTING =PropertyBase.withDefault("JSON_PRETTY_PRINTING",false);
 
         /**
          * What charset to use for JSON processing.
          * Defaults to UTF-8
          */
-        public static PropertyBase JSON_CHARSET = "UTF-8";
+        public static PropertyBase JSON_CHARSET = PropertyBase.withDefault("JSON_CHARSET", "UTF-8");
 
         /**
          * What charset to use for report generation.
          * Defaults to UTF-8
          */
-        public static PropertyBase REPORT_CHARSET = "UTF-8";
+        public static PropertyBase REPORT_CHARSET =PropertyBase.withDefault("REPORT_CHARSET","UTF-8");
 
         /**
          * Stack traces are by default decluttered for readability.
          * For example, calls to instrumented code or internal test libraries is removed.
          * This behaviour can be deactivated by setting this property to false.
          */
-        public static PropertyBase SIMPLIFIED_STACK_TRACES = true;
+        public static PropertyBase SIMPLIFIED_STACK_TRACES =PropertyBase.withDefault("SIMPLIFIED_STACK_TRACES", true);
 
-        [Obsolete] public static PropertyBase THUCYDIDES_DRY_RUN = false;
+        [Obsolete] public static PropertyBase THUCYDIDES_DRY_RUN = PropertyBase.withDefault("THUCYDIDES_DRY_RUN", false);
 
         /**
          * Run through the steps without actually executing them.
          */
-        public static PropertyBase SERENITY_DRY_RUN = false;
+        public static PropertyBase SERENITY_DRY_RUN = PropertyBase.withDefault("SERENITY_DRY_RUN",false);
 
         /**
          * What (human) language are the Cucumber feature files written in?
          * Defaults to "en"
          */
-        public static PropertyBase FEATURE_FILE_LANGUAGE = "en";
+        public static PropertyBase FEATURE_FILE_LANGUAGE = PropertyBase.withDefault("FEATURE_FILE_LANGUAGE", "en");
 
         /**
          * Display the context in the test title.
@@ -995,13 +995,13 @@ namespace SerenityBDD.Core.time
          * If the context is an OS (linux, mac, windows, android, iphone), an icon will be displayed
          * Otherwise, the context name will be displayed at the start of the test title.
          */
-        public static PropertyBase THUCYDIDES_DISPLAY_CONTEXT = false;
+        public static PropertyBase THUCYDIDES_DISPLAY_CONTEXT =PropertyBase.withDefault("THUCYDIDES_DISPLAY_CONTEXT", false);
 
         /**
          * Include a context tag with a test if one is provided.
          * Set to 'true' by default
          */
-        public static PropertyBase THUCYDIDES_ADD_CONTEXT_TAG = true;
+        public static PropertyBase THUCYDIDES_ADD_CONTEXT_TAG = PropertyBase.withDefault("THUCYDIDES_ADD_CONTEXT_TAG", true);
 
         /**
          * What encoding to use for reading Cucumber feature files?
@@ -1020,7 +1020,7 @@ namespace SerenityBDD.Core.time
          * Set this to true if you want Serenity to report nested step structures for subsequent steps
          * after a step failure.
          */
-        public static PropertyBase DEEP_STEP_EXECUTION_AFTER_FAILURES = false;
+        public static PropertyBase DEEP_STEP_EXECUTION_AFTER_FAILURES = PropertyBase.withDefault("DEEP_STEP_EXECUTION_AFTER_FAILURES",false);
 
 
         /**
@@ -1035,13 +1035,13 @@ namespace SerenityBDD.Core.time
         }
         public static TestResultEnum MANUAL_TEST_REPORT_RESULT = TestResultEnum.pending;
 
-        [Obsolete] public static PropertyBase THUCYDIDES_MAINTAIN_SESSION = false;
+        [Obsolete] public static PropertyBase THUCYDIDES_MAINTAIN_SESSION =  PropertyBase.withDefault("THUCYDIDES_MAINTAIN_SESSION", false);
 
         /**
          * Keep the Thucydides session data between tests.
          * Normally, the session data is cleared between tests.
          */
-        public static PropertyBase SERENITY_MAINTAIN_SESSION = false;
+        public static PropertyBase SERENITY_MAINTAIN_SESSION = PropertyBase.withDefault("SERENITY_MAINTAIN_SESSION", false);
 
         /**
          * Path to PhantomJS SSL support
@@ -1071,7 +1071,7 @@ namespace SerenityBDD.Core.time
         /**
          * If set to true, add a tag for test failures, based on the error type and message
          */
-        public static PropertyBase SERENITY_TAG_FAILURES = false;
+        public static PropertyBase SERENITY_TAG_FAILURES =PropertyBase.withDefault("SERENITY_TAG_FAILURES",false);
 
         /**
          * A comma-separated list of tag types for which human-readable report names will be generated.
@@ -1093,14 +1093,14 @@ namespace SerenityBDD.Core.time
          * Serenity will try to download drivers not present on the system.
          * If you don't want this behaviour, set this property to false
          */
-        public static PropertyBase AUTOMATIC_DRIVER_DOWNLOAD = true;
+        public static PropertyBase AUTOMATIC_DRIVER_DOWNLOAD = PropertyBase.withDefault("AUTOMATIC_DRIVER_DOWNLOAD", true);
 
         /**
          * If the Gecko Driver is on the system path, it will be used (with Marionnette) by default.
          * If you want to use the old-style Firefox driver, but have gecko on the system path,
          * then set this property to false.
          */
-        public static PropertyBase USE_GECKO_DRIVER = true;
+        public static PropertyBase USE_GECKO_DRIVER =PropertyBase.withDefault("USE_GECKO_DRIVER", true);
 
         /**
          * Use this property to pass options to Marionette using the 'moz:firefoxOptions' capability option.
@@ -1120,12 +1120,12 @@ namespace SerenityBDD.Core.time
         /**
          * Record failures to a file specified by property rerun.failures.file or rerun.xml in current directory
          */
-        public static PropertyBase RECORD_FAILURES = false;
+        public static PropertyBase RECORD_FAILURES =PropertyBase.withDefault("RECORD_FAILURES", false);
 
         /**
          * Replay failures from a file specified by property rerun.failures.file or rerun.xml in current directory
          */
-        public static PropertyBase REPLAY_FAILURES = false;
+        public static PropertyBase REPLAY_FAILURES =PropertyBase.withDefault("REPLAY_FAILURES", false);
 
         /**
          * Location of the directory where the failure files are recorded.
@@ -1153,9 +1153,13 @@ namespace SerenityBDD.Core.time
             this.propertyName = propertyName;
         }
 
+        private string name()
+        {
+            return this.propertyName;
+        }
         ThucydidesSystemProperty()
         {
-            this.propertyName = name().replaceAll("_", ".").toLowerCase();
+            this.propertyName = name().Replace("_", ".").ToLower();
         }
 
         public string getPropertyName()
@@ -1174,24 +1178,29 @@ namespace SerenityBDD.Core.time
             return From(environmentVariables, null);
         }
 
+        private string From(EnvironmentVariables environmentVariables, object p)
+        {
+            throw new NotImplementedException();
+        }
+
         private Optional<string> legacyPropertyValueIfPresentIn(EnvironmentVariables environmentVariables)
         {
             string legacyValue = environmentVariables.getProperty(withLegacyPrefix(getPropertyName()));
             if (StringUtils.isNotEmpty(legacyValue))
             {
-                logger.warn("Legacy property format detected for {}, please use the serenity.* format instead.", getPropertyName());
+                logger.WarnFormat("Legacy property format detected for {0}, please use the serenity.* format instead.", getPropertyName());
             }
             return Optional.fromNullable(legacyValue);
         }
 
         private string withLegacyPrefix(string propertyName)
         {
-            return propertyName.replaceAll("serenity.", "thucydides.");
+            return propertyName.Replace("serenity.", "thucydides.");
         }
 
         private string withSerenityPrefix(string propertyName)
         {
-            return propertyName.replaceAll("thucydides.", "serenity.");
+            return propertyName.Replace("thucydides.", "serenity.");
         }
 
         public string preferredName()
@@ -1201,8 +1210,8 @@ namespace SerenityBDD.Core.time
 
         public List<string> legacyNames()
         {
-            List<string> names = new ArrayList<>(1);
-            names.add(withLegacyPrefix(getPropertyName()));
+            List<string> names = new List<string>(1);
+            names.Add(withLegacyPrefix(getPropertyName()));
             return names;
         }
 

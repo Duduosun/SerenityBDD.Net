@@ -15,5 +15,25 @@ namespace SerenityBDD.Core.Steps
         {
             throw new NotImplementedException();
         }
+
+        public string getSystemBaseUrl()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string getStartingUrl(string[] parameterValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string getNamedUrl(string urlTemplateName, string[] parameterValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal string getStartingUrl()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

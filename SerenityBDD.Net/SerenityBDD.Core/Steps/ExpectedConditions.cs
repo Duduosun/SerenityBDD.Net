@@ -9,5 +9,15 @@ namespace SerenityBDD.Core.Steps
         {
             return new Predicate<IWebDriver>((driver => driver.Title.Equals(expectedTitle, StringComparison.InvariantCultureIgnoreCase)));
         }
+
+        public static Predicate<IWebDriver> visibilityOfElementLocated(By byCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Predicate<IWebDriver> invisibilityOfElementLocated(By byCriteria)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

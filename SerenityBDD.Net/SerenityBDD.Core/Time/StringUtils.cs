@@ -6,6 +6,11 @@ namespace SerenityBDD.Core.Time
         {
             return !string.IsNullOrEmpty(src);
         }
+
+        public static bool isEmpty(string src)
+        {
+            return string.IsNullOrEmpty(src);
+        }
     }
 
 

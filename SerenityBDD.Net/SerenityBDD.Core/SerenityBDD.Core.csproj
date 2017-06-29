@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Steps\Checkbox.cs" />
     <Compile Include="Steps\Class1.cs" />
     <Compile Include="Steps\ClassExtensions.cs" />
     <Compile Include="Steps\ClassUtils.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Steps\DefaultPageObjectInitialiser.cs" />
     <Compile Include="Steps\DefaultTimeouts.cs" />
     <Compile Include="Steps\DependencyInjector.cs" />
+    <Compile Include="Steps\Dropdown.cs" />
     <Compile Include="Steps\Enhancer.cs" />
     <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
     <Compile Include="Steps\ExpectedCondition.cs" />
@@ -72,24 +74,30 @@
     <Compile Include="Steps\Fields.cs" />
     <Compile Include="Steps\Files.cs" />
     <Compile Include="Steps\FileToUpload.cs" />
+    <Compile Include="Steps\FluentWaitWithRefresh.cs" />
     <Compile Include="Steps\IDependencyInjectorService.cs" />
     <Compile Include="Exceptions\InvocationTargetException.cs" />
+    <Compile Include="Steps\Inflector.cs" />
     <Compile Include="Steps\IStepFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Instrumented.cs" />
     <Compile Include="Steps\JavascriptExecutorFacade.cs" />
+    <Compile Include="Steps\JQueryEnabledPage.cs" />
     <Compile Include="Steps\MatchingPageExpressions.cs" />
     <Compile Include="Steps\MethodFinder.cs" />
     <Compile Include="Steps\MethodInterceptor.cs" />
+    <Compile Include="Steps\NormalFluentWait.cs" />
     <Compile Include="Steps\Optional.cs" />
     <Compile Include="Exceptions\PageLooksDodgyException.cs" />
     <Compile Include="Steps\PageObject.cs" />
     <Compile Include="Steps\PageObjectDependencyInjector.cs" />
     <Compile Include="Steps\PageObjects.cs" />
+    <Compile Include="Steps\PageObjectStepDelayer.cs" />
     <Compile Include="Steps\PageOpenMethodCannotHaveParametersException.cs" />
     <Compile Include="Steps\Pages.cs" />
     <Compile Include="Steps\PageUrls.cs" />
     <Compile Include="Steps\PollingSchedule.cs" />
+    <Compile Include="Steps\RadioButtonGroup.cs" />
     <Compile Include="Steps\RenderedPageObjectView.cs" />
     <Compile Include="Steps\ScenarioSteps.cs" />
     <Compile Include="Steps\StepAnnotations.cs" />
@@ -97,6 +105,8 @@
     <Compile Include="Steps\StepFactory.cs" />
     <Compile Include="Steps\StepInterceptor.cs" />
     <Compile Include="Steps\StepLibraryConstructionStrategy.cs" />
+    <Compile Include="Steps\SupportedWebDriver.cs" />
+    <Compile Include="Steps\ThucydidesFluentAdapter.cs" />
     <Compile Include="Steps\ThucydidesFluentWait.cs" />
     <Compile Include="Steps\ThucydidesSystemProperty.cs" />
     <Compile Include="Steps\ThucydidesWebDriverSupport.cs" />
@@ -104,10 +114,13 @@
     <Compile Include="Steps\TypeExtensions.cs" />
     <Compile Include="Steps\UnableToInvokeWhenPageOpensMethods.cs" />
     <Compile Include="Steps\Wait.cs" />
+    <Compile Include="Steps\WaitForBuilder.cs" />
+    <Compile Include="Steps\WebDriverFacade.cs" />
     <Compile Include="Steps\WebDriverWait.cs" />
     <Compile Include="Steps\WebElementFacade.cs" />
     <Compile Include="Steps\WebElementFacadeImpl.cs" />
     <Compile Include="Steps\WhenPageOpens.cs" />
+    <Compile Include="Steps\WrongPageError.cs" />
     <Compile Include="Time\Clock.cs" />
     <Compile Include="Time\Duration.cs" />
     <Compile Include="Time\Injector.cs" />

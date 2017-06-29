@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace SerenityBDD.Core.Steps
 {
-    internal class JavascriptExecutorFacade
+    public class JavascriptExecutorFacade
     {
         private IWebDriver driver;
 
@@ -13,6 +13,16 @@ namespace SerenityBDD.Core.Steps
         }
 
         public object executeScript(string script)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object executeScript(string script, object[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void executeAsyncScript(string javaScript)
         {
             throw new NotImplementedException();
         }

@@ -79,5 +79,30 @@ namespace SerenityBDD.Core.Steps
         {
             throw new NotImplementedException();
         }
+
+        internal void waitForAnyTextToAppear(IWebElement element, string[] expectedText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForAllTextToAppear(string[] expectedTexts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void waitForAnyRenderedElementOf(By[] expectedElements)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool containsText(string textValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebElementFacade waitFor(WebElementFacade byElementCriteria)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

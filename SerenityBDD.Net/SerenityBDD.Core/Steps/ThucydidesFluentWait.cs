@@ -82,7 +82,7 @@ namespace SerenityBDD.Core.Steps
 
                 if (!getClock().isNowBefore(end))
                 {
-                    String message = String.Format("Timed out after %d milliseconds: ", timeout.In(TimeUnit.MILLISECONDS)) + waitForConditionMessage;
+                    String message = String.Format("Timed out after {0} milliseconds: ", timeout.In(TimeUnit.MILLISECONDS)) + waitForConditionMessage;
                     throw timeoutException(message, lastException);
                 }
 
@@ -154,6 +154,16 @@ namespace SerenityBDD.Core.Steps
         public PollingSchedule pollingEvery(int amount)
         {
             return new PollingSchedule(this, amount);
+        }
+
+        public void until(ExpectedCondition condition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void until(ExpectedCondition<bool> condition)
+        {
+            throw new NotImplementedException();
         }
     }
 }

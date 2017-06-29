@@ -18,9 +18,9 @@ namespace SerenityBDD.Core.Steps
             _pages = pages;
         }
 
-        public StepFactory():this(null)
+        public StepFactory() : this(null)
         {
-            
+
         }
 
         public object GetUniqueStepLibraryFor(object clazz, object[] constructorParameters)
@@ -50,18 +50,18 @@ namespace SerenityBDD.Core.Steps
         {
             object steps = createProxyStepLibrary(scenarioStepsClass, interceptor, constructorParameters);
             indexStepLibrary(scenarioStepsClass, steps);
-            
+
             instantiateAnyNestedStepLibrariesIn(steps, scenarioStepsClass);
 
             injectOtherDependenciesInto(steps);
 
             return steps;
         }
-        
+
 
         private void injectOtherDependenciesInto(object newStepsClass)
         {
-            var dependencyInjectors =new List<IDependencyInjector>( _dependencyInjectorService.findDependencyInjectors());
+            var dependencyInjectors = new List<IDependencyInjector>(_dependencyInjectorService.findDependencyInjectors());
             dependencyInjectors.AddRange(getDefaultDependencyInjectors());
 
             foreach (var dependencyInjector in dependencyInjectors)
@@ -72,12 +72,12 @@ namespace SerenityBDD.Core.Steps
 
         private IEnumerable<IDependencyInjector> getDefaultDependencyInjectors()
         {
-            if (_pages == null) return new IDependencyInjector[] {new EnvironmentDependencyInjector(),};
+            if (_pages == null) return new IDependencyInjector[] { (SerenityBDD.Core.Steps.IDependencyInjector)new EnvironmentDependencyInjector(), };
 
             return new IDependencyInjector[]
             {
-                new PageObjectDependencyInjector(_pages),
-                new EnvironmentDependencyInjector()
+                (SerenityBDD.Core.Steps.IDependencyInjector) new PageObjectDependencyInjector(_pages),
+                (SerenityBDD.Core.Steps.IDependencyInjector) new EnvironmentDependencyInjector()
             };
         }
 
@@ -94,7 +94,7 @@ namespace SerenityBDD.Core.Steps
         }
 
 
-        object  createProxyStepLibrary(Type scenarioStepsClass,
+        object createProxyStepLibrary(Type scenarioStepsClass,
             MethodInterceptor interceptor,
             params object[] parameters)
         {
@@ -241,14 +241,14 @@ namespace SerenityBDD.Core.Steps
             {
                 var cs = newStepLibrary as ScenarioSteps;
 
-                if (cs !=null )
+                if (cs != null)
                 {
                     cs.setPages(pages);
                 }
                 else if (stepLibraryClass.hasAPagesField())
                 {
                     var pagesField = stepLibraryClass.getPagesField();
-                    
+
                     try
                     {
                         pagesField.SetValue(newStepLibrary, pages);
@@ -263,18 +263,18 @@ namespace SerenityBDD.Core.Steps
 
         }
 
-      
+
         private object webEnabledStepLibrary(Type scenarioStepsClass, Enhancer e)
         {
             if (scenarioStepsClass.hasAPagesConstructor())
             {
-                return e.create(new[] {typeof(Pages)}, new[] {_pages});
+                return e.create(new[] { typeof(Pages) }, new[] { _pages });
             }
             else
             {
                 var newStepLibrary = e.create();
                 return injectPagesInto(scenarioStepsClass, newStepLibrary);
-                
+
             }
         }
 
