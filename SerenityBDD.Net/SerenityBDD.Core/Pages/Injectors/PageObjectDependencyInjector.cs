@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SerenityBDD.Core.DI;
+using SerenityBDD.Core.Steps;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.Pages.Injectors
 {
     internal class PageObjectDependencyInjector : DependencyInjector
     {
-        private readonly Pages _pages;
+        private readonly Steps.Pages _pages;
         private EnvironmentDependencyInjector _environmentDependencyInjector;
 
-        public PageObjectDependencyInjector(Pages pages)
+        public PageObjectDependencyInjector(Steps.Pages pages)
         {
             _pages = pages;
             _environmentDependencyInjector = new EnvironmentDependencyInjector();
@@ -50,7 +52,7 @@ namespace SerenityBDD.Core.Steps
 
         }
 
-        private void updatePageObject(object target, Pages pages)
+        private void updatePageObject(object target, Steps.Pages pages)
         {
             var po = target as PageObject;
             if(po!=null) { 

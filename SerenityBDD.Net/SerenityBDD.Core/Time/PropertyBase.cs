@@ -152,6 +152,7 @@ namespace SerenityBDD.Core.Time
 
       
     }
+
     public class PropertyBase<T> : PropertyBase
     {
         public T Value { get; set; }

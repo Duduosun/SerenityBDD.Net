@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using log4net;
-using SerenityBDD.Core.Webdriver;
+using SerenityBDD.Core.Environment;
 
 namespace SerenityBDD.Core.Steps
 {
@@ -29,43 +29,5 @@ namespace SerenityBDD.Core.Steps
             }
         }
 
-    }
-
-    internal class CleanupMethodAnnotationProvider
-    {
-        public IEnumerable<string> getCleanupMethodAnnotations()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal static class ServiceLoader
-    {
-        public static IEnumerable<CleanupMethodAnnotationProvider> load<T>()
-            where T : CleanupMethodAnnotationProvider
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal static class ConfiguredEnvironment 
-    {
-        public static EnvironmentVariables getEnvironmentVariables()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Configuration getConfiguration()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class EnvironmentVariables
-    {
-        public string getProperty(string withSerenityPrefix)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

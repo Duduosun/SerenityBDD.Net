@@ -2,7 +2,7 @@ using System;
 
 namespace SerenityBDD.Core.Steps
 {
-    internal class StepEventBus
+    public class StepEventBus
     {
         public static StepEventBus getEventBus()
         {

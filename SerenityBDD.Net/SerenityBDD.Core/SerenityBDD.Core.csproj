@@ -33,6 +33,9 @@
     <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -55,8 +58,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\By.cs" />
+    <Compile Include="Attributes\FindBy.cs" />
+    <Compile Include="Attributes\How.cs" />
+    <Compile Include="Attributes\ImplementedBy.cs" />
+    <Compile Include="BuildInfo\BuildInfoProvider.cs" />
+    <Compile Include="BuildInfo\BuildProperties.cs" />
+    <Compile Include="BuildInfo\DriverCapabilityRecord.cs" />
+    <Compile Include="BuildInfo\JavaSystem.cs" />
+    <Compile Include="BuildInfo\PropertyBasedDriverCapabilityRecord.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="Configuration\SystemPropertiesConfiguration.cs" />
+    <Compile Include="DI\DependencyInjector.cs" />
+    <Compile Include="EventBus\BroadCaster.cs" />
+    <Compile Include="Model\FailureDetails.cs" />
+    <Compile Include="Model\ScreenshotAndHtmlSource.cs" />
+    <Compile Include="Model\TestOutcome.cs" />
+    <Compile Include="Model\TestStep.cs" />
     <Compile Include="Reflection\ClassFinder.cs" />
     <Compile Include="Steps\Checkbox.cs" />
+    <Compile Include="Steps\CleanupMethodAnnotationProvider.cs" />
+    <Compile Include="Environment\ConfiguredEnvironment.cs" />
+    <Compile Include="Steps\EnvironmentVariables.cs" />
     <Compile Include="Steps\FieldEntry.cs" />
     <Compile Include="Steps\ClassExtensions.cs" />
     <Compile Include="Steps\ClassUtils.cs" />
@@ -66,7 +89,6 @@
     <Compile Include="Steps\DataFile.cs" />
     <Compile Include="Steps\DefaultPageObjectInitialiser.cs" />
     <Compile Include="Steps\DefaultTimeouts.cs" />
-    <Compile Include="Steps\DependencyInjector.cs" />
     <Compile Include="Pages\Components\Dropdown.cs" />
     <Compile Include="Steps\Enhancer.cs" />
     <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
@@ -101,6 +123,7 @@
     <Compile Include="Steps\RadioButtonGroup.cs" />
     <Compile Include="Steps\RenderedPageObjectView.cs" />
     <Compile Include="Steps\ScenarioSteps.cs" />
+    <Compile Include="Steps\ServiceLoader.cs" />
     <Compile Include="Steps\StepAnnotations.cs" />
     <Compile Include="Steps\StepEventBus.cs" />
     <Compile Include="Steps\StepFactory.cs" />
@@ -126,16 +149,19 @@
     <Compile Include="Time\Duration.cs" />
     <Compile Include="Time\Injector.cs" />
     <Compile Include="Time\Injectors.cs" />
+    <Compile Include="Time\Properties.cs" />
     <Compile Include="Time\PropertyBase.cs" />
     <Compile Include="Time\Sleeper.cs" />
     <Compile Include="Time\StringUtils.cs" />
     <Compile Include="Time\SystemClock.cs" />
     <Compile Include="Time\TimeUnit.cs" />
-    <Compile Include="Webdriver\Configuration.cs" />
+    <Compile Include="Webdriver\HtmlUnitDriver.cs" />
+    <Compile Include="Webdriver\WebdriverProxyFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

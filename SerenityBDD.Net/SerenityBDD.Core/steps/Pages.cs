@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Reflection;
 using log4net;
 using OpenQA.Selenium;
+using SerenityBDD.Core.Configuration;
+using SerenityBDD.Core.Environment;
 using SerenityBDD.Core.Time;
 using SerenityBDD.Core.Webdriver;
 
@@ -20,13 +22,13 @@ namespace SerenityBDD.Core.Steps
 
         private String defaultBaseUrl;
 
-        private readonly Configuration configuration;
+        private readonly IConfiguration configuration;
 
         private WebdriverProxyFactory proxyFactory;
 
         private bool usePreviousPage = false;
 
-        public Pages(Configuration configuration)
+        public Pages(IConfiguration configuration)
         {
             this.configuration = configuration;
             proxyFactory = WebdriverProxyFactory.getFactory();
@@ -44,7 +46,7 @@ namespace SerenityBDD.Core.Steps
             this.driver = driver;
         }
 
-        public Pages(IWebDriver driver, Configuration configuration) : this(configuration)
+        public Pages(IWebDriver driver, IConfiguration configuration) : this(configuration)
         {
 
             this.driver = driver;
@@ -65,7 +67,7 @@ namespace SerenityBDD.Core.Steps
             return proxyFactory;
         }
 
-        public Configuration getConfiguration()
+        public IConfiguration getConfiguration()
         {
             return configuration;
         }
