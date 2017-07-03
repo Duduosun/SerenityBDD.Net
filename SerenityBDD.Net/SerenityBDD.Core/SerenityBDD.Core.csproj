@@ -55,8 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reflection\ClassFinder.cs" />
     <Compile Include="Steps\Checkbox.cs" />
-    <Compile Include="Steps\Class1.cs" />
+    <Compile Include="Steps\FieldEntry.cs" />
     <Compile Include="Steps\ClassExtensions.cs" />
     <Compile Include="Steps\ClassUtils.cs" />
     <Compile Include="Steps\ConfigurableTimeouts.cs" />
@@ -66,14 +67,14 @@
     <Compile Include="Steps\DefaultPageObjectInitialiser.cs" />
     <Compile Include="Steps\DefaultTimeouts.cs" />
     <Compile Include="Steps\DependencyInjector.cs" />
-    <Compile Include="Steps\Dropdown.cs" />
+    <Compile Include="Pages\Components\Dropdown.cs" />
     <Compile Include="Steps\Enhancer.cs" />
     <Compile Include="Steps\EnvironmentDependencyInjector.cs" />
     <Compile Include="Steps\ExpectedCondition.cs" />
     <Compile Include="Steps\ExpectedConditions.cs" />
     <Compile Include="Steps\Fields.cs" />
     <Compile Include="Steps\Files.cs" />
-    <Compile Include="Steps\FileToUpload.cs" />
+    <Compile Include="Pages\Components\FileToUpload.cs" />
     <Compile Include="Steps\FluentWaitWithRefresh.cs" />
     <Compile Include="Steps\IDependencyInjectorService.cs" />
     <Compile Include="Exceptions\InvocationTargetException.cs" />
@@ -82,16 +83,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Instrumented.cs" />
     <Compile Include="Steps\JavascriptExecutorFacade.cs" />
-    <Compile Include="Steps\JQueryEnabledPage.cs" />
+    <Compile Include="Pages\JQuery\JQueryEnabledPage.cs" />
     <Compile Include="Steps\MatchingPageExpressions.cs" />
     <Compile Include="Steps\MethodFinder.cs" />
     <Compile Include="Steps\MethodInterceptor.cs" />
     <Compile Include="Steps\NormalFluentWait.cs" />
     <Compile Include="Steps\Optional.cs" />
     <Compile Include="Exceptions\PageLooksDodgyException.cs" />
-    <Compile Include="Steps\PageObject.cs" />
-    <Compile Include="Steps\PageObjectDependencyInjector.cs" />
-    <Compile Include="Steps\PageObjects.cs" />
+    <Compile Include="Pages\PageObject.cs" />
+    <Compile Include="Pages\Injectors\PageObjectDependencyInjector.cs" />
+    <Compile Include="Pages\PageObjects.cs" />
     <Compile Include="Steps\PageObjectStepDelayer.cs" />
     <Compile Include="Steps\PageOpenMethodCannotHaveParametersException.cs" />
     <Compile Include="Steps\Pages.cs" />
@@ -117,10 +118,10 @@
     <Compile Include="Steps\WaitForBuilder.cs" />
     <Compile Include="Steps\WebDriverFacade.cs" />
     <Compile Include="Steps\WebDriverWait.cs" />
-    <Compile Include="Steps\WebElementFacade.cs" />
-    <Compile Include="Steps\WebElementFacadeImpl.cs" />
+    <Compile Include="Pages\WebElementFacade.cs" />
+    <Compile Include="Pages\WebElementFacadeImpl.cs" />
     <Compile Include="Steps\WhenPageOpens.cs" />
-    <Compile Include="Steps\WrongPageError.cs" />
+    <Compile Include="Pages\WrongPageError.cs" />
     <Compile Include="Time\Clock.cs" />
     <Compile Include="Time\Duration.cs" />
     <Compile Include="Time\Injector.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Time\StringUtils.cs" />
     <Compile Include="Time\SystemClock.cs" />
     <Compile Include="Time\TimeUnit.cs" />
+    <Compile Include="Webdriver\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

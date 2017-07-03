@@ -60,7 +60,7 @@ namespace SerenityBDD.Core.Steps
                 var ctor =pageObjectClass.GetConstructor(null );
                 var newPage =(PageObject) ctor.Invoke(new[] {this.driver});
 
-                newPage.setDriver(driver);
+                newPage.SetDriver(driver);
                 return Optional.of(newPage);
 
             } catch (Exception e) {
@@ -75,7 +75,7 @@ namespace SerenityBDD.Core.Steps
                 var ctor = pageObjectClass.GetConstructor(new[] { typeof(IWebDriver) });
                 PageObject newPage = (PageObject) ctor.Invoke(new[] { this.driver });
 
-                newPage.setDriver(driver);
+                newPage.SetDriver(driver);
                 return Optional.of(newPage);
 
             } catch (Exception e) {

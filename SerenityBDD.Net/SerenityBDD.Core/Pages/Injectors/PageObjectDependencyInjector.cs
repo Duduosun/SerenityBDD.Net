@@ -54,8 +54,8 @@ namespace SerenityBDD.Core.Steps
         {
             var po = target as PageObject;
             if(po!=null) { 
-                po.setPages(pages);
-                po.setDriver(pages.getDriver());
+                po.SetPages(pages);
+                po.SetDriver(pages.getDriver());
             }
         }
     }

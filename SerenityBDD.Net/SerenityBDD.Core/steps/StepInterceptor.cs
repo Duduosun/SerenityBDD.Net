@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using log4net;
+using SerenityBDD.Core.Webdriver;
 
 namespace SerenityBDD.Core.Steps
 {
@@ -50,6 +51,11 @@ namespace SerenityBDD.Core.Steps
     internal static class ConfiguredEnvironment 
     {
         public static EnvironmentVariables getEnvironmentVariables()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Configuration getConfiguration()
         {
             throw new NotImplementedException();
         }

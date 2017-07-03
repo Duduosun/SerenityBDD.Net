@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace SerenityBDD.Core.Steps
@@ -21,6 +22,11 @@ namespace SerenityBDD.Core.Steps
         public IEnumerable<FieldInfo> allFields()
         {
             return _type.GetFields(BindingFlags.Instance);
+        }
+
+        public Optional<FieldInfo> withName(string name)
+        {
+            return new Optional<FieldInfo>( allFields().FirstOrDefault(x => x.Name == name));
         }
     }
 }
