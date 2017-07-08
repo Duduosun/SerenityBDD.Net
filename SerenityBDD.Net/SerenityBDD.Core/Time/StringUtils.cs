@@ -1,4 +1,6 @@
+using System;
 using System.Globalization;
+using System.Linq;
 
 namespace SerenityBDD.Core.Time
 {
@@ -22,17 +24,12 @@ namespace SerenityBDD.Core.Time
         
         }
 
-    }
-
-    public static class ObjectExtensions
-    {
-        public static T Or<T>(this T src, T alternate)
+        public static bool isNumeric(string s)
         {
-            if (src ==null ) return alternate;
-            return src;
-
+            return s.All(ch => Char.IsNumber(ch) || ch == '.' || ch == '-');
         }
-
     }
+
+   
 
 }

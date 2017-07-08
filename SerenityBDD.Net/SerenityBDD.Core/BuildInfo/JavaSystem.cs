@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SerenityBDD.Core.Environment;
 
 namespace SerenityBDD.Core.BuildInfo
 {
@@ -12,11 +13,12 @@ namespace SerenityBDD.Core.BuildInfo
             initKeyValues();
         }
 
+        
         private static void initKeyValues()
         {
             _properties = new Dictionary<string, string>();
-            _properties.Add("os.name", Environment.OSVersion.Platform.ToString());
-            _properties.Add("os.version", Environment.OSVersion.VersionString);
+            _properties.Add("os.name", System.Environment.OSVersion.Platform.ToString());
+            _properties.Add("os.version", System.Environment.OSVersion.VersionString);
         }
 
         public static string getProperty(string key)

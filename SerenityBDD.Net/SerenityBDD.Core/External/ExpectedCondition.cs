@@ -1,7 +1,7 @@
 using System;
 using OpenQA.Selenium;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.External
 {
     //TODO: Migrate to selenium.net version of these objects
     public class ExpectedCondition : ExpectedCondition<bool> {

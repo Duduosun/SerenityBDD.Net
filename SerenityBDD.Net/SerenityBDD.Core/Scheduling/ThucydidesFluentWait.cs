@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using OpenQA.Selenium;
+using SerenityBDD.Core.External;
 using SerenityBDD.Core.Time;
 
 namespace SerenityBDD.Core.Steps

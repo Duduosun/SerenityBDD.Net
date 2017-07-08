@@ -1,6 +1,7 @@
 using System;
+using SerenityBDD.Core.DI;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.Injectors
 {
     internal class EnvironmentDependencyInjector : DependencyInjector
     {

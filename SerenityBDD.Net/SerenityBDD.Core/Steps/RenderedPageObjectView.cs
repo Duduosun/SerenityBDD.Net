@@ -1,5 +1,6 @@
 using System;
 using OpenQA.Selenium;
+using SerenityBDD.Core.External;
 using SerenityBDD.Core.time;
 using SerenityBDD.Core.Time;
 

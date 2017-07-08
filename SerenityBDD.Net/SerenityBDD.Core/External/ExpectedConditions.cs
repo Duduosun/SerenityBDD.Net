@@ -1,7 +1,7 @@
 using System;
 using OpenQA.Selenium;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.External
 {
     public static class ExpectedConditions
     {

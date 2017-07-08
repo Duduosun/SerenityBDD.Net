@@ -7,6 +7,7 @@ using log4net;
 using OpenQA.Selenium;
 using SerenityBDD.Core.Configuration;
 using SerenityBDD.Core.Environment;
+using SerenityBDD.Core.Extensions;
 using SerenityBDD.Core.Time;
 using SerenityBDD.Core.Webdriver;
 

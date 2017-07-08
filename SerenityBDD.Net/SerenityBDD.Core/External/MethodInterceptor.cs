@@ -1,4 +1,4 @@
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.External
 {
     internal class MethodInterceptor { }
 }

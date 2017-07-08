@@ -1,4 +1,5 @@
 using System;
+using SerenityBDD.Core.External;
 
 namespace SerenityBDD.Core.Steps
 {

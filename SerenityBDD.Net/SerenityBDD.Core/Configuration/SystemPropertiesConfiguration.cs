@@ -13,5 +13,12 @@ namespace SerenityBDD.Core.Configuration
         {
             throw new NotImplementedException();
         }
+
+        public string getBaseUrl()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string OutputDirectory { get; }
     }
 }

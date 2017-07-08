@@ -19,5 +19,20 @@ namespace SerenityBDD.Core.Model
         {
             throw new NotImplementedException();
         }
+
+        public TestResult getResult()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool isAGroup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TestStep> getFlattenedSteps()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

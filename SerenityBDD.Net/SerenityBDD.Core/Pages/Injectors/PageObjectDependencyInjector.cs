@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SerenityBDD.Core.DI;
+using SerenityBDD.Core.Injectors;
 using SerenityBDD.Core.Steps;
 
 namespace SerenityBDD.Core.Pages.Injectors

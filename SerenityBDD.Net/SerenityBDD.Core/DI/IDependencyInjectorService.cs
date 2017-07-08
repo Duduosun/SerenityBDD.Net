@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.DI
 {
     public interface IDependencyInjectorService {
         IEnumerable<IDependencyInjector> findDependencyInjectors();

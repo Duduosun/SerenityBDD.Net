@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using log4net;
+using SerenityBDD.Core.DI;
+using SerenityBDD.Core.Extensions;
+using SerenityBDD.Core.External;
+using SerenityBDD.Core.Injectors;
+using SerenityBDD.Core.Model;
 using SerenityBDD.Core.Pages.Injectors;
 
 namespace SerenityBDD.Core.Steps
@@ -73,12 +78,12 @@ namespace SerenityBDD.Core.Steps
 
         private IEnumerable<IDependencyInjector> getDefaultDependencyInjectors()
         {
-            if (_pages == null) return new IDependencyInjector[] { (SerenityBDD.Core.Steps.IDependencyInjector)new EnvironmentDependencyInjector(), };
+            if (_pages == null) return new IDependencyInjector[] { (IDependencyInjector)new EnvironmentDependencyInjector(), };
 
             return new IDependencyInjector[]
             {
-                (SerenityBDD.Core.Steps.IDependencyInjector) new PageObjectDependencyInjector(_pages),
-                (SerenityBDD.Core.Steps.IDependencyInjector) new EnvironmentDependencyInjector()
+                (IDependencyInjector) new PageObjectDependencyInjector(_pages),
+                (IDependencyInjector) new EnvironmentDependencyInjector()
             };
         }
 

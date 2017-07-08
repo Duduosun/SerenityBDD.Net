@@ -5,6 +5,7 @@ using log4net;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using SerenityBDD.Core.Configuration;
+using SerenityBDD.Core.Extensions;
 using SerenityBDD.Core.Steps;
 using SerenityBDD.Core.Time;
 
@@ -53,6 +54,10 @@ namespace SerenityBDD.Core.BuildInfo
             return Path.GetFileName(filePath).Replace("browser-", "").Replace(".properties", "");
         }
 
+        private IConfiguration Configuration
+        {
+            get {  return _configuration;}
+        }
         private IEnumerable<string> driverCapabilityRecords()
         {
             var outputDirectory = Configuration.OutputDirectory;

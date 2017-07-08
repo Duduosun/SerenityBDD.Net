@@ -8,6 +8,8 @@ using log4net;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using SerenityBDD.Core.Extensions;
+using SerenityBDD.Core.External;
 using SerenityBDD.Core.time;
 using SerenityBDD.Core.Time;
 
@@ -951,8 +953,7 @@ namespace SerenityBDD.Core.Steps
                 EnsurePageIsOnAMatchingUrl();
         }
 
-        private List<TTGT> Convert<TSRC, TTGT>(ReadOnlyCollection<TSRC> matchingWebElements,
-            Converter<TSRC, TTGT> converter)
+        private List<TTGT> Convert<TSRC, TTGT>(ReadOnlyCollection<TSRC> matchingWebElements, External.Converter<TSRC, TTGT> converter)
         {
             return converter.Convert(matchingWebElements).ToList();
         }
@@ -1163,9 +1164,9 @@ namespace SerenityBDD.Core.Steps
             throw new WrongPageError(errorDetails);
         }
 
-        private Converter<IWebElement, WebElementFacade> ToWebElementFacades()
+        private External.Converter<IWebElement, WebElementFacade> ToWebElementFacades()
         {
-            return new Converter<IWebElement, WebElementFacade>();
+            return new AutoConverter<IWebElement, WebElementFacade>();
         }
         
 

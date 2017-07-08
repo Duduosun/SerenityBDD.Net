@@ -1,16 +1,8 @@
 using System;
 using OpenQA.Selenium;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.Extensions
 {
-    public static class ClassExtensions
-    {
-        public static bool instanceof(this object src, Type tgt)
-        {
-            return tgt.IsAssignableFrom(src.GetType());
-        }
-    }
-
     public static class WebElementExtensions
     {
         public static bool shouldNotContainText(this IWebElement src, string txt)

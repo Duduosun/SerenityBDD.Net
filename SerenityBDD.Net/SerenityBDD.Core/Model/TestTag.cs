@@ -1,24 +1,25 @@
 using System;
 
-namespace SerenityBDD.Core.Steps
+namespace SerenityBDD.Core.Model
 {
-    internal class Enhancer {
-        public void setSuperclass(Type scenarioStepsClass)
+    public class TestTag
+    {
+        public static TestTag withName(string manual)
         {
             throw new NotImplementedException();
         }
 
-        public void setCallback(MethodInterceptor interceptor)
+        public TestTag andType(string externalTests)
         {
             throw new NotImplementedException();
         }
 
-        public object create()
+        internal string getName()
         {
             throw new NotImplementedException();
         }
 
-        internal object create(Type[] type, object[] parameters)
+        public bool isAsOrMoreSpecificThan(TestTag tag)
         {
             throw new NotImplementedException();
         }

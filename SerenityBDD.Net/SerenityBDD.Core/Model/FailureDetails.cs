@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SerenityBDD.Core.Extensions;
 using SerenityBDD.Core.Time;
 
 namespace SerenityBDD.Core.Model
 {
-    class FailureDetails
+    public class FailureDetails
     {
         private readonly TestOutcome testOutcome;
 
@@ -21,7 +22,7 @@ namespace SerenityBDD.Core.Model
             {
                 return testOutcome.firstStepWithErrorMessage().get().getConciseErrorMessage();
             }
-            return testOutcome.testFailureMessage().Or("");
+            return testOutcome.TestFailureMessage.Or("");
         }
 
         public string getCompleteErrorMessage()
@@ -30,7 +31,7 @@ namespace SerenityBDD.Core.Model
             {
                 return testOutcome.firstStepWithErrorMessage().get().getErrorMessage();
             }
-            return testOutcome.testFailureMessage().Or("");
+            return testOutcome.TestFailureMessage.Or("");
         }
 
         public string getPageSourceLink()
